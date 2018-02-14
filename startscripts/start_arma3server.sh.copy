@@ -1,0 +1,11 @@
+cd /home/steam/arma3
+
+NAME=main
+PORT=2302
+PROFILE=server_main
+CONFIG=main
+PARAMS=
+
+. $HOME/bin/modscripts/mods.sh
+
+. $HOME/bin/real_server.sh
