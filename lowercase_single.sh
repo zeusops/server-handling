@@ -1,4 +1,4 @@
-if [ -z ${1+x} ]
+if [ -z ${1} ]
 then
 	echo "Usage: `basename \"$0\"` path"
 else
