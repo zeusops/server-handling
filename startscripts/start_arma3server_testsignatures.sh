@@ -1,12 +1,12 @@
 cd /home/steam/arma3
 
-NAME=test2
+NAME=testsignatures
 PORT=2322
 PROFILE=server_main
-CONFIG=test2
+CONFIG=testsignatures
 PARAMS=-checkSignatures
 
-. $HOME/bin/modscripts/test2.sh
+. $HOME/bin/modscripts/testsignatures.sh
 # MODS=${MODS}\;mods/@name
 
 . $HOME/bin/real_server.sh

@@ -1,9 +1,9 @@
 cd /home/steam/arma3
 
-NAME=test2
+NAME=finnisha
 PORT=2322
 PROFILE=server_main
-CONFIG=test2
+CONFIG=testsignatures
 PARAMS=-checkSignatures
 
 . $HOME/bin/modscripts/finnisha.sh
