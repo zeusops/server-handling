@@ -1,10 +1,10 @@
-# 2018-02-14 WW2 sideop by Lietuvis
+# 2018-02-15 WW2 sideop by Lietuvis
 # http://steamcommunity.com/groups/zeusoperations#events/1647625036713973159
 
 cd /home/steam/arma3
 
 NAME=lietuvis
-PORT=2302
+PORT=2312
 PROFILE=server_main
 CONFIG=sideop
 PARAMS=""
