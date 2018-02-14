@@ -7,7 +7,7 @@ CONFIG=main
 PARAMS=""
 # PARAMS="-checkSignatures"
 
-. $HOME/bin/modscripts/mods.sh
+. $HOME/files/bin/modscripts/mods.sh
 # MODS=${MODS}\;mods/@name
 
-. $HOME/bin/real_server.sh
+. $HOME/files/bin/real_server.sh
