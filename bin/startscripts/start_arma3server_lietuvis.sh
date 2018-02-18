@@ -10,7 +10,7 @@ CONFIG=sideop
 PARAMS=""
 # PARAMS="-checkSignatures"
 
-. $HOME/bin/modscripts/lietuvis.sh
+. $HOME/files/bin/modscripts/lietuvis.sh
 # MODS=${MODS}\;mods/@name
 
-. $HOME/bin/real_server.sh
+. $HOME/files/bin/real_server.sh

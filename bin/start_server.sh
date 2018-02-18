@@ -6,6 +6,6 @@ if [ -z ${1} ]; then
 fi
 
 NAME=$1
-BIN=${HOME}/bin
+BIN=${HOME}/files/bin
 
 $BIN/startscripts/start_arma3server_${NAME}.sh & sleep 2; $BIN/log.sh $NAME ; kill %1

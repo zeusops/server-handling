@@ -15,4 +15,4 @@ SERVERMODS="-serverMod="
 
 # MODS=${MODS}\;mods/@name
 
-. $HOME/bin/real_server.sh
+. $HOME/files/bin/real_server.sh
