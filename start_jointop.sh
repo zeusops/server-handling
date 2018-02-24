@@ -4,7 +4,7 @@ PROFILE=server_main
 CONFIG=jointop
 PARAMS=
 
-. $HOME/test/bin/keys.sh $NAME
+. $HOME/test/bin/keys.sh
 . $HOME/test/bin/automods.sh
 # MODS=${MODS}\;mods/@name
 

@@ -1,14 +1,18 @@
-if [ -z "$1" ];
+if [ -z "$NAME" ];
 then
-	echo "Usage: $0 foldername"
-	exit 1
+	if [ -z "$1" ];
+	then
+		echo "Usage: $0 foldername"
+		exit 1
+	fi
+	NAME="$1"
 fi
-if [ ! -d "/home/steam/test/arma3/availablekeys/$1" ];
+if [ ! -d "/home/steam/test/arma3/availablekeys/$NAME" ];
 then
-	echo "Folder /home/steam/test/arma3/availablekeys/$1 not found!"
+	echo "Folder /home/steam/test/arma3/availablekeys/$NAME not found!"
 	exit 2
 fi
 cd /home/steam/test/arma3/keys
 find . -type l -exec rm {} \;
 
-for x in ../availablekeys/$1/*; do ln -s $x; done
+for x in ../availablekeys/$NAME/*; do ln -s $x; done
