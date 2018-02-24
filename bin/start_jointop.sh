@@ -3,9 +3,10 @@ PORT=2312
 PROFILE=server_main
 CONFIG=jointop
 PARAMS=
+BASEPATH=$HOME/test
 
-. $HOME/test/bin/keys.sh
-. $HOME/test/bin/automods.sh
+. $BASEPATH/files/bin/keys.sh
+. $BASEPATH/files/bin/automods.sh
 # MODS=${MODS}\;mods/@name
 
-. $HOME/test/bin/real_server.sh
+. $BASEPATH/files/bin/real_server.sh
