@@ -1,3 +1,3 @@
 cd /home/steam/test/log/
 
-tail -f `ls -1 arma3server_$1* | tail -n 1`
+tail -f `ls -1 $1*.rpt | tail -n 1`
