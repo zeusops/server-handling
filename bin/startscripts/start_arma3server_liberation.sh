@@ -10,7 +10,7 @@ PROFILE=server_main
 CONFIG=liber
 PARAMS=
 
-. $HOME/bin/modscripts/liberationmods.sh
+. $HOME/files/bin/modscripts/liberationmods.sh
 # MODS=${MODS}\;mods/@name
 
 . $HOME/bin/real_server.sh
