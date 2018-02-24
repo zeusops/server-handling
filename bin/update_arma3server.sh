@@ -1,3 +1,14 @@
 # cd /home/steam/steamcmd
-steamcmd +runscript /home/steam/update_arma3server.txt
+
+BASEPATH=$HOME
+
+if [ "$1" = "--test" ];
+then
+	echo "Updating test installation"
+	BASEPATH=$HOME/test
+else
+	echo "Updating main installation"
+fi
+
+steamcmd +runscript $BASEPATH/update_arma3server.txt
 
