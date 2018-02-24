@@ -1,12 +1,22 @@
 set -e
 
 MODIDS=$HOME/modids.txt
+JOINTOPIDS=$HOME/jointopids.txt
 STEAMDIR=$HOME/.steam/steamcmd
 INSTALLDIR=$STEAMDIR/mods
 ARMADIR=$HOME/arma3
 MODS=$ARMADIR/mods
 UPDATEDKEYS=$ARMADIR/updated_keys
+JOINTOPKEYS=$HOME/test/arma3/availablekeys/jointop
 BACKUPMODS=$ARMADIR/backupmods
+JOINTOPMODS=$HOME/test/arma3/mods/jointop
+
+if [ "$1" == "--jointop" ]; then
+	MODIDS=$JOINTOPIDS
+        MODS=$JOINTOPMODS
+        UPDATEDKEYS=$JOINTOPKEYS
+fi
+
 
 ALLMODS=""
 while read line; do
