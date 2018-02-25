@@ -22,7 +22,14 @@ then
 	echo "Folder $BASEPATH/arma3/available_keys/$NAME not found!"
 	exit 2
 fi
+
+
 cd $BASEPATH/arma3/keys
 find . -type l -exec rm {} \;
 
-for x in ../available_keys/$NAME/*; do ln -s $x; done
+for key in ../available_keys/$NAME/*; do ln -s $key; done
+
+if [ -d "$BASEPATH/arma3/optional_keys/$NAME" ];
+then
+	find ../optional_keys/$NAME/ -iname "*.bikey" -exec ln -s {} \;
+fi
