@@ -1,6 +1,6 @@
 #!/bin/bash
 # TODO: 2018-02-14 Disable filePatchng?
-trap cleanup EXIT
+trap cleanup INT
 
 function cleanup {
 	echo "Killing $PID"
