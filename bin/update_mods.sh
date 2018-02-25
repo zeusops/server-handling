@@ -54,7 +54,7 @@ while read line; do
 		rm $MODPATH
 	fi
 	ln -sv $INSTALLDIR/steamapps/workshop/content/107410/$MODID $MODPATH
-	lowercase_single.sh $MODPATH
+	$BASEPATH/files/bin/internal/lowercase_single.sh $MODPATH
 	find $MODPATH/ -type f -exec chmod -x {} \;
 	find $MODPATH/ -iname "*.bikey" -exec bash -c 'keys "$0"' {} \;
 	# ln -sv {} $UPDATEDKEYS/$NAME/ \;
