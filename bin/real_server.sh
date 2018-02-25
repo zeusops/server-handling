@@ -2,6 +2,9 @@ if [ -z $NAME ]; then echo "Server name not set"; exit 1; fi
 if [ -z $BASEPATH ]; then echo "Basepath not set"; exit 1; fi
 # TODO: 2018-02-14 Disable filePatchng?
 
+if [ -z $PROFILE ]; then PROFILE=server_main; fi
+if [ -z $CONFIG ]; then CONFIG=$NAME; fi
+
 CONFIGPATH=$BASEPATH/files/config/
 LOGPATH=$BASEPATH/log/
 
