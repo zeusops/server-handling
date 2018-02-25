@@ -1,6 +1,6 @@
 set -e
 
-if [ -z $1 ]; then echo "Usage: `basename $0` name [--test] [--skipdl]"; exit 1; fi
+if [ -z $1 ]; then echo "Usage: `basename $0` servername [--test] [--skipdl]"; exit 1; fi
 
 NAME=$1
 
@@ -16,7 +16,7 @@ INSTALLDIR=$STEAMDIR/mods
 ARMADIR=$BASEPATH/arma3
 MODS=$ARMADIR/mods
 UPDATEDKEYS=$ARMADIR/updated_keys
-export AVAILABLEKEYS=$ARMADIR/availablekeys/$NAME
+export AVAILABLEKEYS=$ARMADIR/available_keys/$NAME
 
 function keys {
 	key=$(basename "$1")

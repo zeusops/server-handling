@@ -17,12 +17,12 @@ then
 	NAME="$2"
 fi
 
-if [ ! -d "$BASEPATH/arma3/availablekeys/$NAME" ];
+if [ ! -d "$BASEPATH/arma3/available_keys/$NAME" ];
 then
-	echo "Folder $BASEPATH/arma3/availablekeys/$NAME not found!"
+	echo "Folder $BASEPATH/arma3/available_keys/$NAME not found!"
 	exit 2
 fi
 cd $BASEPATH/arma3/keys
 find . -type l -exec rm {} \;
 
-for x in ../availablekeys/$NAME/*; do ln -s $x; done
+for x in ../available_keys/$NAME/*; do ln -s $x; done

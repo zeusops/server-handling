@@ -7,7 +7,7 @@ INSTALLDIR=$STEAMDIR/mods
 ARMADIR=$HOME/arma3
 MODS=$ARMADIR/mods
 UPDATEDKEYS=$ARMADIR/updated_keys
-JOINTOPKEYS=$HOME/test/arma3/availablekeys/jointop
+JOINTOPKEYS=$HOME/test/arma3/available_keys/jointop
 BACKUPMODS=$ARMADIR/backupmods
 JOINTOPMODS=$HOME/test/arma3/mods/jointop
 
