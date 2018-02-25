@@ -5,14 +5,14 @@ if [ -z $BASEPATH ]; then echo "Basepath not set"; exit 1; fi
 if [ -z $PROFILE ]; then PROFILE=server_main; fi
 if [ -z $CONFIG ]; then CONFIG=$NAME; fi
 
-CONFIGPATH=$BASEPATH/files/config/
+CONFIGPATH=$BASEPATH/files/config/${CONFIG}.cfg
 LOGPATH=$BASEPATH/log/
 
 cd $BASEPATH/arma3
 
 echo "Starting server $NAME on `date` on port $PORT"
 ./arma3server 	-name=$PROFILE \
-		-config=$CONFIGPATH/${CONFIG}.cfg \
+		-config=$CONFIGPATH \
 		-port=$PORT \
 		-filePatching \
 		-enableHT \
