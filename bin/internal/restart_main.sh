@@ -6,9 +6,9 @@
 set -e
 echo "Restarting arma server at `date`" >> /home/steam/log/cron.log
 screen -S byobu -X at 0 stuff $'\003'
-screen -S byobu -X at 0 stuff $'start_arma3server.sh\n'
-sleep 10
-screen -S byobu -X at 1 stuff $'\003'
-screen -S byobu -X at 1 stuff $'log.sh main\n'
+screen -S byobu -X at 0 stuff $'start_server.sh main\n'
+# sleep 10
+# screen -S byobu -X at 1 stuff $'\003'
+# screen -S byobu -X at 1 stuff $'log.sh main\n'
 echo "Restart done at `date`" >> /home/steam/log/cron.log
 ps a | grep arma3server >> /home/steam/log/cron.log
