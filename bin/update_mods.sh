@@ -41,8 +41,10 @@ fi
 
 echo
 echo "Creating folders"
-if [ ! -d $MODS/$NAME ]; then mkdir $MODS/$NAME; fi
-if [ ! -d $UPDATEDKEYS/$NAME ]; then mkdir $UPDATEDKEYS/$NAME; fi
+if [ ! -d $MODS/$NAME ]; then mkdir -p $MODS/$NAME; fi
+if [ ! -d $UPDATEDKEYS/$NAME ]; then mkdir -p $UPDATEDKEYS/$NAME; fi
+if [ ! -d $AVAILABLEKEYS ]; then mkdir -p $AVAILABLEKEYS; fi
+
 
 echo "Linking mods"
 while read line; do
