@@ -7,13 +7,27 @@ function cleanup {
 	kill $PID
 }
 
-if [ -z $1 ]; then echo "Usage: `basename $0` servername [--test]"; exit 1; fi
+function servername {
+	SRV=$(basename $1)
+	echo $SRV | sed 's/.sh//'
+}
+
+export -f servername
+
+if [ -z $1 ]; then echo "Usage: `basename $0` --list | servername [--test]"; exit 1; fi
 
 BASEPATH=$HOME
 
 if [ "$2" = "--test" ];
 then
 	BASEPATH=$HOME/test
+fi
+
+if [ "$1" = "--list" ];
+then
+	echo "Available servers:"
+	find $BASEPATH/files/servers -name "*.sh" -exec bash -c 'servername "$0"' {} \;
+	exit 0
 fi
 
 NAME=$1
