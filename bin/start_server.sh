@@ -1,5 +1,7 @@
 #!/bin/bash
 # TODO: 2018-02-14 Disable filePatchng?
+# TODO: 2018-02-27 Check if server config files exist
+
 trap cleanup INT
 
 function cleanup {
@@ -33,7 +35,7 @@ fi
 NAME=$1
 BIN=$BASEPATH/files/bin
 
-. $BIN/startscripts/${NAME}.sh
+. $BASEPATH/files/servers/${NAME}.sh
 if [ -z $PROFILE ]; then PROFILE=server_main; fi
 if [ -z $CONFIG ]; then CONFIG=$NAME; fi
 
