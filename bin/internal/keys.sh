@@ -31,5 +31,5 @@ for key in ../available_keys/$NAME/*; do ln -s $key; done
 
 if [ -d "$BASEPATH/arma3/optional_keys/$NAME" ];
 then
-	find ../optional_keys/$NAME/ -iname "*.bikey" -exec ln -s {} \;
+	find -L ../optional_keys/$NAME/ -iname "*.bikey" -exec ln -s {} \;
 fi
