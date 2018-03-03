@@ -1,5 +1,5 @@
 NAME=wwii
-PORT=2312
+PORT=2302
 
 PROFILE=  # default: server_main
 CONFIG=  # default: $NAME
