@@ -36,7 +36,7 @@ if [ "$3" == "--side" ]; then
 	MODS=$SIDEOPMODS
 fi
 
-if [ "$3" == "--jointop"]; then
+if [ "$3" == "--jointop" ]; then
 	MODS=$JOINTOPMODS
 	UPDATEDKEYS=$JOINTOPKEYS
 	MODIDS=$JOINTOPIDS
