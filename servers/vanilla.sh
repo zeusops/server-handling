@@ -2,7 +2,7 @@ NAME=vanilla
 PORT=2332
 
 PROFILE=  # default: server_main
-CONFIG=custom  # default: $NAME
+CONFIG=  # default: $NAME
 PARAMS=
 
 # Uncomment to prevent automatic key updates
