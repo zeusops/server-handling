@@ -51,12 +51,13 @@ echo "Starting server $NAME on `date` on port $PORT"
 ./arma3server   -name=$PROFILE \
                 -config=$CONFIGPATH \
                 -port=$PORT \
-                -filePatching \
                 -enableHT \
                 -maxMem=12287 \
                 $MODS $SERVERMODS $PARAMS \
                 1>>"$LOGPATH/${NAME}_$(date +%F_%H-%M-%S).rpt" \
                 2>>"$LOGPATH/${NAME}_$(date +%F_%H-%M-%S).rpt" &
+#                -filePatching \
+
 PID=$!
 echo "PID: $PID"
 sleep 2
