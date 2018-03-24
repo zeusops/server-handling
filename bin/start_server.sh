@@ -35,6 +35,8 @@ fi
 NAME=$1
 BIN=$BASEPATH/files/bin
 
+$BIN/update_mods.sh $NAME --skipdl
+
 . $BASEPATH/files/servers/${NAME}.sh
 if [ -z $PROFILE ]; then PROFILE=server_main; fi
 if [ -z $CONFIG ]; then CONFIG=$NAME; fi

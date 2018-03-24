@@ -56,6 +56,11 @@ while read line; do
 	if [ -e $MODPATH ]; then
 		rm $MODPATH
 	fi
+	if [ ! -e $INSTALLDIR/steamapps/workshop/content/107410/$MODID ];
+	then
+		echo "$MODNAME with ID $MODID missing! Run `basepath $0` $NAME"
+		exit 1
+	fi
 	ln -sv $INSTALLDIR/steamapps/workshop/content/107410/$MODID $MODPATH
 	$BASEPATH/files/bin/internal/lowercase_single.sh $MODPATH
 	find $MODPATH/ -type f -exec chmod -x {} \;
