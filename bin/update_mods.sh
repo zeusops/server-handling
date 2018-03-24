@@ -16,6 +16,7 @@ INSTALLDIR=$STEAMDIR/mods
 ARMADIR=$BASEPATH/arma3
 MODS=$ARMADIR/mods
 UPDATEDKEYS=$ARMADIR/updated_keys
+STEAMCMD=/usr/games/steamcmd
 export AVAILABLEKEYS=$ARMADIR/available_keys/$NAME
 
 function keys {
@@ -36,7 +37,7 @@ done < $MODIDS
 
 echo "Updating mods"
 if [ ! "$SKIPDOWNLOAD" = "yes" ]; then
-	steamcmd +login zeusoperations +force_install_dir $INSTALLDIR $ALLMODS +quit
+	$STEAMCMD +login zeusoperations +force_install_dir $INSTALLDIR $ALLMODS +quit
 fi
 
 echo
