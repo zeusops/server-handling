@@ -53,7 +53,7 @@ if [ -e $MODS/$MODNAME ]; then
 		rm $MODS/$MODNAME
 	elif [ -f $MODS/$MODNAME ]; then
 		echo "Existing mod is not a symbolic link. Backing up"
-		mv -v $MODS/$MODNAME $BACKUPMODS/${MODNAME}_$(date +%Y%m%d-%m%S)
+		mv -v $MODS/$MODNAME $BACKUPMODS/${MODNAME}_backup_$(date +%Y%m%d-%H%M%S)
 	else
 		echo "$MODS/$MODNAME is unexpected type. Aborting"
 		exit
