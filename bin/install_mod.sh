@@ -12,6 +12,8 @@ MODS=$ARMADIR/mods
 SIDEOPMODS=$ARMADIR/sideopmods
 JOINTOPMODS=$ARMADIR/jointopmods
 BACKUPMODS=$ARMADIR/backupmods
+LOWERCASE=$HOME/files/bin/internal/lowercase_single.sh
+
 
 if [ -z $2 ]; then
 	echo "Usage: $0 --name modname | modid @modname [--side | --jointop]"
@@ -61,7 +63,7 @@ fi
 echo "Linking mod"
 ln -s $INSTALLDIR/steamapps/workshop/content/107410/$MODID $MODS/$MODNAME
 echo "Turning filenames into lowercase"
-lowercase_single.sh $MODS/$MODNAME/
+$LOWERCASE $MODS/$MODNAME/
 echo "Linking keys"
 #mv -v $UPDATEDMODS/$MODNAME/*/*.bikey $UPDATEDKEYS
 find $MODS/$MODNAME/ -iname "*.bikey" -exec ln -sv {} $UPDATEDKEYS/ \;
