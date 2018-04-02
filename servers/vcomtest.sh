@@ -3,7 +3,7 @@
 NAME=vcomtest
 PORT=2322
 
-PROFILE=  # default: server_main
+PROFILE=  # default: server
 CONFIG=custom  # default: $NAME
 PARAMS=
 

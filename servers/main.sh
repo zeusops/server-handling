@@ -1,7 +1,7 @@
 NAME=main
 PORT=2302
 
-PROFILE=  # default: server_main
+PROFILE=  # default: server
 CONFIG=  # default: $NAME
 PARAMS=
 

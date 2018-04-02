@@ -1,7 +1,7 @@
 NAME=vknpvp
 PORT=2322
 
-PROFILE=  # default: server_main
+PROFILE=  # default: server
 CONFIG=  # default: $NAME
 PARAMS=
 

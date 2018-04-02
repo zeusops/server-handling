@@ -1,7 +1,7 @@
 NAME=linnarsson
 PORT=2312
 
-PROFILE=  # default: server_main
+PROFILE=  # default: server
 CONFIG=sideop  # default: $NAME
 PARAMS=
 

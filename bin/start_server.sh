@@ -38,7 +38,7 @@ BIN=$BASEPATH/files/bin
 $BIN/update_mods.sh $NAME --skipdl
 
 . $BASEPATH/files/servers/${NAME}.sh
-if [ -z $PROFILE ]; then PROFILE=server_main; fi
+if [ -z $PROFILE ]; then PROFILE=server; fi
 if [ -z $CONFIG ]; then CONFIG=$NAME; fi
 
 if [ -z $NOKEYS ]; then . $BIN/internal/keys.sh; fi

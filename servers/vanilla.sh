@@ -1,7 +1,7 @@
 NAME=vanilla
 PORT=2332
 
-PROFILE=  # default: server_main
+PROFILE=  # default: server
 CONFIG=  # default: $NAME
 PARAMS=
 
