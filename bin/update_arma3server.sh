@@ -19,5 +19,5 @@ then
 	$0 --test
 fi
 
-steamcmd +runscript $BASEPATH/update_arma3server.txt
+/usr/games/steamcmd +runscript $BASEPATH/update_arma3server.txt
 
