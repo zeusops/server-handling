@@ -6,6 +6,10 @@ if [ "$1" = "--test" ];
 then
 	echo "Updating test installation"
 	BASEPATH=$HOME/test
+elif [ "$1" = "--exile" ];
+then
+	echo "Updating exile installation"
+	BASEPATH=$HOME/exile
 else
 	echo "Updating main installation"
 fi
