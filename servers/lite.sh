@@ -1,6 +1,6 @@
 # 2017-10-09 PvP Joint Ops
 NAME=lite
-PORT=2322
+PORT=2302
 
 PROFILE=  # default: server
 CONFIG=  # default: $NAME
