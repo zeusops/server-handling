@@ -15,14 +15,14 @@ STEAMDIR=$HOME/.steam/steamcmd
 INSTALLDIR=$STEAMDIR/mods
 ARMADIR=$BASEPATH/arma3
 MODS=$ARMADIR/mods
-UPDATEDKEYS=$ARMADIR/updated_keys
+export UPDATEDKEYS=$ARMADIR/updated_keys/$NAME
 STEAMCMD=/usr/games/steamcmd
 export AVAILABLEKEYS=$ARMADIR/available_keys/$NAME
 
 function keys {
 	key=$(basename "$1")
 	if [ ! -f $AVAILABLEKEYS/$key ]; then
-		ln -sv $1 $AVAILABLEKEYS/$key
+		ln -sv $1 $UPDATEDKEYS/$key
 	fi
 }
 
@@ -43,7 +43,7 @@ fi
 echo
 echo "Creating folders"
 if [ ! -d $MODS/$NAME ]; then mkdir -p $MODS/$NAME; fi
-if [ ! -d $UPDATEDKEYS/$NAME ]; then mkdir -p $UPDATEDKEYS/$NAME; fi
+if [ ! -d $UPDATEDKEYS ]; then mkdir -p $UPDATEDKEYS; fi
 if [ ! -d $AVAILABLEKEYS ]; then mkdir -p $AVAILABLEKEYS; fi
 
 
@@ -67,4 +67,6 @@ while read line; do
 	find $MODPATH/ -iname "*.bikey" -exec bash -c 'keys "$0"' {} \;
 	# ln -sv {} $UPDATEDKEYS/$NAME/ \;
 done < $MODIDS
-echo "Done"
+
+echo "All mods updated. Following keys were updated:"
+ls $UPDATEDKEYS
