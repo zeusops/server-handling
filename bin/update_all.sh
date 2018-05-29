@@ -2,23 +2,14 @@ set -e
 
 MODLISTS=$HOME/files/modlists
 ALLMODIDS=/tmp/modids.txt
-JOINTOPIDS=$HOME/jointopids.txt
 STEAMDIR=$HOME/.steam/steamcmd
 INSTALLDIR=$STEAMDIR/mods
 #ARMADIR=$HOME/arma3
 #MODS=$ARMADIR/mods
 #UPDATEDKEYS=$ARMADIR/updated_keys
-#JOINTOPKEYS=$HOME/test/arma3/available_keys/jointop
 #BACKUPMODS=$ARMADIR/backupmods
-#JOINTOPMODS=$HOME/test/arma3/mods/jointop
 STEAMCMD=/usr/games/steamcmd
 LOWERCASE=$HOME/files/bin/internal/lowercase_single.sh
-
-#if [ "$1" == "--jointop" ]; then
-#	MODIDS=$JOINTOPIDS
-#        MODS=$JOINTOPMODS
-#        UPDATEDKEYS=$JOINTOPKEYS
-#fi
 
 sort $MODLISTS/* -u > $ALLMODIDS
 
