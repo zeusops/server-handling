@@ -46,6 +46,8 @@ if [ ! -d $MODS/$NAME ]; then mkdir -p $MODS/$NAME; fi
 if [ ! -d $UPDATEDKEYS ]; then mkdir -p $UPDATEDKEYS; fi
 if [ ! -d $AVAILABLEKEYS ]; then mkdir -p $AVAILABLEKEYS; fi
 
+echo "Removing old mod links"
+find $MODS/$NAME -type l -exec rm {} \;
 
 echo "Linking mods"
 while read line; do
