@@ -1,5 +1,5 @@
 NAME=linnarsson
-PORT=2312
+PORT=2302
 
 PROFILE=  # default: server
 CONFIG=sideop  # default: $NAME
