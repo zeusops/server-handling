@@ -35,12 +35,12 @@ while read line; do
 	ALLMODS="$ALLMODS +workshop_download_item 107410 $MOD"
 done < $MODIDS
 
-echo "Updating mods"
 if [ ! "$SKIPDOWNLOAD" = "yes" ]; then
+	echo "Updating mods"
 	$STEAMCMD +login zeusoperations +force_install_dir $INSTALLDIR $ALLMODS +quit
+	echo
 fi
 
-echo
 echo "Creating folders"
 if [ ! -d $MODS/$NAME ]; then mkdir -p $MODS/$NAME; fi
 if [ ! -d $UPDATEDKEYS ]; then mkdir -p $UPDATEDKEYS; fi
@@ -60,7 +60,7 @@ while read line; do
 	fi
 	if [ ! -e $INSTALLDIR/steamapps/workshop/content/107410/$MODID ];
 	then
-		echo "$MODNAME with ID $MODID missing! Run `basepath $0` $NAME"
+		echo "$MODNAME with ID $MODID missing! Run `basename $0` $NAME"
 		exit 1
 	fi
 	ln -sv $INSTALLDIR/steamapps/workshop/content/107410/$MODID $MODPATH
