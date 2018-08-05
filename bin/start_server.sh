@@ -48,6 +48,7 @@ CONFIGPATH=$BASEPATH/files/config/${CONFIG}.cfg
 LOGPATH=$BASEPATH/log/
 if [ ! -d $LOGPATH ]; then mkdir -p $LOGPATH; fi
 
+if [ ! -d $BASEPATH/arma3 ]; then echo "Arma 3 server not installed"; exit; fi
 cd $BASEPATH/arma3
 
 echo "Starting server $NAME on `date` on port $PORT"
