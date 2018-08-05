@@ -46,6 +46,7 @@ if [ -z $MODS ]; then . $BIN/internal/automods.sh; fi
 
 CONFIGPATH=$BASEPATH/files/config/${CONFIG}.cfg
 LOGPATH=$BASEPATH/log/
+if [ ! -d $LOGPATH ]; then mkdir -p $LOGPATH; fi
 
 cd $BASEPATH/arma3
 
