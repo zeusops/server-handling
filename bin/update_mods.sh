@@ -32,7 +32,7 @@ ALLMODS=""
 while read line; do
 	ARRAY=($line)
 	MOD=${ARRAY[0]}
-	ALLMODS="$ALLMODS +workshop_download_item 107410 $MOD"
+	ALLMODS="$ALLMODS +workshop_download_item 107410 $MOD validate"
 done < $MODIDS
 
 if [ ! "$SKIPDOWNLOAD" = "yes" ]; then
