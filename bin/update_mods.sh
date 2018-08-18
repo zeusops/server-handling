@@ -39,6 +39,8 @@ if [ ! "$SKIPDOWNLOAD" = "yes" ]; then
 	echo "Updating mods"
 	$STEAMCMD +login zeusoperations +force_install_dir $INSTALLDIR $ALLMODS +quit
 	echo
+else
+	echo "Updating mod keys. This does not download updates"
 fi
 
 echo "Creating folders"
