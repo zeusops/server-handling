@@ -35,14 +35,18 @@ fi
 NAME=$1
 BIN=$BASEPATH/files/bin
 
-$BIN/update_mods.sh $NAME --skipdl
 
 . $BASEPATH/files/servers/${NAME}.sh
 if [ -z $PROFILE ]; then PROFILE=server; fi
 if [ -z $CONFIG ]; then CONFIG=$NAME; fi
 
+# If $MODS has been defined already, we're not doing mod autodetection or key updating
+if [ -z $MODS ]
+then
+	$BIN/update_mods.sh $NAME --skipdl
+	. $BIN/internal/automods.sh
+fi
 if [ -z $NOKEYS ]; then . $BIN/internal/keys.sh; fi
-if [ -z $MODS ]; then . $BIN/internal/automods.sh; fi
 
 CONFIGPATH=$BASEPATH/files/config/${CONFIG}.cfg
 LOGPATH=$BASEPATH/log/
