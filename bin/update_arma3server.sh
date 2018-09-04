@@ -1,6 +1,7 @@
 # cd /home/steam/steamcmd
 
 BASEPATH=$HOME
+STEAMCMD=/usr/games/steamcmd
 
 if [ "$1" = "--test" ];
 then
@@ -19,5 +20,5 @@ then
 	$0 --test
 fi
 
-/usr/games/steamcmd +runscript $BASEPATH/update_arma3server.txt
+$STEAMCMD +runscript $BASEPATH/update_arma3server.txt
 
