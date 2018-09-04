@@ -1,6 +1,8 @@
 #!/bin/sh
 set -e
 
+STEAMUSERNAME=zeusoperations
+
 ARMADIR=$HOME/arma3
 MPMISSIONS=$ARMADIR/mpmissions
 STEAMDIR=$HOME/.steam/steamcmd
@@ -18,7 +20,7 @@ MISSIONNAME="${2}.pbo"
 
 echo "Downloading mission file $MISSIONID to ${MISSIONNAME}"
 cd $STEAMDIR
-$STEAMCMD +login zeusoperations +force_install_dir $INSTALLDIR +workshop_download_item 107410 $MISSIONID validate +quit
+$STEAMCMD +login $STEAMUSERNAME +force_install_dir $INSTALLDIR +workshop_download_item 107410 $MISSIONID validate +quit
 echo
 if [ -e $MPMISSIONS/$MISSIONNAME ]; then
 	if [ -L $MPMISSIONS/$MISSIONNAME ]; then

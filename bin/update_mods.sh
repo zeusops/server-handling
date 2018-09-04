@@ -2,6 +2,8 @@ set -e
 
 if [ -z $1 ]; then echo "Usage: `basename $0` servername [--test] [--skipdl]"; exit 1; fi
 
+STEAMUSERNAME=zeusoperations
+
 NAME=$1
 
 BASEPATH=$HOME
@@ -37,7 +39,7 @@ done < $MODIDS
 
 if [ ! "$SKIPDOWNLOAD" = "yes" ]; then
 	echo "Updating mods"
-	$STEAMCMD +login zeusoperations +force_install_dir $INSTALLDIR $ALLMODS +quit
+	$STEAMCMD +login $STEAMUSERNAME +force_install_dir $INSTALLDIR $ALLMODS +quit
 	echo
 else
 	echo "Updating mod keys. This does not download updates"

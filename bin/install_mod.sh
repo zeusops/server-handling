@@ -1,5 +1,7 @@
 set -e
 
+STEAMUSERNAME=zeusoperations
+
 ARMADIR=$HOME/arma3
 MODS=$ARMADIR/mods
 STEAMDIR=$HOME/.steam/steamcmd
@@ -45,7 +47,7 @@ if [ "$3" == "--jointop" ]; then
 fi
 
 echo "Downloading mod $MODNAME with ID $MODID"
-./steamcmd.sh +login zeusoperations +force_install_dir $INSTALLDIR +workshop_download_item 107410 $MODID validate +quit
+./steamcmd.sh +login $STEAMUSERNAME +force_install_dir $INSTALLDIR +workshop_download_item 107410 $MODID validate +quit
 echo
 
 if [ -e $MODS/$MODNAME ]; then

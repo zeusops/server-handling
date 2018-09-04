@@ -1,5 +1,7 @@
 set -e
 
+STEAMUSERNAME=zeusoperations
+
 MODLISTS=$HOME/files/modlists
 ALLMODIDS=/tmp/modids.txt
 STEAMDIR=$HOME/.steam/steamcmd
@@ -24,7 +26,7 @@ echo $ALLMODS
 echo $INSTALLDIR
 
 echo "Updating mods"
-$STEAMCMD +login zeusoperations +force_install_dir $INSTALLDIR $ALLMODS +quit
+$STEAMCMD +login $STEAMUSERNAME +force_install_dir $INSTALLDIR $ALLMODS +quit
 
 while read line; do
 	ARRAY=($line)

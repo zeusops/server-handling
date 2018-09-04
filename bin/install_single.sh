@@ -1,5 +1,7 @@
 set -e
 
+STEAMUSERNAME=zeusoperations
+
 MODLISTS=$HOME/files/modlists
 ALLMODIDS=/tmp/modids.txt
 STEAMDIR=$HOME/.steam/steamcmd
@@ -25,7 +27,7 @@ read -s -p "Press enter to continue the installation or press ^C to abort"
 echo
 
 echo "Downloading mod $MODNAME with ID $MODID"
-$STEAMCMD +login zeusoperations +force_install_dir $INSTALLDIR +workshop_download_item 107410 $MODID validate +quit
+$STEAMCMD +login $STEAMUSERNAME +force_install_dir $INSTALLDIR +workshop_download_item 107410 $MODID validate +quit
 echo
 
 echo "Turning filenames into lowercase"
