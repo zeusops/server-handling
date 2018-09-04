@@ -3,7 +3,7 @@ PORT=2402
 
 PROFILE=  # default: server
 CONFIG=custom  # default: $NAME
-PARAMS=-servermod=available_mods/cntr/@cntr
+PARAMS=-servermod=mods/cntr/@cntr
 
 # Uncomment to prevent automatic key updates
 NOKEYS=on
