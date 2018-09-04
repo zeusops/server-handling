@@ -59,8 +59,6 @@ echo "Starting server $NAME on `date` on port $PORT"
 ./arma3server   -name=$PROFILE \
                 -config=$CONFIGPATH \
                 -port=$PORT \
-                -enableHT \
-                -maxMem=12287 \
                 -filePatching \
                 $MODS $SERVERMODS $PARAMS \
                 1>>"$LOGPATH/${NAME}_$(date +%F_%H-%M-%S).rpt" \
