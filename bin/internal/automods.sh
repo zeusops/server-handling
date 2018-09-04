@@ -9,4 +9,4 @@ for x in $NAME/*; do
 	MODS=${MODS}\;mods/$x
 done
 
-SERVERMODS="-serverMod="
+if [ -z $SERVERMODS ]; then SERVERMODS="-serverMod="; fi
