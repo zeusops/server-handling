@@ -67,4 +67,4 @@ echo "Starting server $NAME on `date` on port $PORT"
 PID=$!
 echo "PID: $PID"
 sleep 2
-$BIN/intenal/log.sh $NAME $BASEPATH
+$BIN/internal/log.sh $NAME $BASEPATH
