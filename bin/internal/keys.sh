@@ -27,6 +27,8 @@ fi
 cd $BASEPATH/arma3/keys
 find . -type l -exec rm {} \;
 
+ln -s ../available_keys/a3.bikey
+
 for key in ../available_keys/$NAME/*; do ln -s $key; done
 
 if [ -d "$BASEPATH/arma3/optional_keys/$NAME" ];
