@@ -24,7 +24,7 @@ then
 fi
 
 
-cd $BASEPATH/arma3/keys
+pushd $BASEPATH/arma3/keys > /dev/null
 find . -type l -exec rm {} \;
 
 ln -s ../available_keys/a3.bikey
@@ -35,3 +35,4 @@ if [ -d "$BASEPATH/arma3/optional_keys/$NAME" ];
 then
 	find -L ../optional_keys/$NAME/ -iname "*.bikey" -exec ln -s {} \;
 fi
+popd > /dev/null
