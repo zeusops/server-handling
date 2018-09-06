@@ -37,7 +37,7 @@ while read line; do
 	ALLMODS="$ALLMODS +workshop_download_item 107410 $MOD validate"
 done < $MODIDS
 
-if [ ! "$SKIPDOWNLOAD" = "yes" ]; then
+if [ "$SKIPDOWNLOAD" != "yes" ]; then
 	echo "Updating mods"
 	$STEAMCMD +login $STEAMUSERNAME +force_install_dir $INSTALLDIR $ALLMODS +quit
 	echo
@@ -68,7 +68,9 @@ while read line; do
 		exit 1
 	fi
 	ln -sv $INSTALLDIR/steamapps/workshop/content/107410/$MODID $MODPATH
-	$BASEPATH/files/bin/internal/lowercase_single.sh $MODPATH/
+  if [ "$SKIPDOWNLOAD" != "yes" ]; then
+    $BASEPATH/files/bin/internal/lowercase_single.sh $MODPATH/
+  fi
 	find $MODPATH/ -type f -exec chmod -x {} \;
 	find $MODPATH/ -iname "*.bikey" -exec bash -c 'keys "$0"' {} \;
 	# ln -sv {} $UPDATEDKEYS/$NAME/ \;

@@ -3,10 +3,12 @@ PORT=2302
 
 PROFILE=  # default: server
 CONFIG=  # default: $NAME
-PARAMS='-checkSignatures -servermod=mods/cntr/@cntr'
+PARAMS='-checkSignatures'
 
 # Uncomment to prevent automatic key updates
 # NOKEYS=on
 
+SERVERMODS=-serverMod=mods/cntr/@cntr
+
 # Uncomment to prevent automatic mod detection based on $NAME
-# MODS=${MODS}\;mods/@name
+# MODS=-mod=mods/@name
