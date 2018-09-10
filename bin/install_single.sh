@@ -20,8 +20,10 @@ fi
 SEARCHNAME="$1"
 
 ARRAY=($(grep $SEARCHNAME $ALLMODIDS | head -n 1))
-MODID=${ARRAY[0]}
-MODNAME=${ARRAY[1]}
+# File format:
+# @modname 123456
+MODNAME=${ARRAY[0]}
+MODID=${ARRAY[1]}
 echo "Interpreted $SEARCHNAME as $MODNAME with ID $MODID"
 read -s -p "Press enter to continue the installation or press ^C to abort"
 echo

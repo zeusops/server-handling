@@ -33,8 +33,10 @@ export -f keys
 ALLMODS=""
 while read line; do
 	ARRAY=($line)
-	MOD=${ARRAY[0]}
-	ALLMODS="$ALLMODS +workshop_download_item 107410 $MOD validate"
+	# File format:
+	# @modname 123456
+	MODID=${ARRAY[1]}
+	ALLMODS="$ALLMODS +workshop_download_item 107410 $MODID validate"
 done < $MODIDS
 
 if [ "$SKIPDOWNLOAD" != "yes" ]; then
@@ -56,8 +58,10 @@ find $MODS/$NAME -type l -exec rm {} \;
 echo "Linking mods"
 while read line; do
 	ARRAY=($line)
-	MODID=${ARRAY[0]}
-	MODNAME=${ARRAY[1]}
+	# File format:
+	# @modname 123456
+	MODNAME=${ARRAY[0]}
+	MODID=${ARRAY[1]}
 	MODPATH=$MODS/$NAME/$MODNAME
 	if [ -e $MODPATH ]; then
 		rm $MODPATH
@@ -73,7 +77,6 @@ while read line; do
   fi
 	find $MODPATH/ -type f -exec chmod -x {} \;
 	find $MODPATH/ -iname "*.bikey" -exec bash -c 'keys "$0"' {} \;
-	# ln -sv {} $UPDATEDKEYS/$NAME/ \;
 done < $MODIDS
 
 echo "All mods updated. Following keys were updated:"
