@@ -5,6 +5,8 @@ export PATH
 BASEPATH=$HOME
 BIN=$BASEPATH/files/bin
 PIDFILES=$BASEPATH/files/run
+SERVERADDRESS=arma.zeusops.com
+SERVERINFO=$BIN/internal/serverinfo.py
 
 ### Exit codes:
 ## start:
@@ -153,9 +155,10 @@ do_list() {
   for f in $PIDFILES/*.pid; do
     NAME=$(echo $(basename $f) | sed 's/.pid//')
     if $0 $NAME status &> /dev/null; then
-      echo -n "Port: "
-      $0 $NAME get-port
-      echo " / PID: $(cat $f) / Name: $NAME"
+      PORT=$($0 $NAME get-port)
+      QUERYPORT=$((++PORT))
+      PLAYERS=$($SERVERINFO $SERVERADDRESS $QUERYPORT --players)
+      echo "Port: $PORT | PID: $(cat $f) | Players: $PLAYERS | Name: $NAME"
     fi
   done
 }
@@ -166,10 +169,14 @@ do_list_all() {
 }
 
 do_info() {
+  QUERYPORT=$((++PORT))
+  INFO=$($SERVERINFO $SERVERADDRESS $QUERYPORT)
   echo "Info about server $NAME:"
+  echo $INFO
   echo "Port: $PORT"
   echo "Profile: $PROFILE"
   echo "Config: $CONFIG"
+
   if [ ! -z $PARAMS ]; then
     echo "Custom parameters: $PARAMS"
   fi
