@@ -4,9 +4,31 @@ export PATH
 
 BASEPATH=$HOME
 BIN=$BASEPATH/files/bin
+PIDFILES=$BASEPATH/files/run
+
+### Exit codes:
+## start:
+##   1  already running
+##   2  not installed
+##   3  not executable
+##   4  could not start
+## stop:
+##   5  pidfile missing
+## list:
+##   0  available servers
+## info:
+##   0  info + status
+## common:
+##   6  no config file
+##   7  server name mismatch
+##   8  usage
+## status:
+##   9  server died
+##   10 not running
+
 
 do_usage() {
-  echo "Usage: $(basename $0) --list | servername {stop|status|restart|log|info} | start [ --log ]" >&2
+  echo "Usage: $(basename $0) --list | --list-all | servername {stop|status|restart|log|info|start [ --log ]}" >&2
 }
 
 do_start() {
@@ -42,11 +64,11 @@ do_start() {
 
   if [ ! -d $BASEPATH/arma3 ]; then
     >&2 echo "Arma 3 server not installed"
-    exit
+    exit 2
   fi
   if [ ! -e $BASEPATH/arma3/arma3server ]; then
     >&2 echo "Arma 3 server not executable"
-    exit 1
+    exit 3
   fi
   cd $BASEPATH/arma3
 
@@ -62,7 +84,7 @@ do_start() {
   kill -0 $PID > /dev/null
   if [ $? -ne 0 ]; then
     >&2 echo "Could not start the server"
-    exit 1
+    exit 4
   else
     echo $PID > $PIDFILE
     if [ ! -z $SHOW_LOG ]; then
@@ -76,32 +98,32 @@ do_start() {
 }
 
 do_stop() {
-  if [ -e $PIDFILE ]; then
-    echo -n "Stopping server $NAME"
-    if ( kill -INT $(cat $PIDFILE) 2> /dev/null ); then
-      i=1
-      while [ "$i" -le 30 ]; do
-        if ( kill -0 $(cat $PIDFILE) 2> /dev/null) ; then
-          echo -n "."
-          sleep 1
-        else
-          break
-        fi
-        ((i++))
-      done
-    fi
-    if ( kill -0 $(cat $PIDFILE) 2> /dev/null) ; then
-      echo "Killing server"
-      kill -KILL $(cat $PIDFILE)
-    else
-      echo
-      echo "Done"
-    fi
-    rm $PIDFILE
-  else
+  if [ ! -e $PIDFILE ]; then
     >&2 echo "Pidfile missing, server not running"
-    exit 1
+    exit 5
   fi
+  echo -n "Stopping server $NAME"
+  if ( kill -INT $(cat $PIDFILE) 2> /dev/null ); then
+    i=1
+    while [ "$i" -le 30 ]; do
+    if ( kill -0 $(cat $PIDFILE) 2> /dev/null) ; then
+      echo -n "."
+      sleep 1
+    else
+      break
+    fi
+    ((i++))
+    done
+  fi
+  if ( kill -0 $(cat $PIDFILE) 2> /dev/null) ; then
+    echo
+    echo "Killing server"
+    kill -KILL $(cat $PIDFILE)
+  else
+    echo
+    echo "Done"
+  fi
+  rm $PIDFILE
 }
 
 do_restart() {
@@ -116,18 +138,31 @@ do_status() {
     if (kill -0 $PID 2> /dev/null); then
       echo "Server $NAME is running. (PID $(cat $PIDFILE))"  # TODO: Player count / serverinfo
     else
-      echo "Server $NAME not running but pidfile found, server has probably died."
+      >&2 echo "Server $NAME not running but pidfile found, server has probably died."
       rm $PIDFILE
+      exit 9
     fi
   else
-    echo "Server $NAME is not running."
+    >&2 echo "Server $NAME is not running."
+    exit 10
   fi
 }
 
 do_list() {
-	echo "Available servers:"
-	find $BASEPATH/files/servers -name "*.sh" -exec bash -c 'servername "$0"' {} \;
-  exit 0
+  echo "Running servers:"
+  for f in $PIDFILES/*.pid; do
+    NAME=$(echo $(basename $f) | sed 's/.pid//')
+    if $0 $NAME status &> /dev/null; then
+      echo -n "Port: "
+      $0 $NAME get-port
+      echo " / PID: $(cat $f) / Name: $NAME"
+    fi
+  done
+}
+
+do_list_all() {
+  echo "Available servers:"
+  find $BASEPATH/files/servers -name "*.sh" -exec bash -c 'servername "$0"' {} \;
 }
 
 do_info() {
@@ -152,7 +187,6 @@ do_info() {
     echo "Automatic key updating disabled"
   fi
   do_status
-  exit 0
 }
 
 do_log() {
@@ -166,8 +200,8 @@ do_log() {
 }
 
 function servername {
-	SRV=$(basename $1)
-	echo $SRV | sed 's/.sh//'
+  SRV=$(basename $1)
+  echo $SRV | sed 's/.sh//'
 }
 export -f servername
 
@@ -179,20 +213,21 @@ function cleanup {
   exit 0
 }
 
+
 if [ $# -gt 1 ]; then
   SERVERNAME=$1
-  PIDFILE=$BASEPATH/files/run/$SERVERNAME.pid
+  PIDFILE=$PIDFILES/$SERVERNAME.pid
 
   SERVERFILE=$BASEPATH/files/servers/$SERVERNAME.sh
   if [ -e $SERVERFILE ]; then
     . $SERVERFILE
   else
     >&2 echo "No config file found for server $SERVERNAME."
-    exit 1
+    exit 6
   fi
   if [ $SERVERNAME != $NAME ]; then
     >&2 echo "Server name $NAME in file $SERVERFILE does not match given name $SERVERNAME"
-    exit 1
+    exit 7
   fi
   
   if [ -z $PROFILE ]; then PROFILE=server; fi
@@ -200,38 +235,48 @@ if [ $# -gt 1 ]; then
   
   if [ "$3" = "--log" ]; then SHOW_LOG=yes; fi
 else
-  if [ "$1" = "--list" ]; then
-    do_list
-    exit 0
-  else
-    do_usage
-    exit 2
-  fi
+  case "$1" in
+    --list)
+      do_list
+    ;;
+    --list-all)
+      do_list_all
+    ;;
+    *)
+      do_usage
+      exit 8
+    ;;
+  esac
+  exit 0
 fi
 
 case "$2" in
   start)
-  do_start
+    do_start
   ;;
   stop)
-  do_stop
+    do_stop
   ;;
   status)
-  do_status
-  exit 0
+    do_status
+    exit 0
   ;;
   restart)
-  do_restart
+    do_restart
   ;;
   info)
-  do_info
+    do_info
+    exit 0
   ;;
   log)
-  do_log
+    do_log
+  ;;
+  get-port)
+    echo -n $PORT
   ;;
   *)
-  do_usage
-  exit 2
+    do_usage
+    exit 8
   ;;
 esac
 exit 0
