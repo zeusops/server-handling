@@ -2,6 +2,8 @@
 
 BASEPATH=$HOME
 STEAMCMD=/usr/games/steamcmd
+INSTALLDIR=$BASEPATH/arma3
+STEAMUSERNAME=zeusoperations
 
 #if [ "$1" = "--test" ];
 #then
@@ -20,5 +22,4 @@ echo "Updating main installation"
 #	$0 --test
 #fi
 
-$STEAMCMD +runscript $BASEPATH/files/update_arma3server.txt
-
+$STEAMCMD "+login $STEAMUSERNAME +force_install_dir $INSTALLDIR +app_update 233780 validate +exit"
