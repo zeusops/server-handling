@@ -1,0 +1,7 @@
+@ShutdownOnFailedCommand 1
+// @NoPromptForPassword 1
+login zeusoperations
+force_install_dir /home/steam/arma3/
+app_update 233780 validate
+exit
+
