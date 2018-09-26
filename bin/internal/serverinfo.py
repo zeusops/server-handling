@@ -24,7 +24,7 @@ while not done:
         try:
             info = server.info()
             players = server.players()
-        except valve.sourve.a2s.NoResponseError:
+        except valve.source.a2s.NoResponseError:
             tries += 1
         else:
             if players_only:
@@ -32,6 +32,6 @@ while not done:
             else:
                 print("Name: {server_name}\nPlayers: {player_count}/{max_players}".format(**info))
             done = True
-    if tries > 4:
+    if tries > 1:
         print("Could not reach server! {}".format(server_address))
         done = True
