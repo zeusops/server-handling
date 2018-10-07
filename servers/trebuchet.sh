@@ -1,5 +1,5 @@
 NAME=trebuchet
-PORT=2402
+PORT=2302
 
 PROFILE=  # default: server
 CONFIG=sideop  # default: $NAME
