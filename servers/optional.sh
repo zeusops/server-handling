@@ -1,3 +1,4 @@
+# For updating optional mods. Not intended for starting
 NAME=optional
 PORT=2382
 
