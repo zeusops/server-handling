@@ -44,7 +44,7 @@ do_start() {
       rm $PIDFILE
     fi
   fi
-  
+
   # Mods might've already been defined in SERVERFILE file
   if [ -z $MODS ]; then
     # Relink mod folders without downloading updates
@@ -54,12 +54,12 @@ do_start() {
     MODS="-mod="
     for x in $NAME/*; do
       MODS=${MODS}\;mods/$x
-    done    
+    done
     popd > /dev/null
   fi
-  
+
   if [ -z $NOKEYS ]; then . $BIN/internal/keys.sh; fi
-  
+
   CONFIGPATH=$BASEPATH/files/config/${CONFIG}.cfg
   LOGPATH=$BASEPATH/log/
   if [ ! -d $LOGPATH ]; then mkdir -p $LOGPATH; fi
@@ -236,10 +236,10 @@ if [ $# -gt 1 ]; then
     >&2 echo "Server name $NAME in file $SERVERFILE does not match given name $SERVERNAME"
     exit 7
   fi
-  
+
   if [ -z $PROFILE ]; then PROFILE=server; fi
   if [ -z $CONFIG ]; then CONFIG=$NAME; fi
-  
+
   if [ "$3" = "--log" ]; then SHOW_LOG=yes; fi
 else
   case "$1" in
