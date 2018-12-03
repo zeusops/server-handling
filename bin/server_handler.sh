@@ -107,7 +107,7 @@ do_stop() {
   echo -n "Stopping server $NAME"
   if ( kill -INT $(cat $PIDFILE) 2> /dev/null ); then
     i=1
-    while [ "$i" -le 30 ]; do
+    while [ "$i" -le 10 ]; do
     if ( kill -0 $(cat $PIDFILE) 2> /dev/null) ; then
       echo -n "."
       sleep 1
