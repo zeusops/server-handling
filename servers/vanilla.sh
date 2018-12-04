@@ -1,5 +1,5 @@
 NAME=vanilla
-PORT=2332
+PORT=2402
 
 PROFILE=  # default: server
 CONFIG=  # default: $NAME
