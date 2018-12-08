@@ -2,23 +2,23 @@ set -e
 
 if [ -z $1 ]; then echo "Usage: `basename $0` servername [--test] [--skipdl]"; exit 1; fi
 
-STEAMUSERNAME=zeusoperations
+readonly STEAMUSERNAME=zeusoperations
 
-NAME=$1
+readonly NAME=$1
 
-BASEPATH=$HOME
+readonly BASEPATH=$HOME
 if [ "$2" = "--test" ]; then BASEPATH=$HOME/test; fi
 if [ "$2" = "--skipdl" ] || [ "$3" = "--skipdl" ]; then SKIPDOWNLOAD=yes; fi
 
-MODIDS=$BASEPATH/files/modlists/${NAME}.txt
+readonly MODIDS=$BASEPATH/files/modlists/${NAME}.txt
 if [ ! -f $MODIDS ]; then echo "$MODIDS not found!"; exit 2; fi
 
-STEAMDIR=$HOME/.steam/steamcmd
-INSTALLDIR=$STEAMDIR/mods
-ARMADIR=$BASEPATH/arma3
-MODS=$ARMADIR/mods
+readonly STEAMDIR=$HOME/.steam/steamcmd
+readonly INSTALLDIR=$STEAMDIR/mods
+readonly ARMADIR=$BASEPATH/arma3
+readonly MODS=$ARMADIR/mods
 export UPDATEDKEYS=$ARMADIR/updated_keys/$NAME
-STEAMCMD=/usr/games/steamcmd
+readonly STEAMCMD=/usr/games/steamcmd
 export AVAILABLEKEYS=$ARMADIR/available_keys/$NAME
 
 function keys {
@@ -30,18 +30,18 @@ function keys {
 
 export -f keys
 
-ALLMODS=""
+allmods=""
 while read line; do
-  ARRAY=($line)
+  array=($line)
   # File format:
   # @modname 123456
-  MODID=${ARRAY[1]}
-  ALLMODS="$ALLMODS +workshop_download_item 107410 $MODID validate"
+  modid=${array[1]}
+  allmods="$allmods +workshop_download_item 107410 $modid validate"
 done < $MODIDS
 
 if [ "$SKIPDOWNLOAD" != "yes" ]; then
   echo "Updating mods"
-  $STEAMCMD +login $STEAMUSERNAME +force_install_dir $INSTALLDIR $ALLMODS +quit
+  $STEAMCMD +login $STEAMUSERNAME +force_install_dir $INSTALLDIR $allmods +quit
   echo
 else
   echo "Updating mod keys. This does not download updates"
@@ -59,26 +59,26 @@ find $UPDATEDKEYS -type l -exec rm {} \;
 
 echo "Linking mods"
 while read line; do
-  ARRAY=($line)
+  array=($line)
   # File format:
   # @modname 123456
-  MODNAME=${ARRAY[0]}
-  MODID=${ARRAY[1]}
-  MODPATH=$MODS/$NAME/$MODNAME
-  if [ -e $MODPATH ]; then
-    rm $MODPATH
+  modname=${array[0]}
+  modid=${array[1]}
+  modpath=$MODS/$NAME/$modname
+  if [ -e $modpath ]; then
+    rm $modpath
   fi
-  if [ ! -e $INSTALLDIR/steamapps/workshop/content/107410/$MODID ];
+  if [ ! -e $INSTALLDIR/steamapps/workshop/content/107410/$modid ];
   then
-    echo "$MODNAME with ID $MODID missing! Run `basename $0` $NAME"
+    echo "$modname with ID $modid missing! Run `basename $0` $NAME"
     exit 1
   fi
-  ln -sv $INSTALLDIR/steamapps/workshop/content/107410/$MODID $MODPATH
+  ln -sv $INSTALLDIR/steamapps/workshop/content/107410/$modid $modpath
   if [ "$SKIPDOWNLOAD" != "yes" ]; then
-    $BASEPATH/files/bin/internal/lowercase_single.sh $MODPATH/
+    $BASEPATH/files/bin/internal/lowercase_single.sh $modpath/
   fi
-  find $MODPATH/ -type f -exec chmod -x {} \;
-  find $MODPATH/ -iname "*.bikey" -exec bash -c 'keys "$0"' {} \;
+  find $modpath/ -type f -exec chmod -x {} \;
+  find $modpath/ -iname "*.bikey" -exec bash -c 'keys "$0"' {} \;
 done < $MODIDS
 
 echo "All mods updated. Following keys were updated:"
