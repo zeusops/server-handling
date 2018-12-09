@@ -95,7 +95,7 @@ else
   echo "Following keys were updated:"
   ls $UPDATEDKEYS
   while :; do
-    read -t10 -p "Do you want to add the keys to the server automatically? (10 seconds timeout) (Y/N): "
+    read -t10 -p "Do you want to add the keys to the server automatically? (10 seconds timeout) (Y/n): "
     if [ $? -gt 128 ]; then
       echo "Timed out waiting for user response"
       install_keys
@@ -103,16 +103,13 @@ else
     fi
 
     case $REPLY in
-      [yY]*)
+      [yY]*|*)
         install_keys
         break
         ;;
       [nN]*)
         echo "Not istalling keys"
         break
-        ;;
-      *)
-        echo "Please enter Y or N"
         ;;
     esac
   done
