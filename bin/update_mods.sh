@@ -28,6 +28,12 @@ function keys {
   fi
 }
 
+function install_keys {
+  echo "Installing keys"
+  find $UPDATEDKEYS -name "*.bikey" -type l -exec mv {} $AVAILABLEKEYS -v \;
+}
+
+
 export -f keys
 
 allmods=""
@@ -81,5 +87,35 @@ while read line; do
   find $modpath/ -iname "*.bikey" -exec bash -c 'keys "$0"' {} \;
 done < $MODIDS
 
-echo "All mods updated. Following keys were updated:"
-ls $UPDATEDKEYS
+updatedcount=$(ls -1 $UPDATEDKEYS/*.bikey 2> /dev/null | wc -l)  # Does not work with spaces in filenames
+echo -n "All mods updated. "
+if [ $updatedcount -eq 0 ]; then
+  echo "No new keys were installed."
+else
+  echo "Following keys were updated:"
+  ls $UPDATEDKEYS
+  while :; do
+    read -t10 -p "Do you want to add the keys to the server automatically? (10 seconds timeout) (Y/N): "
+    if [ $? -gt 128 ]; then
+      echo "Timed out waiting for user response"
+      install_keys
+      break
+    fi
+
+    case $REPLY in
+      [yY]*)
+        install_keys
+        break
+        ;;
+      [nN]*)
+        echo "Not istalling keys"
+        break
+        ;;
+      *)
+        echo "Please enter Y or N"
+        ;;
+    esac
+  done
+fi
+
+echo "Mods updated"
