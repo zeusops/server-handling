@@ -220,6 +220,21 @@ function cleanup {
   exit 0
 }
 
+function confirm {
+  while :; do
+    read -t10 -p "Are you sure you want to $1 the server? (y/N): "
+    case $REPLY in
+      [yY]*)
+        echo "Continuing"
+        return
+        ;;
+      [nN]*|*)
+        echo "Canceling"
+        exit 0
+        ;;
+    esac
+  done
+}
 
 if [ $# -gt 1 ]; then
   SERVERNAME=$1
@@ -262,6 +277,7 @@ case "$2" in
     do_start
   ;;
   stop)
+    confirm "stop"
     do_stop
   ;;
   status)
@@ -269,6 +285,7 @@ case "$2" in
     exit 0
   ;;
   restart)
+    confirm "restart"
     do_restart
   ;;
   info)
