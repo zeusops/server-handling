@@ -17,7 +17,11 @@ while read line; do
 	# File format:
 	# @modname 123456
 	MODID=${ARRAY[1]}
-	ALLMODS="$ALLMODS +workshop_download_item 107410 $MODID"
+	if ! [ -z $MODID ]; then
+		ALLMODS="$ALLMODS +workshop_download_item 107410 $MODID"
+	else
+		echo "Found empty modid"
+	fi
 done < $ALLMODIDS
 
 echo $ALLMODS
