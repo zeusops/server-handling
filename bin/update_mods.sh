@@ -103,15 +103,15 @@ else
     fi
 
     case $REPLY in
-      [yY]*|*)
-        install_keys
-        break
-        ;;
       [nN]*)
         echo "Not istalling keys"
         break
         ;;
-    esac
+      [yY]*|*)
+        install_keys
+        break
+        ;;
+   esac
   done
 fi
 
