@@ -4,7 +4,7 @@
 NAME=zombies
 PORT=2402
 
-PROFILE=  # default: server
+PROFILE=zombies  # default: server
 CONFIG=sideop  # default: $NAME
 PARAMS= #'-checkSignatures'
 
