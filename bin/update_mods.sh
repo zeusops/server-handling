@@ -70,25 +70,31 @@ find $UPDATEDKEYS -type l -exec rm {} \;
 echo "Linking mods"
 while read line; do
   array=($line)
-  # File format:
-  # @modname 123456
-  modname=${array[0]}
-  modid=${array[1]}
-  modpath=$MODS/$NAME/$modname
-  if [ -e $modpath ]; then
-    rm $modpath
+  if ! [ -z $array ]; then
+    ALLMODS="$ALLMODS +workshop_download_item 107410 $MODID"
+
+    # File format:
+    # @modname 123456
+    modname=${array[0]}
+    modid=${array[1]}
+    modpath=$MODS/$NAME/$modname
+    if [ -e $modpath ]; then
+      rm $modpath
+    fi
+    if [ ! -e $INSTALLDIR/steamapps/workshop/content/107410/$modid ];
+    then
+      echo "$modname with ID $modid missing! Run `basename $0` $NAME"
+      exit 1
+    fi
+    ln -sv $INSTALLDIR/steamapps/workshop/content/107410/$modid $modpath
+    if [ "$SKIPDOWNLOAD" != "yes" ]; then
+      $BASEPATH/files/bin/internal/lowercase_single.sh $modpath/
+    fi
+    find $modpath/ -type f -exec chmod -x {} \;
+    find $modpath/ -iname "*.bikey" -exec bash -c 'keys "$0"' {} \;
+  else
+    echo "Found empty modid"
   fi
-  if [ ! -e $INSTALLDIR/steamapps/workshop/content/107410/$modid ];
-  then
-    echo "$modname with ID $modid missing! Run `basename $0` $NAME"
-    exit 1
-  fi
-  ln -sv $INSTALLDIR/steamapps/workshop/content/107410/$modid $modpath
-  if [ "$SKIPDOWNLOAD" != "yes" ]; then
-    $BASEPATH/files/bin/internal/lowercase_single.sh $modpath/
-  fi
-  find $modpath/ -type f -exec chmod -x {} \;
-  find $modpath/ -iname "*.bikey" -exec bash -c 'keys "$0"' {} \;
 done < $MODIDS
 
 updatedcount=$(ls -1 $UPDATEDKEYS/*.bikey 2> /dev/null | wc -l)  # Does not work with spaces in filenames
