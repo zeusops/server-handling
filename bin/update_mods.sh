@@ -42,7 +42,11 @@ while read line; do
   # File format:
   # @modname 123456
   modid=${array[1]}
-  allmods="$allmods +workshop_download_item 107410 $modid validate"
+  if ! [ -z $modid ]; then
+    allmods="$allmods +workshop_download_item 107410 $modid validate"
+  else
+    echo "Found empty modid"
+  fi
 done < $MODIDS
 
 if [ "$SKIPDOWNLOAD" != "yes" ]; then
