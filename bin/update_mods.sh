@@ -47,7 +47,7 @@ done < $MODIDS
 
 if [ "$SKIPDOWNLOAD" != "yes" ]; then
   echo "Updating mods"
-  $STEAMCMD +login $STEAMUSERNAME +force_install_dir $INSTALLDIR $allmods +quit
+  $STEAMCMD +login $STEAMUSERNAME +force_install_dir $INSTALLDIR $allmods +quit | grep -v m_bIsFinalized
   echo
 else
   echo "Updating mod keys. This does not download updates"

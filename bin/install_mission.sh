@@ -20,7 +20,7 @@ MISSIONNAME="${2}.pbo"
 
 echo "Downloading mission file $MISSIONID to ${MISSIONNAME}"
 cd $STEAMDIR
-$STEAMCMD +login $STEAMUSERNAME +force_install_dir $INSTALLDIR +workshop_download_item 107410 $MISSIONID validate +quit
+$STEAMCMD +login $STEAMUSERNAME +force_install_dir $INSTALLDIR +workshop_download_item 107410 $MISSIONID validate +quit | grep -v m_bIsFinalized
 echo
 if [ -e $MPMISSIONS/$MISSIONNAME ]; then
 	if [ -L $MPMISSIONS/$MISSIONNAME ]; then

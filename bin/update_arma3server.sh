@@ -22,4 +22,4 @@ echo "Updating main installation"
 #	$0 --test
 #fi
 
-$STEAMCMD "+login $STEAMUSERNAME +force_install_dir $INSTALLDIR +app_update 233780 validate +exit"
+$STEAMCMD "+login $STEAMUSERNAME +force_install_dir $INSTALLDIR +app_update 233780 validate +exit" | grep -v m_bIsFinalized

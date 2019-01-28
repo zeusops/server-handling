@@ -28,7 +28,7 @@ echo $ALLMODS
 echo $INSTALLDIR
 
 echo "Updating mods"
-$STEAMCMD +login $STEAMUSERNAME +force_install_dir $INSTALLDIR $ALLMODS +quit
+$STEAMCMD +login $STEAMUSERNAME +force_install_dir $INSTALLDIR $ALLMODS +quit  | grep -v m_bIsFinalized
 
 while read line; do
 	ARRAY=($line)
