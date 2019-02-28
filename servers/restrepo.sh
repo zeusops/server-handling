@@ -2,7 +2,7 @@ NAME=restrepo
 PORT=2402
 
 PROFILE=restrepo  # default: server
-CONFIG=custom  # default: $NAME
+CONFIG=alive # default: $NAME
 PARAMS=-serverMod=mods/alive/@aliveserver
 
 # Uncomment to prevent automatic key updates
