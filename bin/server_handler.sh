@@ -14,6 +14,7 @@ SERVERINFO=$BIN/internal/serverinfo.py
 ##   2  not installed
 ##   3  not executable
 ##   4  could not start
+##   11 mods missing
 ## stop:
 ##   5  pidfile missing
 ## list:
@@ -48,7 +49,9 @@ do_start() {
   # Mods might've already been defined in SERVERFILE file
   if [ -z $MODS ]; then
     # Relink mod folders without downloading updates
-    $BIN/update_mods.sh $NAME --skipdl
+    if ! $BIN/update_mods.sh $NAME --skipdl; then
+      exit 11
+    fi
 
     pushd $BASEPATH/arma3/mods/ > /dev/null
     MODS="-mod="

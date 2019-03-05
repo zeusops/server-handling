@@ -1,5 +1,3 @@
-set -e
-
 if [ -z $1 ]; then echo "Usage: `basename $0` servername [--test] [--skipdl]"; exit 1; fi
 
 readonly STEAMUSERNAME=zeusoperations
@@ -83,7 +81,7 @@ while read line; do
     fi
     if [ ! -e $INSTALLDIR/steamapps/workshop/content/107410/$modid ];
     then
-      echo "$modname with ID $modid missing! Run `basename $0` $NAME"
+      echo "$modname with ID $modid missing! Run `basename $0` $NAME or install_single.sh $modname"
       exit 1
     fi
     ln -sv $INSTALLDIR/steamapps/workshop/content/107410/$modid $modpath
