@@ -5,6 +5,8 @@ PROFILE=  # default: server
 CONFIG=  # default: $NAME
 PARAMS=
 
+SERVERMODS=-serverMod=mods/cntr/@cntr
+
 # Uncomment to prevent automatic key updates
 # NOKEYS=on
 
