@@ -1,5 +1,5 @@
 NAME=sideopww2
-PORT=2302
+PORT=2402
 
 PROFILE=  # default: server
 CONFIG=sideop  # default: $NAME
