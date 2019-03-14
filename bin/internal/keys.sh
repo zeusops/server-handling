@@ -17,6 +17,12 @@ then
 	NAME="$2"
 fi
 
+if [ ! -d "$BASEPATH/arma3/available_keys" ];
+then
+  echo "Creating folder $BASEPATH/arma3/available_keys"
+  mkdir -p "$BASEPATH/arma3/available_keys"
+fi
+
 if [ ! -d "$BASEPATH/arma3/available_keys/$NAME" ];
 then
 	echo "Folder $BASEPATH/arma3/available_keys/$NAME not found!"
