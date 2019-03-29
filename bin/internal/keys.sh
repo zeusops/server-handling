@@ -3,6 +3,7 @@ then
 	if [ -z "$1" ];
 	then
 		echo "Usage: $0 basepath foldername"
+    exit 1
 	fi
 	BASEPATH="$1"
 fi
