@@ -29,7 +29,7 @@ read -s -p "Press enter to continue the installation or press ^C to abort"
 echo
 
 echo "Downloading mod $MODNAME with ID $MODID"
-$STEAMCMD +login $STEAMUSERNAME +force_install_dir $INSTALLDIR +workshop_download_item 107410 $MODID validate +quit | grep -v m_bIsFinalized
+$STEAMCMD +login $STEAMUSERNAME +force_install_dir $INSTALLDIR +workshop_download_item 107410 $MODID validate +quit 
 echo
 
 echo "Turning filenames into lowercase"
