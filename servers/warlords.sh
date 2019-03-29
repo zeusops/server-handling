@@ -1,7 +1,7 @@
 NAME=warlords
 PORT=2402
 
-PROFILE=  # default: server
+PROFILE=warlords  # default: server
 CONFIG=warlords  # default: $NAME
 PARAMS=
 
