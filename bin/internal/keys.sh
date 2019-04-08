@@ -2,7 +2,7 @@ if [ -z "$BASEPATH" ];
 then
 	if [ -z "$1" ];
 	then
-		echo "Usage: $0 basepath foldername"
+		echo "Usage: $0 arma3basepath modname"
     exit 1
 	fi
 	BASEPATH="$1"
@@ -12,7 +12,7 @@ if [ -z "$NAME" ];
 then
 	if [ -z "$2" ];
 	then
-		echo "Usage: $0 basepath foldername"
+		echo "Usage: $0 arma3basepath modname"
 		exit 1
 	fi
 	NAME="$2"
