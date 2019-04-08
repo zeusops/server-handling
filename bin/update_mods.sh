@@ -29,6 +29,8 @@ function keys {
 function install_keys {
   echo "Installing keys"
   find $UPDATEDKEYS -name "*.bikey" -type l -exec mv {} $AVAILABLEKEYS -v \;
+  find $AVAILABLEKEYS -type l -exec sh -c 'for x; do [ -e "$x" ] || rm -v "$x"; done' _ {} +
+
 }
 
 
