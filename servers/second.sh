@@ -1,5 +1,5 @@
 NAME=second
-PORT=2402
+PORT=2602
 
 PROFILE=  # default: server
 CONFIG=custom  # default: $NAME
