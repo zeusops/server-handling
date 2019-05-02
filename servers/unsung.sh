@@ -1,5 +1,5 @@
 NAME=unsung
-PORT=2502
+PORT=2402
 
 PROFILE=  # default: server
 CONFIG=sideop  # default: $NAME
