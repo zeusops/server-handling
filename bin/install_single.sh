@@ -10,7 +10,7 @@ STEAMCMD=/usr/games/steamcmd
 LOWERCASE=$HOME/files/bin/internal/lowercase_single.sh
 MODDIR=$INSTALLDIR/steamapps/workshop/content/107410
 
-sort $MODLISTS/* -u > $ALLMODIDS
+sort $MODLISTS/*.txt -u > $ALLMODIDS
 
 if [ -z $1 ]; then
 	echo "Usage: `basename $0` modname"
