@@ -3,7 +3,7 @@ NAME=lite
 PORT=2302
 
 PROFILE=  # default: server
-CONFIG=  # default: $NAME
+CONFIG=lite  # default: $NAME
 PARAMS=
 
 # Uncomment to prevent automatic key updates
