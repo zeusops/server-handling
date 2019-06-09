@@ -19,22 +19,25 @@ export UPDATEDKEYS=$ARMADIR/updated_keys/$NAME
 readonly STEAMCMD=/usr/games/steamcmd
 export AVAILABLEKEYS=$ARMADIR/available_keys/$NAME
 
-function keys {
+function link_keys {
   key=$(basename "$1")
   if [ ! -f $AVAILABLEKEYS/$key ]; then
     ln -sv $1 $UPDATEDKEYS/$key
   fi
 }
 
+function remove_old_keys {
+  echo "Removing old keys"
+  find $AVAILABLEKEYS -type l -exec sh -c 'for x; do [ -e "$x" ] || rm -v "$x"; done' _ {} +
+}
+
 function install_keys {
   echo "Installing keys"
   find $UPDATEDKEYS -name "*.bikey" -type l -exec mv {} $AVAILABLEKEYS -v \;
-  find $AVAILABLEKEYS -type l -exec sh -c 'for x; do [ -e "$x" ] || rm -v "$x"; done' _ {} +
-
 }
 
 
-export -f keys
+export -f link_keys
 
 allmods=""
 while read line; do
@@ -91,13 +94,14 @@ while read line; do
       $BASEPATH/files/bin/internal/lowercase_single.sh $modpath/
     fi
     find $modpath/ -type f -exec chmod -x {} \;
-    find $modpath/ -iname "*.bikey" -exec bash -c 'keys "$0"' {} \;
+    find $modpath/ -iname "*.bikey" -exec bash -c 'link_keys "$0"' {} \;
   else
     echo "Found empty modid"
   fi
 done < $MODIDS
 
 updatedcount=$(ls -1 $UPDATEDKEYS/*.bikey 2> /dev/null | wc -l)  # Does not work with spaces in filenames
+remove_old_keys
 echo -n "All mods updated. "
 if [ $updatedcount -eq 0 ]; then
   echo "No new keys were installed."
