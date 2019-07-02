@@ -1,8 +1,8 @@
 NAME=liberation
 PORT=2502
 
-PROFILE=  # default: server
-CONFIG=  # default: $NAME
+PROFILE=2019-07-02-liberation # default: server
+CONFIG=liberation  # default: $NAME
 PARAMS='-checkSignatures'
 
 # Uncomment to prevent automatic key updates
