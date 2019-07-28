@@ -1,7 +1,7 @@
 NAME=liberation
 PORT=2502
 
-PROFILE=2019-07-02-liberation # default: server
+PROFILE=2019-07-17-liberation # default: server
 CONFIG=liberation  # default: $NAME
 PARAMS='-checkSignatures'
 
