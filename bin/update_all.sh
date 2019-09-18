@@ -9,7 +9,7 @@ INSTALLDIR=$STEAMDIR/mods
 STEAMCMD=/usr/games/steamcmd
 LOWERCASE=$HOME/files/bin/internal/lowercase_single.sh
 
-sort $MODLISTS/*.txt -u > $ALLMODIDS
+sort $MODLISTS/*.txt -u | grep -v '^#.*$' > $ALLMODIDS
 
 ALLMODS=""
 while read line; do

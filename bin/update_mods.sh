@@ -41,6 +41,9 @@ export -f link_keys
 
 allmods=""
 while read line; do
+  # Skip line if it starts with a #
+  [[ $line =~ ^#.* ]] && continue
+
   array=($line)
   # File format:
   # @modname 123456
@@ -72,6 +75,9 @@ find $UPDATEDKEYS -type l -exec rm {} \;
 
 echo "Linking mods"
 while read line; do
+  # Skip line if it starts with a #
+  [[ $line =~ ^#.* ]] && continue
+
   array=($line)
   if ! [ -z $array ]; then
     ALLMODS="$ALLMODS +workshop_download_item 107410 $MODID"
