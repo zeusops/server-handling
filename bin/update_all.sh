@@ -3,13 +3,15 @@ set -e
 STEAMUSERNAME=zeusoperations
 
 MODLISTS=$HOME/files/modlists
+ALLMODS=$MODLISTS/allmods.txt
 ALLMODIDS=/tmp/modids.txt
 STEAMDIR=$HOME/.steam/steamcmd
 INSTALLDIR=$STEAMDIR/mods
 STEAMCMD=/usr/games/steamcmd
 LOWERCASE=$HOME/files/bin/internal/lowercase_single.sh
 
-sort $MODLISTS/*.txt -u | grep -v '^#.*$' > $ALLMODIDS
+# sort $MODLISTS/*.txt -u | grep -v '^#.*$' > $ALLMODIDS
+grep -v '^#.*$' $ALLMODS > $ALLMODIDS
 
 ALLMODS=""
 while read line; do
