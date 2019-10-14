@@ -3,7 +3,7 @@ PORT=2402
 
 PROFILE=warlords  # default: server
 CONFIG=warlords  # default: $NAME
-PARAMS=
+PARAMS='-checkSignatures'
 
 # Uncomment to prevent automatic key updates
 # NOKEYS=on
