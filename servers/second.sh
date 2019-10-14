@@ -1,7 +1,7 @@
 NAME=second
 PORT=2602
 
-PROFILE=  # default: server
+PROFILE=second  # default: server
 CONFIG=custom  # default: $NAME
 PARAMS='-checkSignatures'
 
