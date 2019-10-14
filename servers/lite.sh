@@ -2,7 +2,7 @@
 NAME=lite
 PORT=2302
 
-PROFILE=  # default: server
+PROFILE=lite  # default: server
 CONFIG=lite  # default: $NAME
 PARAMS=
 
