@@ -3,7 +3,7 @@ set -e
 STEAMUSERNAME=zeusoperations
 
 MODLISTS=$HOME/files/modlists
-ALLMODIDS=/tmp/modids.txt
+ALLMODIDS=$(mktemp --tmpdir modids-XXXX.txt)
 STEAMDIR=$HOME/.steam/steamcmd
 INSTALLDIR=$STEAMDIR/mods
 STEAMCMD=/usr/games/steamcmd
