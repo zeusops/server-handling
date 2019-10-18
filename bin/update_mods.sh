@@ -14,7 +14,8 @@ if [ ! -f $MODIDS ]; then echo "$MODIDS not found!"; exit 2; fi
 readonly STEAMDIR=$HOME/.steam/steamcmd
 readonly INSTALLDIR=$STEAMDIR/mods
 readonly ARMADIR=$BASEPATH/arma3
-readonly MODS=$ARMADIR/mods
+readonly ARMAMODS=$ARMADIR/mods
+readonly MODS=$ARMAMODS/$NAME
 export UPDATEDKEYS=$ARMADIR/updated_keys/$NAME
 readonly STEAMCMD=/usr/games/steamcmd
 export AVAILABLEKEYS=$ARMADIR/available_keys/$NAME
@@ -64,12 +65,12 @@ else
 fi
 
 echo "Creating folders"
-if [ ! -d $MODS/$NAME ]; then mkdir -p $MODS/$NAME; fi
+if [ ! -d $MODS ]; then mkdir -p $MODS; fi
 if [ ! -d $UPDATEDKEYS ]; then mkdir -p $UPDATEDKEYS; fi
 if [ ! -d $AVAILABLEKEYS ]; then mkdir -p $AVAILABLEKEYS; fi
 
 echo "Removing old mod links"
-find $MODS/$NAME -type l -exec rm {} \;
+find $MODS -type l -exec rm {} \;
 echo "Removing old key links"
 find $UPDATEDKEYS -type l -exec rm {} \;
 
@@ -86,12 +87,11 @@ while read line; do
     # @modname 123456
     modname=${array[0]}
     modid=${array[1]}
-    modpath=$MODS/$NAME/$modname
+    modpath=$MODS/$modname
     if [ -e $modpath ]; then
       rm $modpath
     fi
-    if [ ! -e $INSTALLDIR/steamapps/workshop/content/107410/$modid ];
-    then
+    if [ ! -e $INSTALLDIR/steamapps/workshop/content/107410/$modid ]; then
       echo "$modname with ID $modid missing! Run `basename $0` $NAME or install_single.sh $modname"
       exit 1
     fi
@@ -99,12 +99,13 @@ while read line; do
     if [ "$SKIPDOWNLOAD" != "yes" ]; then
       $BASEPATH/files/bin/internal/lowercase_single.sh $modpath/
     fi
-    find $modpath/ -type f -exec chmod -x {} \;
-    find $modpath/ -iname "*.bikey" -exec bash -c 'link_keys "$0"' {} \;
   else
     echo "Found empty modid"
   fi
 done < $MODIDS
+
+find $MODS/ -type f -exec chmod -x {} \;
+find $MODS/ -iname "*.bikey" -exec bash -c 'link_keys "$0"' {} \;
 
 updatedcount=$(ls -1 $UPDATEDKEYS/*.bikey 2> /dev/null | wc -l)  # Does not work with spaces in filenames
 remove_old_keys
