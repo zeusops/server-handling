@@ -3,6 +3,7 @@ PATH=/sbin:/usr/sbin:/bin:/usr/bin
 export PATH
 
 BASEPATH=$HOME
+LOGPATH=$BASEPATH/log
 BIN=$BASEPATH/files/bin
 PIDFILES=$BASEPATH/files/run
 SERVERADDRESS=arma.zeusops.com
@@ -64,8 +65,9 @@ do_start() {
   if [ -z $NOKEYS ]; then . $BIN/internal/keys.sh; fi
 
   CONFIGPATH=$BASEPATH/files/config/${CONFIG}.cfg
-  LOGPATH=$BASEPATH/log/
   if [ ! -d $LOGPATH ]; then mkdir -p $LOGPATH; fi
+  LOGNAME=${NAME}_$(date +%F_%H-%M-%S)
+  LOGFILE="$LOGPATH/$LOGNAME.rpt"
 
   if [ ! -d $BASEPATH/arma3 ]; then
     >&2 echo "Arma 3 server not installed"
@@ -83,10 +85,11 @@ do_start() {
                   -port=$PORT \
                   -filePatching \
                   $MODS $SERVERMODS $PARAMS \
-                  1>>"$LOGPATH/${NAME}_$(date +%F_%H-%M-%S).rpt" \
-                  2>>"$LOGPATH/${NAME}_$(date +%F_%H-%M-%S).rpt" &
+                  1>>$LOGFILE \
+                  2>>$LOGFILE &
   PID=$!
   kill -0 $PID > /dev/null
+  ln --symbolic --force ${LOGNAME}.rpt $LOGPATH/${NAME}_latest.log
   if [ $? -ne 0 ]; then
     >&2 echo "Could not start the server"
     exit 4
@@ -200,13 +203,13 @@ do_info() {
 }
 
 do_log() {
-  FILE=$(ls -1 $BASEPATH/log/${NAME}_*.rpt | tail -n 1)
-  FILENAME=$(echo $FILE | sed "s|$BASEPATH/log/||")
-  echo "Showing log file $FILENAME. Exit log with ^C."
+  LOGFILE=$LOGPATH/${NAME}_latest.log
+  ls -l $LOGFILE
+  echo "Showing the log file. Exit log with ^C."
   echo
   echo
   trap cleanup INT
-  tail -f $FILE
+  tail --follow=name $LOGFILE
 }
 
 function servername {
