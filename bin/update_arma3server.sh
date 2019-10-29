@@ -23,3 +23,4 @@ echo "Updating main installation"
 #fi
 
 $STEAMCMD "+login $STEAMUSERNAME +force_install_dir $INSTALLDIR +app_update 233780 validate +exit"
+finish_install.sh
