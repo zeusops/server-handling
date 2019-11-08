@@ -104,8 +104,8 @@ while read line; do
   fi
 done < $MODIDS
 
-find $MODS/ -type f -exec chmod -x {} \;
-find $MODS/ -iname "*.bikey" -exec bash -c 'link_keys "$0"' {} \;
+find -L $MODS/ -type f -exec chmod -x {} \;
+find -L $MODS/ -iname "*.bikey" -exec bash -c 'link_keys "$0"' {} \;
 
 updatedcount=$(ls -1 $UPDATEDKEYS/*.bikey 2> /dev/null | wc -l)  # Does not work with spaces in filenames
 remove_old_keys
