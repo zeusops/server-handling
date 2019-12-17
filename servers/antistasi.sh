@@ -1,7 +1,7 @@
 NAME=antistasi
 PORT=2502
 
-PROFILE=2019-07-08-antistasi # default: server
+PROFILE=2019-12-17-antistasi # default: server
 CONFIG=antistasi # default: $NAME
 PARAMS='-checkSignatures'
 
