@@ -1,7 +1,7 @@
 NAME=custom
 PORT=2602
 
-PROFILE=  # default: server
+PROFILE=2019-12-25-overthrow  # default: server
 CONFIG=custom  # default: $NAME
 PARAMS= #'-checkSignatures'
 
