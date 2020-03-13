@@ -1,3 +1,4 @@
+#!/bin/sh
 # cd /home/steam/steamcmd
 
 BASEPATH=$HOME

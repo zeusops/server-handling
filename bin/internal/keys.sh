@@ -1,3 +1,4 @@
+#!/bin/sh
 if [ -z "$BASEPATH" ];
 then
 	if [ -z "$1" ];

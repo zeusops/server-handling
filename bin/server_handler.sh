@@ -63,6 +63,7 @@ do_start() {
   fi
 
   if [ -z $NOKEYS ]; then . $BIN/internal/keys.sh; fi
+  #if [ -z $USERCONFIG ]; then . $BIN/internal/userconfig.sh; fi
 
   CONFIGPATH=$BASEPATH/files/config/${CONFIG}.cfg
   if [ ! -d $LOGPATH ]; then mkdir -p $LOGPATH; fi

@@ -1,3 +1,4 @@
+#!/bin/sh
 if [ -z ${1} ]
 then
 	echo "Usage: `basename \"$0\"` path"
