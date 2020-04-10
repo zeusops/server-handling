@@ -66,6 +66,7 @@ do_start() {
   #if [ -z $USERCONFIG ]; then . $BIN/internal/userconfig.sh; fi
 
   CONFIGPATH=$BASEPATH/files/config/${CONFIG}.cfg
+  BASICPATH=$BASEPATH/files/basic/${CONFIG}.cfg
   if [ ! -d $LOGPATH ]; then mkdir -p $LOGPATH; fi
   LOGNAME=${NAME}_$(date +%F_%H-%M-%S)
   LOGFILE="$LOGPATH/$LOGNAME.rpt"
@@ -85,6 +86,8 @@ do_start() {
                   -config=$CONFIGPATH \
                   -port=$PORT \
                   -filePatching \
+                  -cfg=$BASICPATH \
+                  -bandwidthAlg=2 \
                   $MODS $SERVERMODS $PARAMS \
                   1>>$LOGFILE \
                   2>>$LOGFILE &
