@@ -1,0 +1,16 @@
+Zeus@ZEUSOPS /cygdrive/c/server
+$ ls -l
+total 44
+drwxrwxr-x+ 1 Zeus          Kein    0 Apr 29 13:46 arma3/
+-rwxrwx---+ 1 BvSsh_ZeusOps Kein  358 Apr  7 23:46 basic.cfg*
+lrwxrwxrwx  1 Zeus          Kein   15 Apr 10 01:05 files -> server-handling/
+drwxrwx---+ 1 Zeus          Kein    0 Apr 17 17:16 link/
+-rwxrwxr-x+ 1 Zeus          Kein  422 Apr  7 20:46 link_mods.sh*
+lrwxrwxrwx  1 Zeus          Kein   44 Apr  9 14:58 logs -> /cygdrive/c/Users/Zeus/AppData/Local/Arma 3//
+-rw-rw-r--+ 1 Zeus          Kein 6574 Apr  7 21:31 main.cfg
+-rwxrwx---+ 1 Zeus          Kein  904 Apr  7 20:38 main.txt*
+drwxr-xr-x+ 1 Zeus          Kein    0 Apr 17 17:55 missionbot/
+drwxrwxr-x+ 1 Zeus          Kein    0 Apr  9 15:36 mods/
+drwxrwxr-x+ 1 Zeus          Kein    0 Apr 30 01:04 server-handling/
+-rwxrwxr-x+ 1 Zeus          Kein  719 Apr 11 14:44 start.sh*
+drwxrwxr-x+ 1 Zeus          Kein    0 Apr 25 18:05 userconfig/

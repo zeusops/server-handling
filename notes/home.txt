@@ -1,0 +1,8 @@
+Zeus@ZEUSOPS ~
+$ ls -l
+total 0
+lrwxrwxrwx 1 Zeus Kein 43 Apr 10 18:32 'Arma 3' -> '/cygdrive/c/Users/Zeus/AppData/Local/Arma 3'/
+lrwxrwxrwx 1 Zeus Kein 12 Apr 10 01:06  arma3 -> server/arma3/
+lrwxrwxrwx 1 Zeus Kein 22 Apr 10 01:09  files -> server/server-handling/
+lrwxrwxrwx 1 Zeus Kein 11 Apr 10 01:06  link -> server/link/
+lrwxrwxrwx 1 Zeus Kein 18 Apr 10 01:06  server -> /cygdrive/c/server/
