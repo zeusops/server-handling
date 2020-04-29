@@ -2,9 +2,10 @@
 # cd /home/steam/steamcmd
 
 BASEPATH=$HOME
-STEAMCMD=/usr/games/steamcmd
 INSTALLDIR=$BASEPATH/arma3
 STEAMUSERNAME=zeusoperations
+BIN=$BASEPATH/files/bin
+source $BIN/internal/find_steamcmd.sh
 
 #if [ "$1" = "--test" ];
 #then
@@ -23,5 +24,6 @@ echo "Updating main installation"
 #	$0 --test
 #fi
 
-$STEAMCMD "+login $STEAMUSERNAME +force_install_dir $INSTALLDIR +app_update 233780 validate +exit"
+echo $STEAMCMD +login $STEAMUSERNAME +force_install_dir $STEAMINSTALLDIR +app_update 233780 validate +exit
+$STEAMCMD "+login $STEAMUSERNAME +force_install_dir $STEAMINSTALLDIR +app_update 233780 validate +exit"
 finish_install.sh

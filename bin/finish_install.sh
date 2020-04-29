@@ -20,7 +20,8 @@ if [ ! -L $ARMA/$dir ]; then
   ln -vs $LINK/$dir $ARMA/$dir
 fi
 
-for dir in A3Antistasi available_keys logs mods optional_keys tmpmissions updated_keys userconfig; do
+#for dir in A3Antistasi available_keys logs mods optional_keys tmpmissions updated_keys userconfig; do
+for dir in available_keys logs mods optional_keys tmpmissions updated_keys userconfig; do
   if [ ! -L $ARMA/$dir ]; then
     if [ -d $ARMA/$dir ]; then
       rmdir -v $ARMA/$dir

@@ -8,8 +8,8 @@ ALLMODS=$MODLISTS/allmods.txt
 ALLMODIDS=$(mktemp --tmpdir modids-XXXX.txt)
 STEAMDIR=$HOME/.steam/steamcmd
 INSTALLDIR=$STEAMDIR/mods
-STEAMCMD=/usr/games/steamcmd
 LOWERCASE=$HOME/files/bin/internal/lowercase_single.sh
+source internal/find_steamcmd.sh
 
 # sort $MODLISTS/*.txt -u | grep -v '^#.*$' > $ALLMODIDS
 grep -v '^#.*$' $ALLMODS > $ALLMODIDS
@@ -31,7 +31,7 @@ echo $ALLMODS
 echo $INSTALLDIR
 
 echo "Updating mods"
-$STEAMCMD +login $STEAMUSERNAME +force_install_dir $INSTALLDIR $ALLMODS +quit
+$STEAMCMD +login $STEAMUSERNAME +force_install_dir $STEAMINSTALLDIR $ALLMODS +quit
 
 while read line; do
 	ARRAY=($line)

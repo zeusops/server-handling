@@ -35,7 +35,7 @@ fi
 pushd $BASEPATH/arma3/keys > /dev/null
 find . -type l -exec rm {} \;
 
-ln -s ../available_keys/a3.bikey
+ln -s ../available_keys/a3.bikey || true
 
 for key in ../available_keys/$NAME/*; do ln -s $key; done
 

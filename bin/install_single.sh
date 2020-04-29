@@ -8,9 +8,11 @@ MODLISTS=$HOME/files/modlists
 ALLMODIDS=$(mktemp --tmpdir modids-XXXX.txt)
 STEAMDIR=$HOME/.steam/steamcmd
 INSTALLDIR=$STEAMDIR/mods
-STEAMCMD=/usr/games/steamcmd
-LOWERCASE=$HOME/files/bin/internal/lowercase_single.sh
 MODDIR=$INSTALLDIR/steamapps/workshop/content/107410
+BASEPATH=$HOME
+LOWERCASE=$BIN/internal/lowercase_single.sh
+BIN=$BASEPATH/files/bin
+source $BIN/internal/find_steamcmd.sh
 
 sort $MODLISTS/*.txt -u > $ALLMODIDS
 
@@ -31,10 +33,14 @@ read -s -p "Press enter to continue the installation or press ^C to abort"
 echo
 
 echo "Downloading mod $MODNAME with ID $MODID"
-$STEAMCMD +login $STEAMUSERNAME +force_install_dir $INSTALLDIR +workshop_download_item 107410 $MODID validate +quit 
+cmd="$STEAMCMD +login $STEAMUSERNAME +force_install_dir $STEAMINSTALLDIR +workshop_download_item 107410 $MODID validate +quit"
+echo $cmd
+$cmd
 echo
 
-echo "Turning filenames into lowercase"
-$LOWERCASE $MODDIR/$MODID
+if [ -z $WINDOWS ]; then
+  echo "Turning filenames into lowercase"
+  $LOWERCASE $MODDIR/$MODID
+fi
 
 rm $ALLMODIDS

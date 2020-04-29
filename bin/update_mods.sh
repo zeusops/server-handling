@@ -18,9 +18,11 @@ readonly INSTALLDIR=$STEAMDIR/mods
 readonly ARMADIR=$BASEPATH/arma3
 readonly ARMAMODS=$ARMADIR/mods
 readonly MODS=$ARMAMODS/$NAME
+readonly BIN=$BASEPATH/files/bin
 export UPDATEDKEYS=$ARMADIR/updated_keys/$NAME
-readonly STEAMCMD=/usr/games/steamcmd
 export AVAILABLEKEYS=$ARMADIR/available_keys/$NAME
+
+source $BIN/internal/find_steamcmd.sh
 
 function link_keys {
   key=$(basename "$1")
@@ -60,7 +62,7 @@ done < $MODIDS
 
 if [ "$SKIPDOWNLOAD" != "yes" ]; then
   echo "Updating mods"
-  $STEAMCMD +login $STEAMUSERNAME +force_install_dir $INSTALLDIR $allmods +quit
+  $STEAMCMD +login $STEAMUSERNAME +force_install_dir $STEAMINSTALLDIR $allmods +quit
   echo
 else
   echo "Updating mod keys. This does not download updates"
@@ -93,12 +95,14 @@ while read line; do
     if [ -e $modpath ]; then
       rm $modpath
     fi
-    if [ ! -e $INSTALLDIR/steamapps/workshop/content/107410/$modid ]; then
+    moddlpath=$INSTALLDIR/steamapps/workshop/content/107410/$modid
+    if [ ! -e $moddlpath ]; then
+      echo $moddlpath
       echo "$modname with ID $modid missing! Run `basename $0` $NAME or install_single.sh $modname"
       exit 1
     fi
-    ln -sv $INSTALLDIR/steamapps/workshop/content/107410/$modid $modpath
-    if [ "$SKIPDOWNLOAD" != "yes" ]; then
+    ln -sv $moddlpath $modpath
+    if [ "$SKIPDOWNLOAD" != "yes" ] && [ -z $WINDOWS ]; then
       $BASEPATH/files/bin/internal/lowercase_single.sh $modpath/
     fi
   else
@@ -106,7 +110,9 @@ while read line; do
   fi
 done < $MODIDS
 
-find -L $MODS/ -type f -exec chmod -x {} \;
+if [ -z $WINDOWS ]; then
+  find -L $MODS/ -type f -exec chmod -x {} \;
+fi
 find -L $MODS/ -iname "*.bikey" -exec bash -c 'link_keys "$0"' {} \;
 
 updatedcount=$(ls -1 $UPDATEDKEYS/*.bikey 2> /dev/null | wc -l)  # Does not work with spaces in filenames
