@@ -1,0 +1,4 @@
+[submodule "modlists"]
+	path = modlists
+	url = https://github.com/zeusops/modlists
+  ignore = all
