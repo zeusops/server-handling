@@ -16,12 +16,12 @@ case $(uname -s) in
   ;;
 esac
 
-NAME=main
+NAME=second
 PROFILE=server
 PORT=2402
 #CONFIGPATH=server-handling/config/$NAME.cfg
 CONFIGLINK=configlink
-CONFIGPATH=$CONFIGLINK\\config\\second.cfg
+CONFIGPATH=$CONFIGLINK\\config\\$NAME.cfg
 BASICPATH=$CONFIGLINK\\basic\\basic.cfg
 PARAMS=
 SERVERMODS=
@@ -31,18 +31,21 @@ BIN=$BASEPATH/files/bin
 
 
 #update_mods.sh optional --skipdl
-#update_mods.sh main --skipdl
+#update_mods.sh $NAME --skipdl
 
 #. $BIN/internal/keys.sh $BASEPATH $NAME
 
 pushd $SERVERPATH > /dev/null
 MODS="-mod="
+set +x
 for x in mods/$NAME/*; do
   MODS=${MODS}\;$x
 done
+set -x
 popd > /dev/null
 
 echo "Launching with mods: $MODS"
+echo "Server name: $NAME, port: $PORT"
 
 echo "Server name: $NAME, port: $PORT"
 

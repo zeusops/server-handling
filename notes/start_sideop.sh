@@ -29,6 +29,7 @@ SERVERPATH=arma3
 BASEPATH=$HOME
 BIN=$BASEPATH/files/bin
 
+
 update_mods.sh optional --skipdl
 update_mods.sh $NAME --skipdl
 
@@ -36,13 +37,14 @@ update_mods.sh $NAME --skipdl
 
 pushd $SERVERPATH > /dev/null
 MODS="-mod="
+set +x
 for x in mods/$NAME/*; do
   MODS=${MODS}\;$x
 done
+set -x
 popd > /dev/null
 
 echo "Launching with mods: $MODS"
-
 echo "Server name: $NAME, port: $PORT"
 
 $SERVERPATH/arma3server_x64 \
