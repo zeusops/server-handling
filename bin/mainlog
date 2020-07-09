@@ -1,0 +1,3 @@
+#!/bin/sh
+
+tail -f "$(\ls ~/Arma\ 3/arma3server_x64_* | tail -n1)" $@
