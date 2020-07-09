@@ -17,17 +17,17 @@ BASEPATH=$HOME
 BIN=$BASEPATH/files/bin
 
 
+update_mods.sh optional --skipdl
+update_mods.sh main --skipdl
+
+. $BIN/internal/keys.sh $BASEPATH $NAME
+
 pushd $SERVERPATH > /dev/null
 MODS="-mod="
 for x in mods/$NAME/*; do
   MODS=${MODS}\;$x
 done
 popd > /dev/null
-
-. $BIN/internal/keys.sh $BASEPATH $NAME
-
-update_mods.sh optional --skipdl
-update_mods.sh main --skipdl
 
 echo "Launching with mods: $MODS"
 
