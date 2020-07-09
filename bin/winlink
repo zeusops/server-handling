@@ -4,8 +4,13 @@ if [ $# != 2 ]; then
   exit 1
 fi
 
+echo "1: $1 2: $2"
+
 target=$(wslpath -w $1)
-name=$(wslpath -w $2)
+#name=$(wslpath -w $2)
+name=$2
+
+echo "target: $target name: $name"
 
 if [ -d $1 ]; then
   /mnt/c/Windows/system32/cmd.exe /c "mklink /j $name $target"
