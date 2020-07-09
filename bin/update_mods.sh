@@ -126,7 +126,7 @@ if [ -z $WINDOWS ]; then
 fi
 find -L $MODS/ -iname "*.bikey" -exec bash -c 'link_keys "$0"' {} \;
 
-updatedcount=$(ls -1 $UPDATEDKEYS/*.bikey 2> /dev/null | wc -l)  # Does not work with spaces in filenames
+updatedcount=$(find -L $UPDATEDKEYS -type f -name "*.bikey" | wc -l)  # Does not work with spaces in filenames
 remove_old_keys
 echo -n "All mods updated. "
 if [ $updatedcount -eq 0 ]; then
