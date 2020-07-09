@@ -12,11 +12,11 @@ case $(uname -s) in
     fi
   ;;
   CYGWIN*)
-    cd /cygdrive/c/server/servers/main
+    cd /cygdrive/c/server/servers/gm
   ;;
 esac
 
-NAME=main
+NAME=gm
 PROFILE=server_alt
 PORT=2402
 #CONFIGPATH=server-handling/config/$NAME.cfg
@@ -53,5 +53,5 @@ $SERVERPATH/arma3server_x64 \
   -cfg=$BASICPATH \
   -port=$PORT \
   -filePatching \
-  $MODS $SERVERMODS $PARAMS
+  ${MODS}\;gm $SERVERMODS $PARAMS
   #-checkSignatures \
