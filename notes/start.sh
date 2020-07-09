@@ -3,6 +3,19 @@
 set -x
 set -e
 
+case $(uname -s) in
+  Linux*)
+    if grep -q Microsoft /proc/version; then
+      cd /mnt/c/server
+    else
+      cd $HOME
+    fi
+  ;;
+  CYGWIN*)
+    cd /cygdrive/c/server
+  ;;
+esac
+
 NAME=main
 PROFILE=server
 PORT=2302
