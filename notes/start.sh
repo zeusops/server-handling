@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -x
-set -e
+#set -euo pipefail
 
 case $(uname -s) in
   Linux*)
@@ -28,7 +28,6 @@ SERVERMODS=
 SERVERPATH=arma3
 BASEPATH=$HOME
 BIN=$BASEPATH/files/bin
-
 
 update_mods.sh optional --skipdl
 update_mods.sh $NAME --skipdl

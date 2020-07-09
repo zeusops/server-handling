@@ -1,5 +1,8 @@
 #!/bin/bash
 
+#set -eo pipefail
+#set -u
+
 if [ -z $1 ]; then echo "Usage: `basename $0` servername [--test] [--skipdl]"; exit 1; fi
 
 readonly STEAMUSERNAME=zeusoperations
