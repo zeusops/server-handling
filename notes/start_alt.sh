@@ -17,7 +17,7 @@ case $(uname -s) in
 esac
 
 NAME=main
-PROFILE=server
+PROFILE=server_alt
 PORT=2302
 #CONFIGPATH=server-handling/config/$NAME.cfg
 CONFIGLINK=configlink

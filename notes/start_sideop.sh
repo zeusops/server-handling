@@ -17,7 +17,7 @@ case $(uname -s) in
 esac
 
 NAME=sideop
-PROFILE=server
+PROFILE=sideop
 PORT=2402
 #CONFIGPATH=server-handling/config/$NAME.cfg
 CONFIGLINK=configlink
