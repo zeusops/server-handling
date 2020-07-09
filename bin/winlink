@@ -1,0 +1,14 @@
+#!/bin/bash
+if [ $# != 2 ]; then
+  echo "Usage: $0 target name"
+  exit 1
+fi
+
+target=$(wslpath -w $1)
+name=$(wslpath -w $2)
+
+if [ -d $1 ]; then
+  /mnt/c/Windows/system32/cmd.exe /c "mklink /j $name $target"
+else
+  /mnt/c/Windows/system32/cmd.exe /c "mklink $name $target"
+fi
