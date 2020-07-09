@@ -81,6 +81,8 @@ find $MODS -type l -exec rm {} \;
 echo "Removing old key links"
 find $UPDATEDKEYS -type l -exec rm {} \;
 
+missing=""
+
 echo "Linking mods"
 while read line; do
   # Skip line if it starts with a #
@@ -102,16 +104,22 @@ while read line; do
     if [ ! -e $moddlpath ]; then
       echo $moddlpath
       echo "$modname with ID $modid missing! Run `basename $0` $NAME or install_single.sh $modname"
-      exit 1
-    fi
-    ln -sv $moddlpath $modpath
-    if [ "$SKIPDOWNLOAD" != "yes" ] && [ -z $WINDOWS ]; then
-      $BASEPATH/files/bin/internal/lowercase_single.sh $modpath/
+      missing="$missing $modname"
+    else
+      ln -sv $moddlpath $modpath
+      if [ "$SKIPDOWNLOAD" != "yes" ] && [ -z $WINDOWS ]; then
+        $BASEPATH/files/bin/internal/lowercase_single.sh $modpath/
+      fi
     fi
   else
     echo "Found empty modid"
   fi
 done < $MODIDS
+
+if [ ! -z "${missing}" ]; then
+  echo "Missing mods: $missing"
+  exit 1
+fi
 
 if [ -z $WINDOWS ]; then
   find -L $MODS/ -type f -exec chmod -x {} \;
