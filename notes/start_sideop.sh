@@ -16,12 +16,12 @@ case $(uname -s) in
   ;;
 esac
 
-NAME=main
+NAME=sideop
 PROFILE=server
-PORT=2302
+PORT=2402
 #CONFIGPATH=server-handling/config/$NAME.cfg
 CONFIGLINK=configlink
-CONFIGPATH=$CONFIGLINK\\config\\main.cfg
+CONFIGPATH=$CONFIGLINK\\config\\$NAME.cfg
 BASICPATH=$CONFIGLINK\\basic\\basic.cfg
 PARAMS=
 SERVERMODS=
@@ -29,9 +29,8 @@ SERVERPATH=arma3
 BASEPATH=$HOME
 BIN=$BASEPATH/files/bin
 
-
 update_mods.sh optional --skipdl
-update_mods.sh main --skipdl
+update_mods.sh $NAME --skipdl
 
 . $BIN/internal/keys.sh $BASEPATH $NAME
 
