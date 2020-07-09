@@ -18,7 +18,7 @@ esac
 
 NAME=main
 PROFILE=server_alt
-PORT=2302
+PORT=2402
 #CONFIGPATH=server-handling/config/$NAME.cfg
 CONFIGLINK=configlink
 CONFIGPATH=$CONFIGLINK\\config\\$NAME.cfg
