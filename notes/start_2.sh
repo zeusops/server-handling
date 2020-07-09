@@ -55,5 +55,6 @@ $SERVERPATH/arma3server_x64 \
   -cfg=$BASICPATH \
   -port=$PORT \
   -filePatching \
+  -bepath=battleye-test \
   $MODS $SERVERMODS $PARAMS
   #-checkSignatures \
