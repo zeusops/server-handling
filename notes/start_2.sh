@@ -18,10 +18,10 @@ esac
 
 NAME=main
 PROFILE=server
-PORT=2302
+PORT=2402
 #CONFIGPATH=server-handling/config/$NAME.cfg
 CONFIGLINK=configlink
-CONFIGPATH=$CONFIGLINK\\config\\main.cfg
+CONFIGPATH=$CONFIGLINK\\config\\second.cfg
 BASICPATH=$CONFIGLINK\\basic\\basic.cfg
 PARAMS=
 SERVERMODS=
@@ -30,10 +30,10 @@ BASEPATH=$HOME
 BIN=$BASEPATH/files/bin
 
 
-update_mods.sh optional --skipdl
-update_mods.sh main --skipdl
+#update_mods.sh optional --skipdl
+#update_mods.sh main --skipdl
 
-. $BIN/internal/keys.sh $BASEPATH $NAME
+#. $BIN/internal/keys.sh $BASEPATH $NAME
 
 pushd $SERVERPATH > /dev/null
 MODS="-mod="
