@@ -24,6 +24,8 @@ echo "Updating main installation"
 #	$0 --test
 #fi
 
-echo $STEAMCMD +login $STEAMUSERNAME +force_install_dir $STEAMINSTALLDIR +app_update 233780 validate +exit
-$STEAMCMD "+login $STEAMUSERNAME +force_install_dir $STEAMINSTALLDIR +app_update 233780 validate +exit"
+cmd="$STEAMCMD +login $STEAMUSERNAME +force_install_dir $STEAMINSTALLDIR +app_update 233780 -beta creatordlc validate +exit"
+echo $cmd
+$cmd
+
 $BIN/finish_install.sh
