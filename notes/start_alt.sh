@@ -3,19 +3,6 @@
 set -x
 set -e
 
-case $(uname -s) in
-  Linux*)
-    if grep -q Microsoft /proc/version; then
-      cd /mnt/c/server
-    else
-      cd $HOME
-    fi
-  ;;
-  CYGWIN*)
-    cd /cygdrive/c/server/servers/main
-  ;;
-esac
-
 NAME=main
 PROFILE=server_alt
 PORT=2402
@@ -29,6 +16,18 @@ SERVERPATH=arma3
 BASEPATH=$HOME
 BIN=$BASEPATH/files/bin
 
+case $(uname -s) in
+  Linux*)
+    if grep -q Microsoft /proc/version; then
+      cd /mnt/c/server
+    else
+      cd $HOME
+    fi
+  ;;
+  CYGWIN*)
+    cd /cygdrive/c/server/servers/$NAME
+  ;;
+esac
 
 #update_mods.sh optional --skipdl
 #update_mods.sh $NAME --skipdl
