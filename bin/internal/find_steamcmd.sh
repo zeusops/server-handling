@@ -5,8 +5,8 @@ case $(uname -s) in
     readonly STEAMINSTALLDIR=$INSTALLDIR
   ;;
   CYGWIN*)
-    readonly STEAMCMD=/cygdrive/c/steamcmd/steamcmd.exe
-    readonly STEAMINSTALLDIR="$(cygpath -w $INSTALLDIR)"
+    readonly STEAMCMD="cmd.exe /c C:\\steamcmd\\steamcmd.exe"
+    readonly STEAMINSTALLDIR="$(cygpath -w $(readlink -e $INSTALLDIR))"
     readonly WINDOWS=yes
   ;;
 esac
