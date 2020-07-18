@@ -3,19 +3,6 @@
 set -x
 set -e
 
-case $(uname -s) in
-  Linux*)
-    if grep -q Microsoft /proc/version; then
-      cd /mnt/c/server
-    else
-      cd $HOME
-    fi
-  ;;
-  CYGWIN*)
-    cd /cygdrive/c/server/servers/gm
-  ;;
-esac
-
 NAME=gm
 PROFILE=server_alt
 PORT=2402
@@ -25,15 +12,29 @@ CONFIGPATH=$CONFIGLINK\\config\\$NAME.cfg
 BASICPATH=$CONFIGLINK\\basic\\basic.cfg
 PARAMS=
 SERVERMODS=
+EXTRAMODS=";gm"
 SERVERPATH=arma3
 BASEPATH=$HOME
 BIN=$BASEPATH/files/bin
 
+case $(uname -s) in
+  Linux*)
+    if grep -q Microsoft /proc/version; then
+      cd /mnt/c/server
+    else
+      cd $HOME
+    fi
+  ;;
+  CYGWIN*)
+    SERVERPATH=/cygdrive/c/server/servers/$NAME/arma3
+    cd $SERVERPATH
+  ;;
+esac
 
-#update_mods.sh optional --skipdl
-#update_mods.sh $NAME --skipdl
-#
-#. $BIN/internal/keys.sh $BASEPATH $NAME
+update_mods.sh optional --skipdl
+update_mods.sh $NAME --skipdl
+
+. $BIN/internal/keys_alt.sh $BASEPATH $NAME
 
 pushd $SERVERPATH > /dev/null
 MODS="-mod="
@@ -53,5 +54,5 @@ $SERVERPATH/arma3server_x64 \
   -cfg=$BASICPATH \
   -port=$PORT \
   -filePatching \
-  ${MODS}\;gm $SERVERMODS $PARAMS
+  $MODS$EXTRAMODS $SERVERMODS $PARAMS
   #-checkSignatures \
