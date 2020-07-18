@@ -29,7 +29,6 @@ SERVERPATH=arma3
 BASEPATH=$HOME
 BIN=$BASEPATH/files/bin
 
-
 update_mods.sh optional --skipdl
 update_mods.sh $NAME --skipdl
 
