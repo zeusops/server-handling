@@ -12,6 +12,7 @@ CONFIGPATH=$CONFIGLINK\\config\\$NAME.cfg
 BASICPATH=$CONFIGLINK\\basic\\basic.cfg
 PARAMS=
 SERVERMODS=
+EXTRAMODS=
 SERVERPATH=arma3
 BASEPATH=$HOME
 BIN=$BASEPATH/files/bin
@@ -32,7 +33,7 @@ esac
 
 update_mods.sh optional --skipdl
 update_mods.sh $NAME --skipdl
-#
+
 . $BIN/internal/keys_alt.sh $BASEPATH $NAME
 
 pushd $SERVERPATH > /dev/null
@@ -47,13 +48,11 @@ popd > /dev/null
 echo "Launching with mods: $MODS"
 echo "Server name: $NAME, port: $PORT"
 
-echo "pwd: $PWD"
-echo "serverpath: $SERVERPATH"
 $SERVERPATH/arma3server_x64 \
   -name=$PROFILE \
   -config=$CONFIGPATH \
   -cfg=$BASICPATH \
   -port=$PORT \
   -filePatching \
-  $MODS $SERVERMODS $PARAMS
+  $MODS$EXTRAMODS $SERVERMODS $PARAMS
   #-checkSignatures \
