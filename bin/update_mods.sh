@@ -90,8 +90,6 @@ while read line; do
 
   array=($line)
   if ! [ -z $array ]; then
-    ALLMODS="$ALLMODS +workshop_download_item 107410 $MODID"
-
     # File format:
     # @modname 123456
     modname=${array[0]}
