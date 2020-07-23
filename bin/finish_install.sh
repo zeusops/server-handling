@@ -6,7 +6,7 @@ readonly BASEPATH=$HOME
 readonly BIN=$BASEPATH/files/bin
 . $BIN/internal/platform.sh
 
-readonly LINK=$HOME/link
+readonly LINK=$BASEPATH/link
 readonly ARMA=$BASEPATH/arma3
 readonly AVAILABLEKEYS=$LINK/available_keys
 readonly OPTIONALKEYS=$LINK/optional_keys

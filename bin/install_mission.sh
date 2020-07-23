@@ -3,7 +3,8 @@ set -e
 
 STEAMUSERNAME=zeusoperations
 
-ARMADIR=$HOME/arma3
+BASEPATH=$HOME
+ARMADIR=$BASEPATH/arma3
 MPMISSIONS=$ARMADIR/mpmissions
 STEAMDIR=$HOME/.steam/steamcmd
 INSTALLDIR=$STEAMDIR/missions

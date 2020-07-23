@@ -1,4 +1,5 @@
 #!/bin/sh
 
-cd $HOME/files/notes
+BASEPATH=$HOME
+cd $BASEPATH/files/notes
 ./start.sh

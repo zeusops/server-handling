@@ -4,12 +4,12 @@ set -e
 
 STEAMUSERNAME=zeusoperations
 
-MODLISTS=$HOME/files/modlists
+BASEPATH=$HOME
+MODLISTS=$BASEPATH/files/modlists
 ALLMODIDS=$(mktemp --tmpdir modids-XXXX.txt)
 STEAMDIR=$HOME/.steam/steamcmd
 INSTALLDIR=$STEAMDIR/mods
 MODDIR=$INSTALLDIR/steamapps/workshop/content/107410
-BASEPATH=$HOME
 LOWERCASE=$BIN/internal/lowercase_single.sh
 BIN=$BASEPATH/files/bin
 source $BIN/internal/find_steamcmd.sh
