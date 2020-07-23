@@ -36,10 +36,10 @@ echo "Updating mods"
 $STEAMCMD +login $STEAMUSERNAME +force_install_dir $STEAMINSTALLDIR $modparam +quit
 
 while read line; do
-	ARRAY=($line)
+	array=($line)
 	# File format:
 	# @modname 123456
-	MODID=${ARRAY[1]}
+	MODID=${array[1]}
 	$LOWERCASE $INSTALLDIR/steamapps/workshop/content/107410/$MODID
 done < $ALLMODIDS
 
