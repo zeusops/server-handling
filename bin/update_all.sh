@@ -16,24 +16,24 @@ source internal/find_steamcmd.sh
 # sort $MODLISTS/*.txt -u | grep -v '^#.*$' > $ALLMODIDS
 grep -v '^#.*$' $ALLMODS > $ALLMODIDS
 
-ALLMODS=""
+modparam=""
 while read line; do
 	ARRAY=($line)
 	# File format:
 	# @modname 123456
 	MODID=${ARRAY[1]}
 	if ! [ -z $MODID ]; then
-		ALLMODS="$ALLMODS +workshop_download_item 107410 $MODID"
+		modparam="$modparam +workshop_download_item 107410 $MODID"
 	else
 		echo "Found empty modid"
 	fi
 done < $ALLMODIDS
 
-echo $ALLMODS
+echo $modparam
 echo $INSTALLDIR
 
 echo "Updating mods"
-$STEAMCMD +login $STEAMUSERNAME +force_install_dir $STEAMINSTALLDIR $ALLMODS +quit
+$STEAMCMD +login $STEAMUSERNAME +force_install_dir $STEAMINSTALLDIR $modparam +quit
 
 while read line; do
 	ARRAY=($line)
