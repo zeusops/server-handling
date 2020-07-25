@@ -45,6 +45,16 @@ function install_keys {
   find $UPDATEDKEYS -name "*.bikey" -type l -exec mv {} $AVAILABLEKEYS -v \;
 }
 
+function install_mods {
+  echo "Installing mods"
+  echo "missing $missingid"
+  for id in $missingid; do
+    echo $id
+    yes | install_single.sh $id
+  done
+  exit 1
+}
+
 
 export -f link_keys
 
@@ -83,6 +93,7 @@ echo "Removing old key links"
 find $UPDATEDKEYS -type l -exec rm {} \;
 
 missing=""
+missingid=""
 
 echo "Linking mods"
 while read line; do
@@ -104,6 +115,7 @@ while read line; do
       echo $moddlpath
       echo "$modname with ID $modid missing! Run `basename $0` $NAME or install_single.sh $modname"
       missing="$missing $modname"
+      missingid="$missingid $modid"
     else
       ln -sv $moddlpath $modpath
       if [ "${skip_download:-no}" != "yes" ] && [ -z $WINDOWS ]; then
@@ -117,6 +129,24 @@ done < $MODIDS
 
 if [ ! -z "$missing" ]; then
   echo "Missing mods: $missing"
+  while :; do
+    read -t10 -p "Do you want to install the missing mods to the server automatically? (10 seconds timeout) (y/N): "
+    if [ $? -gt 128 ]; then
+      echo "Timed out waiting for user response"
+      break
+    fi
+
+    case $REPLY in
+      [nN]*)
+        echo "Not installing mods"
+        break
+      ;;
+      [yY]*|*)
+        install_mods
+        break
+      ;;
+    esac
+  done
   exit 1
 fi
 
@@ -145,12 +175,12 @@ else
       [nN]*)
         echo "Not istalling keys"
         break
-        ;;
+      ;;
       [yY]*|*)
         install_keys
         break
-        ;;
-   esac
+      ;;
+    esac
   done
 fi
 
