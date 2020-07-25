@@ -7,6 +7,7 @@ case $(uname -s) in
     else
       # Native Linux
       readonly PLATFORM=linux
+      readonly WINDOWS=no
     fi
   ;;
   CYGWIN*)
