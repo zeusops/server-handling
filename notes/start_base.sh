@@ -6,7 +6,6 @@ set -eufo pipefail
 readonly BASEPATH=$HOME
 readonly SERVERS=$BASEPATH/files/servers
 readonly CONFIGLINK=configlink
-readonly CONFIGPATH=$CONFIGLINK\\config\\$NAME.cfg
 readonly BASICPATH=$CONFIGLINK\\basic\\basic.cfg
 readonly SERVERPATH=arma3
 readonly BIN=$BASEPATH/files/bin
@@ -14,7 +13,7 @@ readonly BIN=$BASEPATH/files/bin
 
 if [ $# -eq 0 ]; then
   echo "Usage: $0 NAME [PORT]"
-  echo "If PORT is defined, launch directly. Otherwise, source NAME.sh " \
+  echo "If PORT is defined, launch directly. Otherwise, source NAME.sh" \
        "and launch"
   exit 1
 fi
@@ -32,6 +31,7 @@ if [ -z ${PORT+x} ]; then
   exit 1
 fi
 
+readonly CONFIGPATH=$CONFIGLINK\\config\\$NAME.cfg
 readonly profile=${PROFILE:-server}
 readonly params=${PARAMS:-}
 readonly servermods=${SERVERMODS:-}
