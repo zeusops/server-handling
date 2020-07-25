@@ -1,7 +1,8 @@
 #!/bin/bash
 
-#set -eo pipefail
-#set -u
+set -eo pipefail
+set -u
+
 
 if [ -z $1 ]; then echo "Usage: `basename $0` servername [--test] [--skipdl]"; exit 1; fi
 
@@ -10,8 +11,8 @@ readonly STEAMUSERNAME=zeusoperations
 readonly NAME=$1
 
 readonly BASEPATH=$HOME
-if [ "$2" = "--test" ]; then BASEPATH=$HOME/test; fi
-if [ "$2" = "--skipdl" ] || [ "$3" = "--skipdl" ]; then SKIPDOWNLOAD=yes; fi
+if [ "${2:-}" = "--test" ]; then BASEPATH=$HOME/test; fi
+if [ "${2:-}" = "--skipdl" ] || [ "${3:-}" = "--skipdl" ]; then skip_download=yes; fi
 
 readonly MODIDS=$BASEPATH/files/modlists/${NAME}.txt
 if [ ! -f $MODIDS ]; then echo "$MODIDS not found!"; exit 2; fi
@@ -63,7 +64,7 @@ while read line; do
   fi
 done < $MODIDS
 
-if [ "$SKIPDOWNLOAD" != "yes" ]; then
+if [ "${skip_download:-no}" != "yes" ]; then
   echo "Updating mods"
   $STEAMCMD +login $STEAMUSERNAME +force_install_dir $STEAMINSTALLDIR $allmods +quit
   echo
@@ -105,7 +106,7 @@ while read line; do
       missing="$missing $modname"
     else
       ln -sv $moddlpath $modpath
-      if [ "$SKIPDOWNLOAD" != "yes" ] && [ -z $WINDOWS ]; then
+      if [ "${skip_download:-no}" != "yes" ] && [ -z $WINDOWS ]; then
         $BASEPATH/files/bin/internal/lowercase_single.sh $modpath/
       fi
     fi
@@ -114,12 +115,12 @@ while read line; do
   fi
 done < $MODIDS
 
-if [ ! -z "${missing}" ]; then
+if [ ! -z "$missing" ]; then
   echo "Missing mods: $missing"
   exit 1
 fi
 
-if [ -z $WINDOWS ]; then
+if [ ${WINDOWS:-no} == "no" ]; then
   find -L $MODS/ -type f -exec chmod -x {} \;
 fi
 find -L $MODS/ -iname "*.bikey" -exec bash -c 'link_keys "$0"' {} \;
