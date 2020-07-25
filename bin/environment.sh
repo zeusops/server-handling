@@ -1,22 +1,10 @@
-ALLMODIDS=$(mktemp --tmpdir modids-XXXX.txt)
-ALLMODS=$MODLISTS/allmods.txt
-ARMADIR=$BASEPATH/arma3
-BACKUPMISSIONS=$ARMADIR/backupmissions
 BASEPATH=$HOME
+ARMADIR=$BASEPATH/arma3
 BIN=$BASEPATH/files/bin
-INSTALLDIR=$BASEPATH/arma3
-INSTALLDIR=$STEAMDIR/missions
-INSTALLDIR=$STEAMDIR/mods
-LOGPATH=$BASEPATH/log
+
+MODLISTS=$BASEPATH/files/modlists
 LOWERCASE=$BIN/internal/lowercase_single.sh
-MODDIR=$INSTALLDIR/steamapps/workshop/content/107410
-MODLISTS=$HOME/files/modlists
-MPMISSIONS=$ARMADIR/mpmissions
-PATH=/sbin:/usr/sbin:/bin:/usr/bin
-PIDFILES=$BASEPATH/files/run
-SEARCHNAME="$1"
-SERVERADDRESS=arma.zeusops.com
-SERVERINFO=$BIN/internal/serverinfo.py
+
 STEAMDIR=$HOME/.steam/steamcmd
 STEAMUSERNAME=zeusoperations
-source $BIN/internal/find_steamcmd.sh
+#. $BIN/internal/find_steamcmd.sh
