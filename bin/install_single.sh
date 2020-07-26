@@ -2,17 +2,13 @@
 
 set -e
 
-STEAMUSERNAME=zeusoperations
+installpath=mods
 
-BASEPATH=$HOME
+source $HOME/test/files/bin/environment.sh
+
 MODLISTS=$BASEPATH/files/modlists
 ALLMODIDS=$(mktemp --tmpdir modids-XXXX.txt)
-STEAMDIR=$HOME/.steam/steamcmd
-INSTALLDIR=$STEAMDIR/mods
-MODDIR=$INSTALLDIR/steamapps/workshop/content/107410
-LOWERCASE=$BIN/internal/lowercase_single.sh
-BIN=$BASEPATH/files/bin
-source $BIN/internal/find_steamcmd.sh
+MODDIR=$STEAMINSTALLDIR/steamapps/workshop/content/107410
 
 sort $MODLISTS/*.txt -u > $ALLMODIDS
 
