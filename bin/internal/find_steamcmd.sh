@@ -13,17 +13,19 @@ if [ -z "$PLATFORM" ]; then
   source $BIN/internal/platform.sh
 fi
 
+installdir=$STEAMDIR/$installpath
+
 case $PLATFORM in
   linux)
-    readonly STEAMCMD=/usr/games/steamcmd
-    readonly STEAMINSTALLDIR=$INSTALLDIR
+    STEAMCMD=/usr/games/steamcmd
+    STEAMINSTALLDIR=$installdir
   ;;
   wls)
-    readonly STEAMCMD=/mnt/c/steamcmd/steamcmd.exe
-    readonly STEAMINSTALLDIR="$(wslpath -w $INSTALLDIR)"
+    STEAMCMD=/mnt/c/steamcmd/steamcmd.exe
+    STEAMINSTALLDIR="$(wslpath -w $installdir)"
   ;;
   cygwin)
-    readonly STEAMCMD="cmd.exe /c C:\\steamcmd\\steamcmd.exe"
-    readonly STEAMINSTALLDIR="$(cygpath -w $(readlink -e $INSTALLDIR))"
+    STEAMCMD="cmd.exe /c C:\\steamcmd\\steamcmd.exe"
+    STEAMINSTALLDIR="$(cygpath -w $(readlink -e $installdir))"
   ;;
 esac
