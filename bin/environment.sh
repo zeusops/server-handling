@@ -7,4 +7,5 @@ LOWERCASE=$BIN/internal/lowercase_single.sh
 
 STEAMDIR=$HOME/.steam/steamcmd
 STEAMUSERNAME=zeusoperations
-#. $BIN/internal/find_steamcmd.sh
+. $BIN/internal/platform.sh
+. $BIN/internal/find_steamcmd.sh
