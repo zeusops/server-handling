@@ -4,14 +4,13 @@ set -eo pipefail
 set -u
 
 
-if [ -z $1 ]; then echo "Usage: `basename $0` servername [--test] [--skipdl] [--missing]"; exit 1; fi
+if [ -z $1 ]; then echo "Usage: `basename $0` servername [--skipdl] [--missing]"; exit 1; fi
 
 readonly STEAMUSERNAME=zeusoperations
 
 readonly NAME=$1
 
 readonly BASEPATH=$HOME
-if [ "${2:-}" = "--test" ]; then BASEPATH=$HOME/test; fi
 if [ "${2:-}" = "--skipdl" ] || [ "${3:-}" = "--skipdl" ]; then skip_download=yes; fi
 if [ "${2:-}" = "--missing" ] || [ "${3:-}" = "--missing" ]; then skip_download=yes; download_missing=yes; fi
 
