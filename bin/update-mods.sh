@@ -48,10 +48,7 @@ function install_keys {
 function install_mods {
   echo "Installing mods"
   echo "missing $missingid"
-  for id in $missingid; do
-    echo $id
-    install-single.sh $id skip
-  done
+  $bin/install-mod-ids.sh $missingid
 }
 
 
