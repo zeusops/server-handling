@@ -3,20 +3,6 @@
 set -x
 set -e
 
-NAME=prerelease
-PROFILE=server_alt
-PORT=2402
-#CONFIGPATH=server-handling/config/$NAME.cfg
-CONFIGLINK=configlink
-CONFIGPATH=$CONFIGLINK\\config\\$NAME.cfg
-BASICPATH=$CONFIGLINK\\basic\\basic.cfg
-PARAMS=
-SERVERMODS=
-EXTRAMODS=
-SERVERPATH=arma3
-BASEPATH=$HOME
-BIN=$BASEPATH/files/bin
-
 case $(uname -s) in
   Linux*)
     if grep -q Microsoft /proc/version; then
@@ -26,15 +12,27 @@ case $(uname -s) in
     fi
   ;;
   CYGWIN*)
-    SERVERPATH=/cygdrive/c/server/servers/$NAME/arma3
-    cd $SERVERPATH
+    cd /cygdrive/c/server
   ;;
 esac
 
-update_mods.sh optional --skipdl
-update_mods.sh $NAME --skipdl
+NAME=sideop
+PROFILE=sideop
+PORT=2402
+#CONFIGPATH=server-handling/config/$NAME.cfg
+CONFIGLINK=configlink
+CONFIGPATH=$CONFIGLINK\\config\\$NAME.cfg
+BASICPATH=$CONFIGLINK\\basic\\basic.cfg
+PARAMS=
+SERVERMODS=
+SERVERPATH=arma3
+BASEPATH=$HOME
+BIN=$BASEPATH/files/bin
 
-. $BIN/internal/keys_alt.sh $BASEPATH $NAME
+update-mods.sh optional --skipdl
+update-mods.sh $NAME --skipdl
+
+. $BIN/internal/keys.sh $BASEPATH $NAME
 
 pushd $SERVERPATH > /dev/null
 MODS="-mod="
@@ -54,5 +52,5 @@ $SERVERPATH/arma3server_x64 \
   -cfg=$BASICPATH \
   -port=$PORT \
   -filePatching \
-  $MODS$EXTRAMODS $SERVERMODS $PARAMS
+  $MODS $SERVERMODS $PARAMS
   #-checkSignatures \

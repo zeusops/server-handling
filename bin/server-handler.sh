@@ -50,7 +50,7 @@ do_start() {
   # Mods might've already been defined in SERVERFILE file
   if [ -z $MODS ]; then
     # Relink mod folders without downloading updates
-    if ! $BIN/update_mods.sh $NAME --skipdl; then
+    if ! $BIN/update-mods.sh $NAME --skipdl; then
       exit 11
     fi
 

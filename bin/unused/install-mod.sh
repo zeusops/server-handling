@@ -15,7 +15,7 @@ MODS=$ARMADIR/mods
 SIDEOPMODS=$ARMADIR/sideopmods
 JOINTOPMODS=$ARMADIR/jointopmods
 BACKUPMODS=$ARMADIR/backupmods
-LOWERCASE=$HOME/files/bin/internal/lowercase_single.sh
+LOWERCASE=$HOME/files/bin/internal/lowercase-single.sh
 
 
 if [ -z $2 ]; then

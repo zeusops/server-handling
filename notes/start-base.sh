@@ -52,10 +52,10 @@ case $(uname -s) in
   ;;
 esac
 
-update_mods.sh optional --skipdl
-update_mods.sh $NAME --skipdl
+update-mods.sh optional --skipdl
+update-mods.sh $NAME --skipdl
 
-. $BIN/internal/keys_alt.sh $BASEPATH $NAME
+. $BIN/internal/keys-alt.sh $BASEPATH $NAME
 
 pushd $SERVERPATH > /dev/null
 MODS="-mod="

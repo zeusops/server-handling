@@ -10,7 +10,7 @@ STEAMDIR=$HOME/.steam/steamcmd
 INSTALLDIR=$STEAMDIR/missions
 BACKUPMISSIONS=$ARMADIR/backupmissions
 
-source internal/find_steamcmd.sh
+source internal/find-steamcmd.sh
 
 if [ -z $2 ]; then
 	echo "Usage $0 missionid missionname.map"

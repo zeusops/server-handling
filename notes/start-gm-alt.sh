@@ -1,25 +1,18 @@
 #!/bin/bash
 
+set -x
 set -e
 
-if [ $# -lt 1 ]; then
-  echo "Usage $(basename $0) NAME [PORT]"
-  echo "Default port: 2402"
-  exit 1
-fi
-
-set -x
-
-NAME=$1
+NAME=gm
 PROFILE=server_alt
-PORT=${2:-2402}
+PORT=2402
 #CONFIGPATH=server-handling/config/$NAME.cfg
 CONFIGLINK=configlink
 CONFIGPATH=$CONFIGLINK\\config\\$NAME.cfg
 BASICPATH=$CONFIGLINK\\basic\\basic.cfg
 PARAMS=
 SERVERMODS=
-EXTRAMODS=
+EXTRAMODS=";gm"
 SERVERPATH=arma3
 BASEPATH=$HOME
 BIN=$BASEPATH/files/bin
@@ -34,27 +27,14 @@ case $(uname -s) in
   ;;
   CYGWIN*)
     SERVERPATH=/cygdrive/c/server/servers/$NAME/arma3
-    if [ ! -d $SERVERPATH ]; then
-      mkdir -p $SERVERPATH
-      pushd /cygdrive/c/server/arma3 > /dev/null
-      for x in *; do
-        pushd ../servers/$NAME/arma3 > /dev/null
-        ln -s ../../../arma3/$x $x
-        popd > /dev/null
-      done
-      popd > /dev/null
-    fi
-    if [ ! -d $SERVERPATH/keys ]; then
-      mkdir -p $SERVERPATH/keys
-    fi
     cd $SERVERPATH
   ;;
 esac
 
-update_mods.sh optional --missing
-update_mods.sh $NAME --missing
+update-mods.sh optional --skipdl
+update-mods.sh $NAME --skipdl
 
-. $BIN/internal/keys_alt.sh $BASEPATH $NAME
+. $BIN/internal/keys-alt.sh $BASEPATH $NAME
 
 pushd $SERVERPATH > /dev/null
 MODS="-mod="

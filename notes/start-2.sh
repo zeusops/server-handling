@@ -16,8 +16,8 @@ case $(uname -s) in
   ;;
 esac
 
-NAME=sideop
-PROFILE=sideop
+NAME=second
+PROFILE=server2
 PORT=2402
 #CONFIGPATH=server-handling/config/$NAME.cfg
 CONFIGLINK=configlink
@@ -29,10 +29,11 @@ SERVERPATH=arma3
 BASEPATH=$HOME
 BIN=$BASEPATH/files/bin
 
-update_mods.sh optional --skipdl
-update_mods.sh $NAME --skipdl
 
-. $BIN/internal/keys.sh $BASEPATH $NAME
+#update-mods.sh optional --skipdl
+#update-mods.sh $NAME --skipdl
+
+#. $BIN/internal/keys.sh $BASEPATH $NAME
 
 pushd $SERVERPATH > /dev/null
 MODS="-mod="
@@ -46,11 +47,14 @@ popd > /dev/null
 echo "Launching with mods: $MODS"
 echo "Server name: $NAME, port: $PORT"
 
+echo "Server name: $NAME, port: $PORT"
+
 $SERVERPATH/arma3server_x64 \
   -name=$PROFILE \
   -config=$CONFIGPATH \
   -cfg=$BASICPATH \
   -port=$PORT \
   -filePatching \
+  -bepath=battleye-test \
   $MODS $SERVERMODS $PARAMS
   #-checkSignatures \

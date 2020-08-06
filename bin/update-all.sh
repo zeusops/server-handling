@@ -10,8 +10,8 @@ ALLMODIDS=$(mktemp --tmpdir modids-XXXX.txt)
 STEAMDIR=$HOME/.steam/steamcmd
 INSTALLDIR=$STEAMDIR/mods
 BIN=$BASEPATH/files/bin
-LOWERCASE=$BIN/internal/lowercase_single.sh
-source internal/find_steamcmd.sh
+LOWERCASE=$BIN/internal/lowercase-single.sh
+source internal/find-steamcmd.sh
 
 # sort $MODLISTS/*.txt -u | grep -v '^#.*$' > $ALLMODIDS
 grep -v '^#.*$' $ALLMODS > $ALLMODIDS

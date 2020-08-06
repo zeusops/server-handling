@@ -5,7 +5,7 @@ BASEPATH=$HOME
 INSTALLDIR=$BASEPATH/arma3
 STEAMUSERNAME=zeusoperations
 BIN=$BASEPATH/files/bin
-source $BIN/internal/find_steamcmd.sh
+source $BIN/internal/find-steamcmd.sh
 
 #if [ "$1" = "--test" ];
 #then
@@ -28,4 +28,4 @@ cmd="$STEAMCMD +login $STEAMUSERNAME +force_install_dir $STEAMINSTALLDIR +app_up
 echo $cmd
 $cmd
 
-$BIN/finish_install.sh
+$BIN/finish-install.sh

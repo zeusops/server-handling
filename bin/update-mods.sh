@@ -26,7 +26,7 @@ readonly BIN=$BASEPATH/files/bin
 export UPDATEDKEYS=$ARMADIR/updated_keys/$NAME
 export AVAILABLEKEYS=$ARMADIR/available_keys/$NAME
 
-source $BIN/internal/find_steamcmd.sh
+source $BIN/internal/find-steamcmd.sh
 
 function link_keys {
   key=$(basename "$1")
@@ -50,7 +50,7 @@ function install_mods {
   echo "missing $missingid"
   for id in $missingid; do
     echo $id
-    install_single.sh $id skip
+    install-single.sh $id skip
   done
 }
 
@@ -116,13 +116,13 @@ while read line; do
     moddlpath=$INSTALLDIR/steamapps/workshop/content/107410/$modid
     if [ ! -e $moddlpath ]; then
       echo $moddlpath
-      echo "$modname with ID $modid missing! Run `basename $0` $NAME or install_single.sh $modname"
+      echo "$modname with ID $modid missing! Run `basename $0` $NAME or install-single.sh $modname"
       missing="$missing $modname"
       missingid="$missingid $modid"
     else
       ln -sv $moddlpath $modpath
       if [ "${skip_download:-no}" != "yes" ] && [ -z $WINDOWS ]; then
-        $BASEPATH/files/bin/internal/lowercase_single.sh $modpath/
+        $BIN/internal/lowercase-single.sh $modpath/
       fi
     fi
   else
