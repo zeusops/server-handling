@@ -130,8 +130,8 @@ done < $MODIDS
 if [ ! -z "$missing" ]; then
   echo "Missing mods: $missing"
   while :; do
-    read -t10 -p "Do you want to install the missing mods to the server automatically? (10 seconds timeout) (y/N): "
-    if [ $? -gt 128 ]; then
+    read -t10 -p "Do you want to install the missing mods to the server automatically? (10 seconds timeout) (y/N): " || ret=$?
+    if [ ${ret:-$?} -gt 128 ]; then
       echo "Timed out waiting for user response"
       break
     fi
@@ -164,8 +164,8 @@ else
   echo "Following keys were updated:"
   ls $UPDATEDKEYS
   while :; do
-    read -t10 -p "Do you want to add the keys to the server automatically? (10 seconds timeout) (Y/n): "
-    if [ $? -gt 128 ]; then
+    read -t10 -p "Do you want to add the keys to the server automatically? (10 seconds timeout) (Y/n): " || ret=$?
+    if [ ${ret:-$?} -gt 128 ]; then
       echo "Timed out waiting for user response"
       install_keys
       break

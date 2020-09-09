@@ -229,7 +229,11 @@ function cleanup {
 
 function confirm {
   while :; do
-    read -t10 -p "Are you sure you want to $1 the server? (y/N): "
+    read -t10 -p "Are you sure you want to $1 the server? (y/N): " || ret=$?
+    if [ ${ret:-$?} -gt 128 ]; then
+      echo "Timed out waiting for user response"
+      break
+    fi
     case $REPLY in
       [yY]*)
         echo "Continuing"
