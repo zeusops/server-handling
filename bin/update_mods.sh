@@ -4,7 +4,7 @@ set -eo pipefail
 set -u
 
 
-if [ -z $1 ]; then echo "Usage: `basename $0` servername [--test] [--skipdl]"; exit 1; fi
+if [ -z $1 ]; then echo "Usage: `basename $0` servername [--test] [--skipdl] [--missing]"; exit 1; fi
 
 readonly STEAMUSERNAME=zeusoperations
 
@@ -13,6 +13,7 @@ readonly NAME=$1
 readonly BASEPATH=$HOME
 if [ "${2:-}" = "--test" ]; then BASEPATH=$HOME/test; fi
 if [ "${2:-}" = "--skipdl" ] || [ "${3:-}" = "--skipdl" ]; then skip_download=yes; fi
+if [ "${2:-}" = "--missing" ] || [ "${3:-}" = "--missing" ]; then skip_download=yes; download_missing=yes; fi
 
 readonly MODIDS=$BASEPATH/files/modlists/${NAME}.txt
 if [ ! -f $MODIDS ]; then echo "$MODIDS not found!"; exit 2; fi
@@ -50,9 +51,8 @@ function install_mods {
   echo "missing $missingid"
   for id in $missingid; do
     echo $id
-    yes | install_single.sh $id
+    install_single.sh $id skip
   done
-  exit 1
 }
 
 
@@ -129,25 +129,28 @@ done < $MODIDS
 
 if [ ! -z "$missing" ]; then
   echo "Missing mods: $missing"
-  while :; do
-    read -t10 -p "Do you want to install the missing mods to the server automatically? (10 seconds timeout) (y/N): " || ret=$?
-    if [ ${ret:-$?} -gt 128 ]; then
-      echo "Timed out waiting for user response"
-      break
-    fi
+  if [ -z "$download_missing" ]; then
+    while :; do
+      read -t10 -p "Do you want to install the missing mods to the server automatically? (10 seconds timeout) (y/N): " || ret=$?
+      if [ ${ret:-$?} -gt 128 ]; then
+        echo "Timed out waiting for user response"
+        break
+      fi
 
-    case $REPLY in
-      [nN]*)
-        echo "Not installing mods"
-        break
-      ;;
-      [yY]*|*)
-        install_mods
-        break
-      ;;
-    esac
-  done
-  exit 1
+      case $REPLY in
+        [nN]*)
+          echo "Not installing mods"
+          break
+        ;;
+        [yY]*|*)
+          install_mods
+          break
+        ;;
+      esac
+    done
+  else
+    install_mods
+  fi
 fi
 
 if [ ${WINDOWS:-no} == "no" ]; then
