@@ -17,20 +17,24 @@ source $BIN/internal/find_steamcmd.sh
 sort $MODLISTS/*.txt -u > $ALLMODIDS
 
 if [ -z $1 ]; then
-	echo "Usage: `basename $0` modname"
+	echo "Usage: `basename $0` modname [skip prompt]"
 	exit
 fi
 
 SEARCHNAME="$1"
+SKIP=${2:-}
 
 ARRAY=($(grep $SEARCHNAME $ALLMODIDS | head -n 1))
 # File format:
 # @modname 123456
 MODNAME=${ARRAY[0]}
 MODID=${ARRAY[1]}
-echo "Interpreted $SEARCHNAME as $MODNAME with ID $MODID"
-read -s -p "Press enter to continue the installation or press ^C to abort"
-echo
+
+if [ -z $SKIP ]; then
+  echo "Interpreted $SEARCHNAME as $MODNAME with ID $MODID"
+  read -s -p "Press enter to continue the installation or press ^C to abort"
+  echo
+fi
 
 echo "Downloading mod $MODNAME with ID $MODID"
 cmd="$STEAMCMD +login $STEAMUSERNAME +force_install_dir $STEAMINSTALLDIR +workshop_download_item 107410 $MODID validate +quit"
