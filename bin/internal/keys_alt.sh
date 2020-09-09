@@ -34,7 +34,9 @@ then
 fi
 
 
-pushd $BASEPATH/server/servers/$NAME/arma3/keys > /dev/null
+keypath=$BASEPATH/server/servers/$NAME/arma3/keys
+mkdir -p $keypath
+pushd $keypath > /dev/null
 find . -type l -exec rm {} \;
 
 ln -s ../available_keys/a3.bikey || true
