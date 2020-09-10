@@ -34,6 +34,19 @@ case $(uname -s) in
   ;;
   CYGWIN*)
     SERVERPATH=/cygdrive/c/server/servers/$NAME/arma3
+    if [ ! -d $SERVERPATH ]; then
+      mkdir -p $SERVERPATH
+      pushd /cygdrive/c/server/arma3 > /dev/null
+      for x in *; do
+        pushd ../servers/$NAME/arma3 > /dev/null
+        ln -s ../../../arma3/$x $x
+        popd > /dev/null
+      done
+      popd > /dev/null
+    fi
+    if [ ! -d $SERVERPATH/keys ]; then
+      mkdir -p $SERVERPATH/keys
+    fi
     cd $SERVERPATH
   ;;
 esac
