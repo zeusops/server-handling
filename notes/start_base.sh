@@ -75,5 +75,5 @@ $SERVERPATH/arma3server_x64 \
   -cfg=$BASICPATH \
   -port=$PORT \
   -filePatching \
-  $MODS$EXTRAMODS $SERVERMODS $PARAMS
+  $MODS${EXTRAMODS:-} $SERVERMODS $PARAMS
   #-checkSignatures \
