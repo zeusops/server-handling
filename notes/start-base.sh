@@ -1,79 +1,83 @@
 #!/bin/bash
 
-set -x
-set -eufo pipefail
+# set -x
+set -euo pipefail
 
-readonly BASEPATH=$HOME
-readonly SERVERS=$BASEPATH/files/servers
-readonly CONFIGLINK=configlink
-readonly BASICPATH=$CONFIGLINK\\basic\\basic.cfg
-SERVERPATH=arma3
-readonly BIN=$BASEPATH/files/bin
+. ${BASE_PATH:-$HOME/server}/files/bin/environment.sh
+# NOTE: path is relative to the arma3server location
+readonly config_link=${CONFIG_LINK:-configlink}
 
-
-if [ $# -eq 0 ]; then
-  echo "Usage: $0 NAME [PORT]"
-  echo "If PORT is defined, launch directly. Otherwise, source NAME.sh" \
-       "and launch"
+name=${1-${A3_NAME-}}
+if [ -z "${name}" ]; then
+  echo "Usage: $(basename $0) NAME [PORT]"
+  echo "Uses the environment variables A3_NAME and/or A3_PORT, if set"
   exit 1
+else
+  file=$servers/${name}.sh
+  if [ ! -e "$file" ]; then
+    echo "Server file ${name}.sh does not exist"
+    exit 1
+  fi
+  . $file
 fi
 
-if [ $# -eq 1 ]; then
-  source $SERVERS/$1.sh
-fi
+port=${2-${A3_PORT-$PORT}}
 
-if [ -z ${NAME+x} ]; then
-  echo "Missing parameter NAME"
-  exit 1
-fi
-if [ -z ${PORT+x} ]; then
+if [ -z "${port}" ]; then
   echo "Missing parameter PORT"
   exit 1
 fi
 
-readonly configpath=$CONFIGLINK\\config\\$NAME.cfg
-readonly profile=${PROFILE:-server}
-readonly params=${PARAMS:-}
-readonly servermods=${SERVERMODS:-}
-readonly extramods=${EXTRAMODS:-}
+echo "name: $name"
+echo "port: $port"
 
-case $(uname -s) in
-  Linux*)
-    if grep -q Microsoft /proc/version; then
-      cd /mnt/c/server/servers/$NAME/arma3
-    else
-      cd $HOME
-    fi
-  ;;
-  CYGWIN*)
-    SERVERPATH=/cygdrive/c/server/servers/$NAME/arma3
-    mkdir -p $SERVERPATH
-    cd $SERVERPATH
-  ;;
-esac
+readonly profile=${PROFILE:-server}
+readonly config=${CONFIG:-$name}
+readonly params=${PARAMS:-}
+readonly server_mods=${SERVERMODS:-}
+readonly extra_mods=${EXTRAMODS:-}
+readonly server_path=$base_path/instances/$name/arma3
+if [ "$WINDOWS" = "yes" ]; then
+  readonly config_path=$config_link\\config\\$config.cfg
+  readonly basic_path=$config_link\\basic\\basic.cfg
+else
+  readonly config_path=$config_link/config/$config.cfg
+  readonly basic_path=$config_link/basic/basic.cfg
+fi
 
 update-mods.sh optional --skipdl
-update-mods.sh $NAME --skipdl
+update-mods.sh $name --skipdl
 
-. $BIN/internal/keys-alt.sh $BASEPATH $NAME
+$bin/internal/keys-alt.sh $name
 
-pushd $SERVERPATH > /dev/null
-MODS="-mod="
+pushd $server_path > /dev/null
+dynamic_mods="-mod="
+old_setting=${-//[^x]/}
 set +x
-for x in $(find mods/$NAME ! -path .); do
-  MODS=${MODS}\;$x
+for x in $(find mods/$name ! -path .); do
+  dynamic_mods=${dynamic_mods}\;$x
 done
-set -x
+# set -x
+if [[ -n "$old_setting" ]]; then set -x; else set +x; fi
 popd > /dev/null
 
-echo "Launching with mods: $MODS"
-echo "Server name: $NAME, port: $PORT"
+readonly mods=${MODS:-$dynamic_mods}
 
-$SERVERPATH/arma3server_x64 \
+echo "Launching with mods: $mods"
+echo "Server name: $name, port: $port"
+
+if [ "$PLATFORM" = "wsl" ]; then
+  server=arma3server_x64.exe
+else
+  server=arma3server_x64
+fi
+
+set -x
+$server_path/$server \
   -name=$profile \
-  -config=$configpath \
-  -cfg=$BASICPATH \
-  -port=$PORT \
+  -config=$config_path \
+  -cfg=$basic_path \
+  -port=$port \
   -filePatching \
-  $MODS${extramods} $servermods $params
+  $mods$extra_mods $server_mods $params
   #-checkSignatures \

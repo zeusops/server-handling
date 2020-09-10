@@ -1,48 +1,72 @@
 #!/bin/bash
 
-set -eo pipefail
-set -u
+# set -x
+set -eu
+set -o pipefail
 
+if [ -z "${1-}" ]; then echo "Usage: `basename $0` servername [--skipdl] [--missing]"; exit 1; fi
 
-if [ -z $1 ]; then echo "Usage: `basename $0` servername [--skipdl] [--missing]"; exit 1; fi
-
-readonly STEAMUSERNAME=zeusoperations
-
-readonly NAME=$1
-
-readonly BASEPATH=$HOME
+readonly name="$1"
 if [ "${2:-}" = "--skipdl" ] || [ "${3:-}" = "--skipdl" ]; then skip_download=yes; fi
 if [ "${2:-}" = "--missing" ] || [ "${3:-}" = "--missing" ]; then skip_download=yes; download_missing=yes; fi
 
-readonly MODIDS=$BASEPATH/files/modlists/${NAME}.txt
-if [ ! -f $MODIDS ]; then echo "$MODIDS not found!"; exit 2; fi
+. ${BASE_PATH:-$HOME/server}/files/bin/environment.sh
+readonly mods=$armadir/mods/$name
+export updated_keys=$armadir/updated_keys/$name
+export available_keys=$armadir/available_keys/$name
 
-readonly STEAMDIR=$HOME/.steam/steamcmd
-readonly INSTALLDIR=$STEAMDIR/mods
-readonly ARMADIR=$BASEPATH/arma3
-readonly ARMAMODS=$ARMADIR/mods
-readonly MODS=$ARMAMODS/$NAME
-readonly BIN=$BASEPATH/files/bin
-export UPDATEDKEYS=$ARMADIR/updated_keys/$NAME
-export AVAILABLEKEYS=$ARMADIR/available_keys/$NAME
+readonly mod_list="$mod_lists/$name.txt"
+if [ ! -f "$mod_list" ]; then echo "Mod list $mod_list not found!"; exit 2; fi
 
-source $BIN/internal/find-steamcmd.sh
+function symlink {
+  OPTIND=1
+  verbose=""
+  force=""
+  while getopts "vf" opt; do
+    case "$opt" in
+    v)
+      verbose="-v"
+    ;;
+    f)
+      force="-f"
+    ;;
+    esac
+  done
+  shift $((OPTIND-1))
+  target="$(realpath $1)"
+  link_name="$(realpath $2)"
+  echo "target $target"
+  echo "link_name $link_name"
+  echo "dirname $(dirname $link_name)"
+  echo "win $WINDOWS"
+  if [ ${WINDOWS:-no} = "yes" ]; then
+    path=$(realpath --relative-to=$(dirname $link_name) $target)
+    echo "path $path"
+  else
+    path=$target
+  fi
+  ln -s $verbose $force $path $link_name
+}
+
+export -f symlink
 
 function link_keys {
+  echo "link_keys param $1"
   key=$(basename "$1")
-  if [ ! -f $AVAILABLEKEYS/$key ]; then
-    ln -sv $1 $UPDATEDKEYS/$key
+  echo "key $key"
+  if [ ! -f $available_keys/$key ]; then
+    symlink -vf $1 $updated_keys/$key
   fi
 }
 
 function remove_old_keys {
   echo "Removing old keys"
-  find $AVAILABLEKEYS -type l -exec sh -c 'for x; do [ -e "$x" ] || rm -v "$x"; done' _ {} +
+  find $available_keys -type l -exec sh -c 'for x; do [ -e "$x" ] || rm -v "$x"; done' _ {} +
 }
 
 function install_keys {
   echo "Installing keys"
-  find $UPDATEDKEYS -name "*.bikey" -type l -exec mv {} $AVAILABLEKEYS -v \;
+  find $updated_keys -name "*.bikey" -type l -exec mv {} $available_keys -v \;
 }
 
 function install_mods {
@@ -68,25 +92,25 @@ while read line; do
   else
     echo "Found empty modid"
   fi
-done < $MODIDS
+done < $mod_list
 
 if [ "${skip_download:-no}" != "yes" ]; then
   echo "Updating mods"
-  $STEAMCMD +login $STEAMUSERNAME +force_install_dir $STEAMINSTALLDIR $allmods +quit
+  $STEAMCMD +login $steam_username +force_install_dir $STEAM_INSTALL_DIR $allmods +quit
   echo
 else
   echo "Updating mod keys. This does not download updates"
 fi
 
 echo "Creating folders"
-if [ ! -d $MODS ]; then mkdir -p $MODS; fi
-if [ ! -d $UPDATEDKEYS ]; then mkdir -p $UPDATEDKEYS; fi
-if [ ! -d $AVAILABLEKEYS ]; then mkdir -p $AVAILABLEKEYS; fi
+if [ ! -d $mods ]; then mkdir -p $mods; fi
+if [ ! -d $updated_keys ]; then mkdir -p $updated_keys; fi
+if [ ! -d $available_keys ]; then mkdir -p $available_keys; fi
 
 echo "Removing old mod links"
-find $MODS -type l -exec rm {} \;
+find $mods -type l -exec rm {} \;
 echo "Removing old key links"
-find $UPDATEDKEYS -type l -exec rm {} \;
+find $updated_keys -type l -exec rm {} \;
 
 missing=""
 missingid=""
@@ -102,7 +126,7 @@ while read line; do
     # @modname 123456
     modname=${array[0]}
     modid=${array[1]}
-    modpath=$MODS/$modname
+    modpath=$mods/$modname
     if [ $modid -eq 0 ]; then
       echo "Skipping local mod $modname"
       continue
@@ -110,22 +134,22 @@ while read line; do
     if [ -e $modpath ]; then
       rm $modpath
     fi
-    moddlpath=$INSTALLDIR/steamapps/workshop/content/107410/$modid
+    moddlpath=$install_dir/steamapps/workshop/content/107410/$modid
     if [ ! -e $moddlpath ]; then
       echo $moddlpath
-      echo "$modname with ID $modid missing! Run `basename $0` $NAME or install-single.sh $modname"
+      echo "$modname with ID $modid missing! Run `basename $0` $name or install-single.sh $modname"
       missing="$missing $modname"
       missingid="$missingid $modid"
     else
-      ln -sv $moddlpath $modpath
+      symlink -v $moddlpath $modpath
       if [ "${skip_download:-no}" != "yes" ] && [ -z $WINDOWS ]; then
-        $BIN/internal/lowercase-single.sh $modpath/
+        $bin/internal/lowercase-single.sh $modpath/
       fi
     fi
   else
     echo "Found empty modid"
   fi
-done < $MODIDS
+done < $mod_list
 
 if [ ! -z "$missing" ]; then
   echo "Missing mods: $missing"
@@ -154,26 +178,25 @@ if [ ! -z "$missing" ]; then
 fi
 
 if [ ${WINDOWS:-no} == "no" ]; then
-  find -L $MODS/ -type f -exec chmod -x {} \;
+  find -L $mods/ -type f -exec chmod -x {} \;
 fi
-find -L $MODS/ -iname "*.bikey" -exec bash -c 'link_keys "$0"' {} \;
+export WINDOWS
+find -L $mods/ -iname "*.bikey" -exec bash -c 'link_keys "$0"' {} \;
 
-updatedcount=$(find -L $UPDATEDKEYS -type f -name "*.bikey" | wc -l)  # Does not work with spaces in filenames
+updatedcount=$(find -L $updated_keys -type f -name "*.bikey" | wc -l)  # Does not work with spaces in filenames
 remove_old_keys
 echo -n "All mods updated. "
 if [ $updatedcount -eq 0 ]; then
   echo "No new keys were installed."
 else
   echo "Following keys were updated:"
-  ls $UPDATEDKEYS
+  ls $updated_keys
   while :; do
     read -t10 -p "Do you want to add the keys to the server automatically? (10 seconds timeout) (Y/n): " || ret=$?
     if [ ${ret:-$?} -gt 128 ]; then
       echo "Timed out waiting for user response"
-      install_keys
-      break
+      REPLY=y
     fi
-
     case $REPLY in
       [nN]*)
         echo "Not istalling keys"

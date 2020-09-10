@@ -1,50 +1,39 @@
-#!/bin/sh
-set -x
-#set -e
-if [ -z "$BASEPATH" ];
+#!/bin/bash
+# set -x
+set -eu
+set -o pipefail
+
+. ${BASE_PATH:-$HOME/server}/files/bin/environment.sh
+
+name=${1-${NAME-${name-}}}
+if [ -z "$name" ];
 then
-	if [ -z "$1" ];
-	then
-		echo "Usage: $0 arma3basepath modname"
-    exit 1
-	fi
-	BASEPATH="$1"
+	echo "Usage: $(basename $0) MODNAME"
+	exit 1
+fi
+if [ ! -d "$armadir/available_keys" ];
+then
+  echo "Creating folder $armadir/available_keys"
+  mkdir -p "$armadir/available_keys"
 fi
 
-if [ -z "$NAME" ];
+if [ ! -d "$armadir/available_keys/$name" ];
 then
-	if [ -z "$2" ];
-	then
-		echo "Usage: $0 arma3basepath modname"
-		exit 1
-	fi
-	NAME="$2"
-fi
-
-if [ ! -d "$BASEPATH/arma3/available_keys" ];
-then
-  echo "Creating folder $BASEPATH/arma3/available_keys"
-  mkdir -p "$BASEPATH/arma3/available_keys"
-fi
-
-if [ ! -d "$BASEPATH/arma3/available_keys/$NAME" ];
-then
-	echo "Folder $BASEPATH/arma3/available_keys/$NAME not found!"
+	echo "Folder $armadir/available_keys/$name not found!"
 	exit 2
 fi
 
-
-keypath=$BASEPATH/server/servers/$NAME/arma3/keys
+keypath=$base_path/instances/$name/arma3/keys
 mkdir -p $keypath
 pushd $keypath > /dev/null
 find . -type l -exec rm {} \;
 
 ln -s ../available_keys/a3.bikey || true
 
-for key in $(find ../available_keys/$NAME -xtype f); do ln -s $key; done
+for key in $(find ../available_keys/$name -xtype f); do ln -s $key; done
 
-if [ -d "$BASEPATH/arma3/optional_keys/$NAME" ];
+if [ -d "$armadir/optional_keys/$name" ];
 then
-	find -L ../optional_keys/$NAME/ -iname "*.bikey" -exec ln -s {} \;
+	find -L ../optional_keys/$name/ -iname "*.bikey" -exec ln -s {} \;
 fi
 popd > /dev/null

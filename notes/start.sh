@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -x
-#set -euo pipefail
+set -euo pipefail
 
 case $(uname -s) in
   Linux*)

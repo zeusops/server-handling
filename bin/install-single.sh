@@ -4,43 +4,42 @@ set -euo pipefail
 
 installpath=mods
 
-source $HOME/test/files/bin/environment.sh
+. ${BASE_PATH:-$HOME/server}/files/bin/environment.sh
 
-MODLISTS=$BASEPATH/files/modlists
-ALLMODIDS=$(mktemp --tmpdir modids-XXXX.txt)
-MODDIR=$STEAMINSTALLDIR/steamapps/workshop/content/107410
+all_mod_ids=$(mktemp --tmpdir modids-XXXX.txt)
+mod_dir=$STEAM_INSTALL_DIR/steamapps/workshop/content/107410
 
-sort $MODLISTS/*.txt -u > $ALLMODIDS
+sort $mod_lists/*.txt -u > $all_mod_ids
 
 if [ -z $1 ]; then
 	echo "Usage: `basename $0` modname [skip prompt]"
 	exit
 fi
 
-SEARCHNAME="$1"
-SKIP=${2:-}
+search_name="$1"
+skip=${2:-}
 
-ARRAY=($(grep $SEARCHNAME $ALLMODIDS | head -n 1))
+array=($(grep $search_name $all_mod_ids | head -n 1))
 # File format:
 # @modname 123456
-MODNAME=${ARRAY[0]}
-MODID=${ARRAY[1]}
+mod_name=${array[0]}
+mod_id=${array[1]}
 
-if [ -z $SKIP ]; then
+if [ -z $skip ]; then
   echo "Interpreted $SEARCHNAME as $MODNAME with ID $MODID"
   read -s -p "Press enter to continue the installation or press ^C to abort"
   echo
 fi
 
-echo "Downloading mod $MODNAME with ID $MODID"
-cmd="$STEAMCMD +login $STEAMUSERNAME +force_install_dir $STEAMINSTALLDIR +workshop_download_item 107410 $MODID validate +quit"
+echo "Downloading mod $mod_name with ID $mod_id"
+cmd="$STEAMCMD +login $steam_username +force_install_dir $STEAM_INSTALL_DIR +workshop_download_item 107410 $mod_id validate +quit"
 echo $cmd
 $cmd
 echo
 
 if [ -z $WINDOWS ]; then
   echo "Turning filenames into lowercase"
-  $LOWERCASE $MODDIR/$MODID
+  $lowercase $mod_dir/$mod_id
 fi
 
-rm $ALLMODIDS
+rm $all_mod_ids

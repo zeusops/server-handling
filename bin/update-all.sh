@@ -4,8 +4,8 @@ set -e
 STEAMUSERNAME=zeusoperations
 
 BASEPATH=$HOME
-MODLISTS=$BASEPATH/files/modlists
-ALLMODS=$MODLISTS/allmods.txt
+mod_lists=$BASEPATH/files/modlists
+ALLMODS=$mod_lists/allmods.txt
 ALLMODIDS=$(mktemp --tmpdir modids-XXXX.txt)
 STEAMDIR=$HOME/.steam/steamcmd
 INSTALLDIR=$STEAMDIR/mods
@@ -13,7 +13,7 @@ BIN=$BASEPATH/files/bin
 LOWERCASE=$BIN/internal/lowercase-single.sh
 source internal/find-steamcmd.sh
 
-# sort $MODLISTS/*.txt -u | grep -v '^#.*$' > $ALLMODIDS
+# sort $mod_lists/*.txt -u | grep -v '^#.*$' > $ALLMODIDS
 grep -v '^#.*$' $ALLMODS > $ALLMODIDS
 
 modparam=""

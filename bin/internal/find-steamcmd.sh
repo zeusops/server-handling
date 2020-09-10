@@ -1,31 +1,34 @@
-if [ -z "$BIN" ]; then
-  if [ -z "$PLATFORM" ]; then
+if [ -z "${bin:-$BIN}" ]; then
+  if [ -z "${PLATFORM-}" ]; then
     echo "Requires BIN or PLATFORM to be set"
     exit 1
   fi
-  if [ -z "$INSTALLDIR" ]; then
+  if [ -z "${INSTALLDIR-}" ]; then
     echo "Requires INSTALLDIR"
     exit 1
   fi
 fi
 
-if [ -z "$PLATFORM" ]; then
-  source $BIN/internal/platform.sh
+if [ -z "${PLATFORM-}" ]; then
+  . $BIN/internal/platform.sh
 fi
 
-installdir=$STEAMDIR/$installpath
+install_dir=$steam_dir/${INSTALL_PATH:-mods}
 
 case $PLATFORM in
   linux)
-    STEAMCMD=/usr/games/steamcmd
-    STEAMINSTALLDIR=$installdir
+    steamcmd=/usr/games/steamcmd
+    steam_install_dir=$install_dir
   ;;
-  wls)
-    STEAMCMD=/mnt/c/steamcmd/steamcmd.exe
-    STEAMINSTALLDIR="$(wslpath -w $installdir)"
+  wsl)
+    steamcmd=/mnt/c/steamcmd/steamcmd.exe
+    steam_install_dir="$(wslpath -w $install_dir)"
   ;;
   cygwin)
-    STEAMCMD="cmd.exe /c C:\\steamcmd\\steamcmd.exe"
-    STEAMINSTALLDIR="$(cygpath -w $(readlink -e $installdir))"
+    steamcmd="cmd.exe /c C:\\steamcmd\\steamcmd.exe"
+    steam_install_dir="$(cygpath -w $(readlink -e $install_dir))"
   ;;
 esac
+
+STEAMCMD=${STEAMCMD:-$steamcmd}
+STEAM_INSTALL_DIR=${STEAM_INSTALL_DIR:-$steam_install_dir}
