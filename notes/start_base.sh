@@ -7,7 +7,7 @@ readonly BASEPATH=$HOME
 readonly SERVERS=$BASEPATH/files/servers
 readonly CONFIGLINK=configlink
 readonly BASICPATH=$CONFIGLINK\\basic\\basic.cfg
-readonly SERVERPATH=arma3
+SERVERPATH=arma3
 readonly BIN=$BASEPATH/files/bin
 
 
@@ -40,13 +40,14 @@ readonly extramods=${EXTRAMODS:-}
 case $(uname -s) in
   Linux*)
     if grep -q Microsoft /proc/version; then
-      cd /mnt/c/server
+      cd /mnt/c/server/servers/$NAME/arma3
     else
       cd $HOME
     fi
   ;;
   CYGWIN*)
     SERVERPATH=/cygdrive/c/server/servers/$NAME/arma3
+    mkdir -p $SERVERPATH
     cd $SERVERPATH
   ;;
 esac
