@@ -3,7 +3,7 @@ PORT=2502
 
 PROFILE=2019-10-13-anniversary-liberation # default: server
 CONFIG=liberation  # default: $NAME
-PARAMS='-checkSignatures'
+#PARAMS='-checkSignatures'
 
 # Uncomment to prevent automatic key updates
 # NOKEYS=on

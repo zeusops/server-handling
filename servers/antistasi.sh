@@ -3,7 +3,7 @@ PORT=2502
 
 PROFILE=2019-12-17-antistasi # default: server
 CONFIG=antistasi # default: $NAME
-PARAMS='-checkSignatures'
+#PARAMS='-checkSignatures'
 
 # Uncomment to prevent automatic key updates
 # NOKEYS=on

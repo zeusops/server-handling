@@ -3,7 +3,7 @@ PORT=2402
 
 PROFILE=2019-11-02-zombies  # default: server
 CONFIG=  # default: $NAME
-PARAMS='-checkSignatures'
+#PARAMS='-checkSignatures'
 
 # Uncomment to prevent automatic key updates
 # NOKEYS=on

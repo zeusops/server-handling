@@ -3,7 +3,7 @@ PORT=2602
 
 PROFILE=second  # default: server
 CONFIG=custom  # default: $NAME
-PARAMS='-checkSignatures'
+#PARAMS='-checkSignatures'
 
 # Uncomment to prevent automatic key updates
 # NOKEYS=on
