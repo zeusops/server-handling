@@ -107,6 +107,10 @@ while read line; do
     modname=${array[0]}
     modid=${array[1]}
     modpath=$MODS/$modname
+    if [ $modid -eq 0 ]; then
+      echo "Skipping local mod $modname"
+      continue
+    fi
     if [ -e $modpath ]; then
       rm $modpath
     fi
