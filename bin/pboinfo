@@ -1,0 +1,118 @@
+#!/bin/bash
+#set -x
+
+set -euo pipefail
+
+show_help() {
+  echo "$(basename $0) [-jsh] FILE"
+  echo
+  echo "OPTIONS"
+  echo "  -j    JSON output"
+  echo "  -s    Simple output (line based, default)"
+  echo "  -h    Show help"
+  echo "  -x    Debug output"
+}
+
+get_variable() {
+  local variable="$1"
+  local file="${2:-description.ext}"
+  local path="extract/$file"
+  if [ -e $path ]; then
+    grep "$variable =" $path | sed -r 's/^.*= ?"?([^"]*)"?;.*$/\1/'
+  else
+    echo "NOTFOUND"
+  fi
+}
+
+finish() {
+  cd $HOME
+  if [ -d "${tmpdir:-}" ]; then
+    rm -r $tmpdir
+  fi
+}
+
+trap finish EXIT
+
+OPTIND=1
+
+input_file=""
+simple_output=1
+
+while getopts "jshx" opt; do
+  case "$opt" in
+    h)
+      show_help
+      exit 0
+      ;;
+    s)
+      simple_output=1
+      ;;
+    j)
+      simple_output=0
+      ;;
+    x)
+      set -x
+      ;;
+  esac
+done
+
+shift $((OPTIND-1))
+
+[ "${1:-}" = "--" ] && shift
+
+if [ $# -ne 1 ]; then
+  echo "Error: Missing FILE"
+  echo
+  show_help
+  exit 1
+fi
+filepath="$1"
+filename=$(basename $filepath)
+
+if [ ! -e "$filepath" ]; then
+  echo "Error: File not found"
+  echo
+  show_help
+  exit 1
+fi
+
+platform="wsl"
+
+case "$platform" in
+  "wsl")
+    systmp="/mnt/c/Users/$(whoami)/AppData/Local/Temp/"
+    ;;
+  "linux")
+    systmp="/tmp"
+    ;;
+esac
+
+version_file="extract/template_version.txt"
+
+tmpdir=$(mktemp -d -t -p $systmp pboinfo.XXXX)
+cp $filepath $tmpdir
+cd $tmpdir
+out=$(2>&1 extractpbo $filename) || ( echo $out; exit 1 )
+#extractpbo $filename
+#echo $out
+rm $filename
+mv * extract
+
+if [ -e $version_file ]; then
+  template_version=$(cat $version_file | tr -d '\r')
+else
+  template_version="NOTFOUND"
+fi
+
+operation_name=$(get_variable onLoadName)
+author_name=$(get_variable author)
+faction=$(get_variable _faction initServer.sqf)
+
+if [ $simple_output -eq 1 ]; then
+  echo "Template version: $template_version"
+  echo "Operation name: $operation_name"
+  echo "Author: $author_name"
+  echo "Faction: $faction"
+else
+  printf '{"version": "%s", "operation": "%s", "author": "%s", "faction": "%s"}\n' "$template_version" "$operation_name" "$author_name" "$faction"
+fi
