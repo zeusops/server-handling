@@ -31,7 +31,7 @@ if [ -z ${PORT+x} ]; then
   exit 1
 fi
 
-readonly CONFIGPATH=$CONFIGLINK\\config\\$NAME.cfg
+readonly configpath=$CONFIGLINK\\config\\$NAME.cfg
 readonly profile=${PROFILE:-server}
 readonly params=${PARAMS:-}
 readonly servermods=${SERVERMODS:-}
@@ -70,10 +70,10 @@ echo "Launching with mods: $MODS"
 echo "Server name: $NAME, port: $PORT"
 
 $SERVERPATH/arma3server_x64 \
-  -name=$PROFILE \
-  -config=$CONFIGPATH \
+  -name=$profile \
+  -config=$configpath \
   -cfg=$BASICPATH \
   -port=$PORT \
   -filePatching \
-  $MODS${EXTRAMODS:-} $SERVERMODS $PARAMS
+  $MODS${extramods} $servermods $params
   #-checkSignatures \
