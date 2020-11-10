@@ -41,7 +41,7 @@ find . -type l -exec rm {} \;
 
 ln -s ../available_keys/a3.bikey || true
 
-for key in ../available_keys/$NAME/*; do ln -s $key; done
+for key in $(find ../available_keys/$NAME -xtype f); do ln -s $key; done
 
 if [ -d "$BASEPATH/arma3/optional_keys/$NAME" ];
 then

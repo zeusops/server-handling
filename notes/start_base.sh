@@ -60,7 +60,7 @@ update_mods.sh $NAME --skipdl
 pushd $SERVERPATH > /dev/null
 MODS="-mod="
 set +x
-for x in mods/$NAME/*; do
+for x in $(find mods/$NAME ! -path .); do
   MODS=${MODS}\;$x
 done
 set -x
