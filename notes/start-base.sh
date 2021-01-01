@@ -44,8 +44,10 @@ else
   readonly basic_path=$files_link/basic/basic.cfg
 fi
 
-update-mods.sh optional --skipdl
-update-mods.sh $name --skipdl
+echo Updating optional mods
+update-mods.sh optional
+echo Updating server mods
+update-mods.sh $name
 
 $bin/internal/keys-alt.sh $name
 

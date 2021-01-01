@@ -51,8 +51,8 @@ case $(uname -s) in
   ;;
 esac
 
-update-mods.sh optional --missing
-update-mods.sh $NAME --missing
+update-mods.sh optional
+update-mods.sh $NAME
 
 . $BIN/internal/keys-alt.sh $BASEPATH $NAME
 

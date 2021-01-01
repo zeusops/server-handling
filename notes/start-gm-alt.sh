@@ -31,8 +31,8 @@ case $(uname -s) in
   ;;
 esac
 
-update-mods.sh optional --skipdl
-update-mods.sh $NAME --skipdl
+update-mods.sh optional
+update-mods.sh $NAME
 
 . $BIN/internal/keys-alt.sh $BASEPATH $NAME
 
