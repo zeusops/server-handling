@@ -4,7 +4,7 @@ set -euo pipefail
 
 installpath=mods
 
-. ${BASE_PATH:-$HOME/server}/files/bin/environment.sh
+source ${BASE_PATH:-$HOME/server}/files/bin/internal/environment.sh
 
 all_mod_ids=$(mktemp --tmpdir modids-XXXX.txt)
 mod_dir=$STEAM_INSTALL_DIR/steamapps/workshop/content/107410

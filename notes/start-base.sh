@@ -2,7 +2,7 @@
 if [ ${DEBUG:-no} = "yes" ]; then set -x; fi
 set -euo pipefail
 
-. ${BASE_PATH:-$HOME/server}/files/bin/environment.sh
+source ${BASE_PATH:-$HOME/server}/files/bin/internal/environment.sh
 # NOTE: path is relative to the arma3server location
 readonly config_link=${CONFIG_LINK:-configlink}
 

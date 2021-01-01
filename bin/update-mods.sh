@@ -8,7 +8,7 @@ readonly name="$1"
 if [ "${2:-}" = "--skipdl" ] || [ "${3:-}" = "--skipdl" ]; then skip_download=yes; fi
 if [ "${2:-}" = "--missing" ] || [ "${3:-}" = "--missing" ]; then skip_download=yes; download_missing=yes; fi
 
-. ${BASE_PATH:-$HOME/server}/files/bin/environment.sh
+source ${BASE_PATH:-$HOME/server}/files/bin/internal/environment.sh
 readonly mods=$armadir/mods/$name
 export updated_keys=$armadir/updated_keys/$name
 export available_keys=$armadir/available_keys/$name

@@ -2,9 +2,7 @@
 if [ ${DEBUG:-no} = "yes" ]; then set -x; fi
 set -euo pipefail
 
-readonly BASEPATH=$HOME
-readonly BIN=$BASEPATH/files/bin
-. $BIN/internal/platform.sh
+source ${BASE_PATH:-$HOME/server}/files/bin/internal/environment.sh
 
 readonly LINK=$BASEPATH/link
 readonly ARMA=$BASEPATH/arma3
