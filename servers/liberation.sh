@@ -8,7 +8,7 @@ CONFIG=liberation  # default: $NAME
 # Uncomment to prevent automatic key updates
 # NOKEYS=on
 
-SERVERMODS=
+SERVERMODS=-serverMod=mods/server/@zeusops_server
 
 # Uncomment to prevent automatic mod detection based on $NAME
 # MODS=-mod=mods/@name
