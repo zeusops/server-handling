@@ -20,7 +20,7 @@ else
   . $file
 fi
 
-port=${2-${A3_PORT-$PORT}}
+port=${2-${A3_PORT:-$PORT}}
 
 if [ -z "${port}" ]; then
   echo "Missing parameter PORT"

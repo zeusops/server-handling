@@ -28,7 +28,7 @@ echo $cmd
 $cmd
 echo
 
-if [ "${WINDOWS-no}" = "no" ]; then
+if [ "${WINDOWS:-no}" = "no" ]; then
   echo "Turning filenames into lowercase"
   for mod_id in $mod_ids; do
     $lowercase $MODDIR/$mod_id

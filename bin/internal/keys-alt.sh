@@ -4,7 +4,7 @@ set -euo pipefail
 
 source ${BASE_PATH:-$HOME/server}/files/bin/internal/environment.sh
 
-name=${1-${NAME-${name-}}}
+name=${1-${NAME:-${name-}}}
 if [ -z "$name" ];
 then
 	echo "Usage: $(basename $0) MODNAME"
