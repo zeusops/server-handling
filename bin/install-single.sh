@@ -26,7 +26,7 @@ mod_name=${array[0]}
 mod_id=${array[1]}
 
 if [ -z $skip ]; then
-  echo "Interpreted $SEARCHNAME as $MODNAME with ID $MODID"
+  echo "Interpreted $search_name as $mod_name with ID $mod_id"
   read -s -p "Press enter to continue the installation or press ^C to abort"
   echo
 fi

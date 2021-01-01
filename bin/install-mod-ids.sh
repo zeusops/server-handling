@@ -7,7 +7,7 @@ installpath=mods
 source ${BASE_PATH:-$HOME/server}/files/bin/internal/environment.sh
 
 ALLMODIDS=$(mktemp --tmpdir modids-XXXX.txt)
-MODDIR=$INSTALLDIR/steamapps/workshop/content/107410
+MODDIR=$install_dir/steamapps/workshop/content/107410
 
 sort $mod_lists/*.txt -u > $ALLMODIDS
 
@@ -23,7 +23,7 @@ for mod_id in $mod_ids; do
   all_mods="$all_mods +workshop_download_item 107410 $mod_id validate"
 done
 
-cmd="$STEAMCMD +login $STEAMUSERNAME +force_install_dir $STEAMINSTALLDIR $all_mods +quit"
+cmd="$STEAMCMD +login $steam_username +force_install_dir $STEAM_INSTALL_DIR $all_mods +quit"
 echo $cmd
 $cmd
 echo
@@ -31,6 +31,6 @@ echo
 if [ "${WINDOWS-no}" = "no" ]; then
   echo "Turning filenames into lowercase"
   for mod_id in $mod_ids; do
-    $LOWERCASE $MODDIR/$mod_id
+    $lowercase $MODDIR/$mod_id
   done
 fi
