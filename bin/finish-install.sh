@@ -4,56 +4,38 @@ set -euo pipefail
 
 source ${BASE_PATH:-$HOME/server}/files/bin/internal/environment.sh
 
-readonly LINK=$BASEPATH/link
-readonly ARMA=$BASEPATH/arma3
-readonly AVAILABLEKEYS=$LINK/available_keys
-readonly OPTIONALKEYS=$LINK/optional_keys
-readonly CONFIGLINK=$ARMA/configlink
+readonly link=$base_path/link
+readonly available_keys=$link/available_keys
+readonly optional_keys=$link/optional_keys
+readonly files_link=$armadir/files
 
-
-dir=mpmissions
-if [ ! -L $ARMA/$dir ]; then
-  if [ -d $ARMA/$dir ]; then
-    if [ -f $ARMA/$dir/readme.txt ]; then
-      rm -v $ARMA/$dir/readme.txt
-    fi
-    rmdir -v $ARMA/$dir
-  elif [ -e $ARMA/$dir ]; then
-    echo "$ARMA/$dir exists"
-    exit 1
-  fi
-  if [ ! -d $LINK/$dir ]; then
-    mkdir -p $LINK/$dir
-  fi
-  ln -vs $(readlink -e $LINK/$dir) $ARMA/$dir
-fi
-
-#for dir in A3Antistasi available_keys logs mods optional_keys tmpmissions updated_keys userconfig; do
-for dir in available_keys logs mods optional_keys tmpmissions updated_keys userconfig; do
-  if [ ! -L $ARMA/$dir ]; then
-    if [ -d $ARMA/$dir ]; then
-      rmdir -v $ARMA/$dir
-    elif [ -e $ARMA/$dir ]; then
-      echo "$ARMA/$dir exists"
+for dir in mpmissions available_keys logs mods optional_keys tmpmissions updated_keys userconfig; do
+  if [ ! -L $armadir/$dir ]; then
+    if [ -d $armadir/$dir ]; then
+      if [ -f $armadir/$dir/readme.txt ]; then
+        rm -v $armadir/$dir/readme.txt
+      fi
+      rmdir -v $armadir/$dir
+    elif [ -e $armadir/$dir ]; then
+      echo "$armadir/$dir exists"
       exit 1
     fi
-    mkdir -p $LINK/$dir
-    ln -vs $(readlink -e $LINK/$dir) $ARMA/$dir
+    mkdir -p $link/$dir
+    ln -vs $(readlink -e $link/$dir) $armadir/$dir
   fi
 done
 
-if [ $PLATFORM = "cygwin" ]; then
-  if [ ! -L $CONFIGLINK ]; then
-    if [ -d $CONFIGLINK ]; then
-      rmdir -v $CONFIGLINK
-    elif [ -e $CONFIGLINK ]; then
-      echo "$CONFIGLINK exists"
-      exit 1
-    fi
-    ln -vs $(readlink -e /cygdrive/c/server/server-handling) $ARMA/configlink
+if [ ! -L $files_link ]; then
+  if [ -d $files_link ]; then
+    rmdir -v $files_link
+  elif [ -e $files_link ]; then
+    echo "$files_link exists"
+    exit 1
   fi
+  ln -vs $(readlink -e $files) $files_link
 fi
 
-if [ ! -e $OPTIONALKEYS/main ]; then
-  ln -vs $AVAILABLEKEYS/optional $OPTIONALKEYS/main
+
+if [ ! -e $optional_keys/main ]; then
+  ln -vs $available_keys/optional $optional_keys/main
 fi

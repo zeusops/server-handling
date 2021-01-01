@@ -4,7 +4,7 @@ set -euo pipefail
 
 source ${BASE_PATH:-$HOME/server}/files/bin/internal/environment.sh
 # NOTE: path is relative to the arma3server location
-readonly config_link=${CONFIG_LINK:-configlink}
+readonly files_link=${FILES_LINK:-files}
 
 name=${1-${A3_NAME-}}
 if [ -z "${name}" ]; then
@@ -37,11 +37,11 @@ readonly server_mods=${SERVERMODS:-}
 readonly extra_mods=${EXTRAMODS:-}
 readonly server_path=$base_path/instances/$name/arma3
 if [ "$WINDOWS" = "yes" ]; then
-  readonly config_path=$config_link\\config\\$config.cfg
-  readonly basic_path=$config_link\\basic\\basic.cfg
+  readonly config_path=$files_link\\config\\$config.cfg
+  readonly basic_path=$files_link\\basic\\basic.cfg
 else
-  readonly config_path=$config_link/config/$config.cfg
-  readonly basic_path=$config_link/basic/basic.cfg
+  readonly config_path=$files_link/config/$config.cfg
+  readonly basic_path=$files_link/basic/basic.cfg
 fi
 
 update-mods.sh optional --skipdl
