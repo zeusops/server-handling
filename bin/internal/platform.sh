@@ -17,5 +17,5 @@ case $(uname -s) in
   ;;
 esac
 
-PLATFORM=${PLATFORM:-$platform}
-WINDOWS=${WINDOWS:-$windows}
+export PLATFORM=${PLATFORM:-$platform}
+export WINDOWS=${WINDOWS:-$windows}
