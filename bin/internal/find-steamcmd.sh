@@ -13,7 +13,11 @@ if [ -z "${PLATFORM-}" ]; then
   . $BIN/internal/platform.sh
 fi
 
-install_dir=$steam_dir/${INSTALL_PATH:-mods}
+if [ "${INSTALL_ARMA:-no}" == "yes" ]; then
+  install_dir=$armadir
+else
+  install_dir=$steam_dir/${INSTALL_PATH:-mods}
+fi
 
 case $PLATFORM in
   linux)
