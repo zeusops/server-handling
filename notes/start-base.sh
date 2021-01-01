@@ -35,7 +35,6 @@ readonly config=${CONFIG:-$name}
 readonly params=${PARAMS:-}
 readonly server_mods=${SERVERMODS:-}
 readonly extra_mods=${EXTRAMODS:-}
-readonly server_path=$base_path/instances/$name/arma3
 if [ "$WINDOWS" = "yes" ]; then
   readonly config_path=$files_link\\config\\$config.cfg
   readonly basic_path=$files_link\\basic\\basic.cfg
@@ -49,9 +48,11 @@ update-mods.sh optional
 echo Updating server mods
 update-mods.sh $name
 
-$bin/internal/keys-alt.sh $name
+echo Updating keys
+$bin/internal/keys.sh $name
+echo Key update done
 
-pushd $server_path > /dev/null
+cd $armadir > /dev/null
 dynamic_mods="-mod="
 old_setting=${-//[^x]/}
 # set +x
@@ -74,11 +75,14 @@ else
 fi
 
 set -x
-$server_path/$server \
+#echo \
+$armadir/$server \
   -name=$profile \
   -config=$config_path \
   -cfg=$basic_path \
   -port=$port \
   -filePatching \
-  $mods$extra_mods $server_mods $params
+  $mods$extra_mods $server_mods $params > \
+    >(tee -a $log_files/arma3server_${name}_$(date -Iseconds).stdout.log) 2> \
+    >(tee -a $log_files/arma3server_${name}_$(date -Iseconds).stderr.log >&2)
   #-checkSignatures \
