@@ -1,7 +1,6 @@
 #!/bin/bash
-#set -x
-
 set -euo pipefail
+source ${BASE_PATH:-$HOME/server}/files/bin/internal/platform.sh
 
 show_help() {
   echo "$(basename $0) [-jsh] FILE"
@@ -79,9 +78,7 @@ if [ ! -e "$filepath" ]; then
   exit 1
 fi
 
-platform="wsl"
-
-case "$platform" in
+case "$PLATFORM" in
   "wsl")
     systmp="/mnt/c/Users/$(whoami)/AppData/Local/Temp/"
     ;;
@@ -96,8 +93,6 @@ tmpdir=$(mktemp -d -t -p $systmp pboinfo.XXXX)
 cp $filepath $tmpdir
 cd $tmpdir
 out=$(2>&1 extractpbo $filename) || ( echo $out; exit 1 )
-#extractpbo $filename
-#echo $out
 rm $filename
 mv * extract
 
