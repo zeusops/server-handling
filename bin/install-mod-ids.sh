@@ -1,5 +1,5 @@
 #!/bin/bash
-
+if [ ${DEBUG:-no} = "yes" ]; then set -x; fi
 set -euo pipefail
 
 installpath=mods

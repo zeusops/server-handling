@@ -1,7 +1,6 @@
 #!/bin/bash
-# set -x
-set -eu
-set -o pipefail
+if [ ${DEBUG:-no} = "yes" ]; then set -x; fi
+set -euo pipefail
 
 . ${BASE_PATH:-$HOME/server}/files/bin/environment.sh
 

@@ -1,4 +1,7 @@
-#!/bin/sh
+#!/bin/bash
+if [ ${DEBUG:-no} = "yes" ]; then set -x; fi
+set -euo pipefail
+
 if [ -z "$BASEPATH" ];
 then
 	if [ -z "$1" ];

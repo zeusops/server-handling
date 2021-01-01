@@ -1,8 +1,6 @@
 #!/bin/bash
-
-# set -x
-set -eu
-set -o pipefail
+if [ ${DEBUG:-no} = "yes" ]; then set -x; fi
+set -euo pipefail
 
 if [ -z "${1-}" ]; then echo "Usage: `basename $0` servername [--skipdl] [--missing]"; exit 1; fi
 

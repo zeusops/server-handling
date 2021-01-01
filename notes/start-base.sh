@@ -1,6 +1,5 @@
 #!/bin/bash
-
-# set -x
+if [ ${DEBUG:-no} = "yes" ]; then set -x; fi
 set -euo pipefail
 
 . ${BASE_PATH:-$HOME/server}/files/bin/environment.sh
@@ -53,7 +52,7 @@ $bin/internal/keys-alt.sh $name
 pushd $server_path > /dev/null
 dynamic_mods="-mod="
 old_setting=${-//[^x]/}
-set +x
+# set +x
 for x in $(find mods/$name ! -path .); do
   dynamic_mods=${dynamic_mods}\;$x
 done
