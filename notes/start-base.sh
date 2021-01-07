@@ -52,7 +52,7 @@ echo Updating keys
 $bin/internal/keys.sh $name
 echo Key update done
 
-cd $armadir > /dev/null
+pushd $armadir > /dev/null
 dynamic_mods="-mod="
 old_setting=${-//[^x]/}
 # set +x
