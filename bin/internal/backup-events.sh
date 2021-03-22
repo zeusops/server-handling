@@ -1,18 +1,21 @@
 #!/bin/sh
 
+#set -x
+#set -e
+
 BOT_LOCATION=$HOME/operationbot
 BACKUP_LOCATION=$BOT_LOCATION/backup
 
-current_file=$BOT_LOCATION/eventDatabase.json
+current_file=$BOT_LOCATION/database/events.json
 
 backup_date=$(date +\%F-T\%H-\%M-\%S)
-filename=eventDatabase.json-$backup_date.bak
+filename=events/events.json-$backup_date.bak
 new_file=$BACKUP_LOCATION/$filename
 
-previous_file=$BACKUP_LOCATION/$(ls $BACKUP_LOCATION -1 | tail -n 1)
+previous_file=$(ls $BACKUP_LOCATION/events/events.json* -1 | tail -n 1)
 
 current_sum=$(md5sum $current_file | cut -d' ' -f 1)
-previous_sum=$(md5sum $previous_file | cut -d' ' -f 1)
+previous_sum=$(gunzip -c $previous_file | md5sum - | cut -d' ' -f 1)
 
 echo -n "Current: "
 echo $current_sum
@@ -22,6 +25,7 @@ echo $previous_sum
 if [ $current_sum != $previous_sum ]; then
   echo "No match"
   cp $current_file $new_file
+  gzip $new_file
 else
   echo "Match"
 fi
