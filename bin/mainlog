@@ -1,3 +1,10 @@
 #!/bin/sh
 
-less +F "$(\ls ~/Arma\ 3/arma3server_x64_* | tail -n1)" $@
+if [ -n "${1:-}" ]; then
+  path="$HOME/arma3/$1"
+  shift
+else
+  path="$HOME/appdata"
+fi
+less +F "$(\ls $path/arma3server_* | tail -n1)" $@
+#less +F "$(\ls ~/Arma\ 3/arma3server_* | tail -n1)" $@
