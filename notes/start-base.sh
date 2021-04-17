@@ -88,7 +88,7 @@ $armadir/$server \
   -cfg=$basic_path \
   -port=$port \
   -filePatching \
-  $mods$extra_mods $server_mods $params > \
-    >(tee -a $log_files/arma3server_${name}_$(date -Iseconds).stdout.log) 2> \
-    >(tee -a $log_files/arma3server_${name}_$(date -Iseconds).stderr.log >&2)
+  $mods\;$extra_mods $server_mods $params #> \
+  #  >(tee -a $log_files/arma3server_${name}_$(date -Iseconds).stdout.log) 2> \
+  #  >(tee -a $log_files/arma3server_${name}_$(date -Iseconds).stderr.log >&2)
   #-checkSignatures \
