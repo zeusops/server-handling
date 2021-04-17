@@ -2,7 +2,7 @@
 if [ ${DEBUG:-no} = "yes" ]; then set -x; fi
 set -euo pipefail
 
-readonly name=${1:-}; shift
+readonly name=${1:-}; shift || true
 if [ -z "$name" ]; then
   echo "Usage: $(basename $0) servername [--skipdl] [--all] [--keys] [--prompt]"
   echo "OPTIONS"
