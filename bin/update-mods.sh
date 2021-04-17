@@ -207,6 +207,7 @@ if [ "$skip_downloads" = "no" ] && [ ! -z "${missing_name:-}" ]; then
   fi
 fi
 
+pushd $mods > /dev/null
 while read line; do
   # Skip line if it starts with a #
   [[ $line =~ ^#.* ]] && continue
@@ -226,12 +227,18 @@ while read line; do
     if [ -e $modpath ]; then
       rm $modpath
     fi
-    moddlpath=$install_dir/steamapps/workshop/content/107410/$modid
-    symlink $moddlpath $modpath
+    #moddlpath=$workshop/$modid
+    #symlink $workshop/$modid $modpath
+    if [ -d ../../workshop/$modid ]; then
+      ln -s ../../workshop/$modid $modpath
+    else
+      echo Skipping not downloaded mod $modpath
+    fi
   else
     echo "Found empty modid"
   fi
 done < $mod_list
+popd > /dev/null
 
 if [ ${WINDOWS:-no} = "no" ]; then
   find -L $mods/ -type f -exec chmod -x {} \;
