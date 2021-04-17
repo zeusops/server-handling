@@ -2,4 +2,4 @@
 
 BASEPATH=$HOME
 cd $BASEPATH/files/notes
-./start.sh
+./start-base.sh main

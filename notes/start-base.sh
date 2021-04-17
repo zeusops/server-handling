@@ -8,7 +8,7 @@ readonly files_link=${FILES_LINK:-files}
 
 name=${1-${A3_NAME-}}
 if [ -z "${name}" ]; then
-  echo "Usage: $(basename $0) NAME [PORT]"
+  echo "Usage: $(basename $0) NAME [PORT] --skip-init"
   echo "Uses the environment variables A3_NAME and/or A3_PORT, if set"
   exit 1
 else
@@ -27,6 +27,10 @@ if [ -z "${port}" ]; then
   exit 1
 fi
 
+if [ -n "${2:-}" ]; then
+  skip_init=yes
+fi
+
 echo "name: $name"
 echo "port: $port"
 
@@ -43,14 +47,16 @@ else
   readonly basic_path=$files_link/basic/basic.cfg
 fi
 
-echo Updating optional mods
-update-mods.sh optional
-echo Updating server mods
-update-mods.sh $name
+if [ "${skip_init:-no}" = "no" ]; then
+  echo Updating optional mods
+  update-mods.sh optional
+  echo Updating server mods
+  update-mods.sh $name
 
-echo Updating keys
-$bin/internal/keys.sh $name
-echo Key update done
+  echo Updating keys
+  $bin/internal/keys.sh $name
+  echo Key update done
+fi
 
 pushd $armadir > /dev/null
 dynamic_mods="-mod="
