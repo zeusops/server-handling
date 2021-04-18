@@ -8,7 +8,7 @@ readonly files_link=${FILES_LINK:-files}
 
 name=${1-${A3_NAME-}}
 if [ -z "${name}" ]; then
-  echo "Usage: $(basename $0) NAME [PORT] --skip-init"
+  echo "Usage: $(basename $0) NAME [PORT] [--skip-init] [--hc] [hc1]"
   echo "Uses the environment variables A3_NAME and/or A3_PORT, if set"
   exit 1
 else
@@ -27,8 +27,14 @@ if [ -z "${port}" ]; then
   exit 1
 fi
 
-if [ -n "${2:-}" ]; then
+if [ "${2:-}" = "--skip-init" ] || [ "${3:-}" = "--skip-init" ] || [ "${4:-}" = "--skip-init" ]; then
   skip_init=yes
+fi
+if [ "${2:-}" = "--hc" ] || [ "${3:-}" = "--hc" ] || [ "${4:-}" = "--hc" ]; then
+  hc=yes
+fi
+if [ "${hc:-no}" = "yes" ]; then
+  hc_name=${4:-${3:-hc1}}
 fi
 
 echo "name: $name"
@@ -84,13 +90,23 @@ fi
 
 set -x
 #echo \
-$armadir/$server \
-  -name=$profile \
-  -config=$config_path \
-  -cfg=$basic_path \
-  -port=$port \
-  -filePatching \
-  $mods\;$extra_mods $server_mods $params #> \
+if [ "${hc:-no}" = "no" ]; then
+  $armadir/$server \
+    -name=$profile \
+    -config=$config_path \
+    -cfg=$basic_path \
+    -port=$port \
+    -filePatching \
+    $mods\;$extra_mods $server_mods $params
+else
+  $armadir/$server \
+    -name=$hc_name \
+    -client \
+    -connect=127.0.0.1 \
+    -profiles=$hc_name \
+    -port=$port \
+    $mods\;$extra_mods
+fi
   #  >(tee -a $log_files/arma3server_${name}_$(date -Iseconds).stdout.log) 2> \
   #  >(tee -a $log_files/arma3server_${name}_$(date -Iseconds).stderr.log >&2)
   #-checkSignatures \
