@@ -66,7 +66,7 @@ function symlink {
     target="$(realpath $1)"
     link_name="$(realpath $2)"
     path=$(realpath --relative-to=$(dirname $link_name) $target)
-    # echo "path $path"
+    echo "path $path"
   else
     path=$1
     link_name=$2
@@ -77,13 +77,16 @@ function symlink {
 export -f symlink
 
 function link_keys {
+  # echo arma $armadir
   # echo "link_keys param $1"
   key_path="$1"
   key_name=$(basename "$key_path")
-  # echo "key $key"
+  # echo "key $key_name"
   if [ ! -f $available_keys/$key_name ]; then
     path=$(relpath $key_path $updated_keys)
-    symlink -vf $path $updated_keys/$key_name
+    #echo path $path
+    #symlink -vf $path $updated_keys/$key_name
+    ln -svf $path $updated_keys/$key_name
   fi
 }
 
