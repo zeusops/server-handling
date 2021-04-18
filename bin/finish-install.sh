@@ -9,7 +9,7 @@ readonly available_keys=$link/available_keys
 readonly optional_keys=$link/optional_keys
 readonly files_link=$armadir/files
 
-for dir in mpmissions available_keys logs mods optional_keys tmpmissions updated_keys userconfig; do
+for dir in workshop mpmissions available_keys logs mods optional_keys tmpmissions updated_keys userconfig; do
   if [ ! -L $armadir/$dir ]; then
     if [ -d $armadir/$dir ]; then
       if [ -f $armadir/$dir/readme.txt ]; then
@@ -20,7 +20,9 @@ for dir in mpmissions available_keys logs mods optional_keys tmpmissions updated
       echo "$armadir/$dir exists"
       exit 1
     fi
-    mkdir -p $link/$dir
+    if [ ! -e $link/$dir ]; then
+      mkdir -p $link/$dir
+    fi
     ln -vs $(readlink -e $link/$dir) $armadir/$dir
   fi
 done
@@ -35,7 +37,10 @@ if [ ! -L $files_link ]; then
   ln -vs $(readlink -e $files) $files_link
 fi
 
-
 if [ ! -e $optional_keys/main ]; then
   ln -vs $available_keys/optional $optional_keys/main
+fi
+
+if [ ! -e $link/workshop ]; then
+  ln -vs $install_dir/steamapps/workshop/content/107410 $link/workshop
 fi

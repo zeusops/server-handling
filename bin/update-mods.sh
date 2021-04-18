@@ -102,11 +102,14 @@ function install_mods {
   echo "Installing mods"
   echo "missing $missingid"
   $bin/install-mod-ids.sh $missingid
+  pushd $mods > /dev/null
   for mod_id in $missingid; do
     modpath=$mods/$modname
-    moddlpath=$install_dir/steamapps/workshop/content/107410/$mod_id
-    symlink -v $moddlpath $modpath
+    #moddlpath=$workshop/$mod_id
+    #symlink -v $workshop/$mod_id $modpath
+    ln -sv ../../workshop/$mod_id $modpath
   done
+  popd > /dev/null
 }
 
 function relpath {
@@ -148,8 +151,8 @@ while read line; do
 
     allmods="$allmods +workshop_download_item 107410 $modid validate"
 
-    moddlpath=$install_dir/steamapps/workshop/content/107410/$modid
-    if [ ! -e $moddlpath ]; then
+    #moddlpath=$workshop/$modid
+    if [ ! -e $workshop/$modid ]; then
       # echo $moddlpath
       echo "$modname with ID $modid missing"
       missing_name="$missing_name $modname"
