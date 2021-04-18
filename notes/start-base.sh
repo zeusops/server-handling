@@ -6,7 +6,7 @@ source ${BASE_PATH:-$HOME/server}/files/bin/internal/environment.sh
 # NOTE: path is relative to the arma3server location
 readonly files_link=${FILES_LINK:-files}
 
-name=${1-${A3_NAME-}}
+name=${1-${A3_NAME-}}; shift || true
 if [ -z "${name}" ]; then
   echo "Usage: $(basename $0) NAME [PORT] [--skip-init] [--hc] [hc1]"
   echo "Uses the environment variables A3_NAME and/or A3_PORT, if set"
@@ -20,25 +20,46 @@ else
   . $file
 fi
 
-port=${2-${A3_PORT:-$PORT}}
+if [[ "${2:-}" =~ '^[0-9]+$' ]]; then
+  port=$1; shift
+else
+  port=${A3_PORT:-$PORT}
+fi
 
 if [ -z "${port}" ]; then
   echo "Missing parameter PORT"
   exit 1
 fi
 
-if [ "${2:-}" = "--skip-init" ] || [ "${3:-}" = "--skip-init" ] || [ "${4:-}" = "--skip-init" ]; then
-  skip_init=yes
-fi
-if [ "${2:-}" = "--hc" ] || [ "${3:-}" = "--hc" ] || [ "${4:-}" = "--hc" ]; then
-  hc=yes
-fi
-if [ "${hc:-no}" = "yes" ]; then
-  hc_name=${4:-${3:-hc1}}
-fi
+while [ ${#} -gt 0 ]; do
+  case "$1" in
+    --skip-init|--no-init)
+      skip_init=yes
+      ;;
+    --hc)
+      hc=yes
+      skip_init=yes
+      if [ $# -gt 1 ] && [[ ${2:-} != --* ]]; then
+        hc_name="$2"; shift
+      else
+        hc_name="hc1"
+      fi
+      ;;
+    --init|--force-init)
+      skip_init=no
+      ;;
+    *)
+      echo "Unknown argument: $1"
+      ;;
+  esac
+  shift
+done
 
 echo "name: $name"
 echo "port: $port"
+echo "skip_init: ${skip_init:-no}"
+echo "hc: ${hc:-no}"
+echo "hc_name: ${hc_name:-unset}"
 
 readonly profile=${PROFILE:-server}
 readonly config=${CONFIG:-$name}
@@ -88,25 +109,29 @@ else
   #server=arma3server_x64
 fi
 
+if [ "${hc:-no}" = "no" ]; then
+  printf -v all_parameters "%s " \
+    "-name=$profile" \
+    "-config=$config_path" \
+    "-cfg=$basic_path" \
+    "-port=$port" \
+    "-filePatching" \
+    "$mods\;$extra_mods" \
+    "$server_mods $params"
+else
+  printf -v all_parameters "%s " \
+    "-name=$hc_name" \
+    "-client" \
+    "-connect=127.0.0.1" \
+    "-profiles=$hc_name" \
+    "-port=$port" \
+    "$mods\;$extra_mods"
+fi
+
 set -x
 #echo \
-if [ "${hc:-no}" = "no" ]; then
-  $armadir/$server \
-    -name=$profile \
-    -config=$config_path \
-    -cfg=$basic_path \
-    -port=$port \
-    -filePatching \
-    $mods\;$extra_mods $server_mods $params
-else
-  $armadir/$server \
-    -name=$hc_name \
-    -client \
-    -connect=127.0.0.1 \
-    -profiles=$hc_name \
-    -port=$port \
-    $mods\;$extra_mods
-fi
+$armadir/$server \
+  $all_parameters
   #  >(tee -a $log_files/arma3server_${name}_$(date -Iseconds).stdout.log) 2> \
   #  >(tee -a $log_files/arma3server_${name}_$(date -Iseconds).stderr.log >&2)
   #-checkSignatures \
