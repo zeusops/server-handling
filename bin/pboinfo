@@ -79,11 +79,15 @@ if [ ! -e "$filepath" ]; then
 fi
 
 case "$PLATFORM" in
-  "wsl")
+  wsl)
     systmp="/mnt/c/Users/$(whoami)/AppData/Local/Temp/"
     ;;
-  "linux")
+  linux|cygwin)
     systmp="/tmp"
+    ;;
+  *)
+    echo Unsupported platform $PLATFORM
+    exit 1
     ;;
 esac
 
@@ -92,7 +96,7 @@ version_file="extract/template_version.txt"
 tmpdir=$(mktemp -d -t -p $systmp pboinfo.XXXX)
 cp $filepath $tmpdir
 cd $tmpdir
-out=$(2>&1 extractpbo $filename) || ( echo $out; exit 1 )
+out=$(2>&1 extractpbo -P $filename) || ( echo $out; exit 1 )
 rm $filename
 mv * extract
 
