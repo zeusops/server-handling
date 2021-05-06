@@ -102,6 +102,7 @@ mv * extract
 
 if [ -e $version_file ]; then
   template_version=$(cat $version_file | tr -d '\r')
+  template_version=${template_version//$'\n'/\\n}
 else
   template_version="NOTFOUND"
 fi
