@@ -11,7 +11,7 @@ mod_dir=$STEAM_INSTALL_DIR/steamapps/workshop/content/107410
 
 sort $mod_lists/*.txt -u > $all_mod_ids
 
-if [ -z $1 ]; then
+if [ -z "${1:-}" ]; then
 	echo "Usage: `basename $0` modname [skip prompt]"
 	exit
 fi
