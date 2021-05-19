@@ -3,7 +3,7 @@ PORT=2402
 
 PROFILE=2021-05-18-liberation # default: server
 CONFIG=  # default: $NAME
-PARAMS='-autoInit'
+PARAMS=  #'-autoInit'
 
 # Uncomment to prevent automatic key updates
 # NOKEYS=on
