@@ -8,7 +8,7 @@ readonly files_link=${FILES_LINK:-files}
 
 name=${1-${A3_NAME-}}; shift || true
 if [ -z "${name}" ]; then
-  echo "Usage: $(basename $0) NAME [PORT] [--skip-init] [--hc] [hc1]"
+  echo "Usage: $(basename $0) NAME [PORT] [--skip-init] [--update-optional|--optional] [--hc] [hc1]"
   echo "Uses the environment variables A3_NAME and/or A3_PORT, if set"
   exit 1
 else
@@ -35,6 +35,9 @@ while [ ${#} -gt 0 ]; do
   case "$1" in
     --skip-init|--no-init)
       skip_init=yes
+      ;;
+    --update-optional|--optional)
+      update_optional=yes
       ;;
     --hc)
       hc=yes
@@ -75,8 +78,10 @@ else
 fi
 
 if [ "${skip_init:-no}" = "no" ]; then
-  echo Updating optional mods
-  update-mods.sh optional
+  if [ "${update_optional:-no}" = "yes" ]; then
+    echo Updating optional mods
+    update-mods.sh optional
+  fi
   echo Updating server mods
   update-mods.sh $name
 
