@@ -116,7 +116,7 @@ if [ "${hc:-no}" = "no" ]; then
     "-cfg=$basic_path" \
     "-port=$port" \
     "-filePatching" \
-    "$mods\;$extra_mods" \
+    "$mods;$extra_mods" \
     "$server_mods $params"
 else
   printf -v all_parameters "%s " \
