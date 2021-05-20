@@ -6,5 +6,6 @@ if [ -n "${1:-}" ]; then
 else
   path="$HOME/appdata"
 fi
-less +F "$(\ls $path/arma3server_* | tail -n1)" $@
+# NOTE: Will not sort based on year
+less +F "$(\ls $path/arma3server_* | sort --key=2 --field-separator=- | tail -n1)" $@
 #less +F "$(\ls ~/Arma\ 3/arma3server_* | tail -n1)" $@
