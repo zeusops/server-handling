@@ -107,11 +107,11 @@ echo "Launching with mods: $mods"
 echo "Server name: $name, port: $port"
 
 if [ "$PLATFORM" = "wsl" ]; then
-  #server=arma3server_x64_perf.exe
-  server=arma3server_x64.exe
+  server=arma3server_x64_perf.exe
+  #server=arma3server_x64.exe
 else
-  #server=arma3server_x64_perf
-  server=arma3server_x64
+  server=arma3server_x64_perf
+  #server=arma3server_x64
 fi
 
 if [ "${hc:-no}" = "no" ]; then
