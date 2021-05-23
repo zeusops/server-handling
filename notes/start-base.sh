@@ -120,7 +120,6 @@ if [ "${hc:-no}" = "no" ]; then
     "-config=$config_path" \
     "-cfg=$basic_path" \
     "-port=$port" \
-    "-profiles=logs/$name" \
     "-filePatching" \
     "$mods;$extra_mods" \
     "$server_mods $params"
@@ -129,7 +128,7 @@ else
     "-name=$hc_name" \
     "-client" \
     "-connect=127.0.0.1" \
-    "-profiles=logs/$hc_name" \
+    "-profiles=$hc_name" \
     "-port=$port" \
     "$mods\;$extra_mods"
 fi
