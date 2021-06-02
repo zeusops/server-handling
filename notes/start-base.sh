@@ -6,30 +6,11 @@ source ${BASE_PATH:-$HOME/server}/files/bin/internal/environment.sh
 # NOTE: path is relative to the arma3server location
 readonly files_link=${FILES_LINK:-files}
 
-name=${1-${A3_NAME-}}; shift || true
-if [ -z "${name}" ]; then
-  echo "Usage: $(basename $0) NAME [PORT] [--skip-init] [--update-optional|--optional] [--hc] [hc1]"
+usage() {
+  echo "Usage: $(basename $0) [--skip-init|--no-init] [--init] [--update-optional|--optional] [--hc] [hc1] NAME [PORT]"
   echo "Uses the environment variables A3_NAME and/or A3_PORT, if set"
   exit 1
-else
-  file=$servers/${name}.sh
-  if [ ! -e "$file" ]; then
-    echo "Server file ${name}.sh does not exist"
-    exit 1
-  fi
-  . $file
-fi
-
-if [[ "${2:-}" =~ '^[0-9]+$' ]]; then
-  port=$1; shift
-else
-  port=${A3_PORT:-$PORT}
-fi
-
-if [ -z "${port}" ]; then
-  echo "Missing parameter PORT"
-  exit 1
-fi
+}
 
 while [ ${#} -gt 0 ]; do
   case "$1" in
@@ -51,12 +32,53 @@ while [ ${#} -gt 0 ]; do
     --init|--force-init)
       skip_init=no
       ;;
+    --port)
+      if [ $# -gt 1 ]; then
+        port="$2"; shift
+      else
+        echo "Error: found a --port parameter with no value"
+        usage
+      fi
+      ;;
     *)
-      echo "Unknown argument: $1"
+      # NOTE: This checks if the variable is either unset or empty. This is
+      #       intentional because setting the name (or port) to an empty value
+      #       would still be an error.
+      if [ -z "${arg_name:-}" ]; then
+        arg_name="$1"
+      elif [ -z "${arg_port:-}" ]; then
+        if [[ $1 =~ ^[0-9]+$ ]]; then
+          arg_port="$1"
+        else
+          echo "Invalid port: $1"
+          usage
+        fi
+      else
+        echo "Unknown argument: $1"
+      fi
       ;;
   esac
   shift
 done
+
+name=${arg_name-${A3_NAME-}}
+if [ -z "$name" ]; then
+  usage
+else
+  file=$servers/${name}.sh
+  if [ ! -e "$file" ]; then
+    echo "Server file ${name}.sh does not exist"
+    exit 1
+  fi
+  . $file
+fi
+
+port=${arg_port-${A3_PORT:-$PORT}}
+
+if [ -z "${port}" ]; then
+  echo "Missing parameter PORT"
+  exit 1
+fi
 
 echo "name: $name"
 echo "port: $port"
