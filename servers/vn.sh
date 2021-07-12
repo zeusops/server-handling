@@ -8,7 +8,7 @@ CONFIG=  # default: $NAME
 # Uncomment to prevent automatic key updates
 # NOKEYS=on
 
-SERVERMODS="-serverMod=mods/server/@zeusops_server;mods/server/@cntr"
+SERVERMODS="-serverMod=mods/server/@zeusops_server"
 EXTRAMODS=vn
 
 # Uncomment to prevent automatic mod detection based on $NAME
