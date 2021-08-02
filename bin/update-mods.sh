@@ -133,6 +133,8 @@ export -f link_keys
 export -f relpath
 
 allmods=""
+allmodids=""
+allmodids_array=()
 missing_name=""
 missingid=""
 
@@ -153,6 +155,14 @@ while read line; do
     fi
 
     allmods="$allmods +workshop_download_item 107410 $modid validate"
+    if [ -z "$allmodids" ]
+    then
+        # Its empty, no space necessary
+        allmodids="$modid"
+    else
+        allmodids="$allmodids $modid"
+    fi
+	allmodids_array+=("$modid")
 
     #moddlpath=$workshop/$modid
     if [ ! -e $workshop/$modid ]; then
@@ -166,14 +176,39 @@ while read line; do
   fi
 done < $mod_list
 
-if [ "$skip_downloads" = "no" ] && [ "$force_download" = "yes" ]; then
-  echo "Updating mods"
-  $STEAMCMD +login $steam_username +force_install_dir $STEAM_INSTALL_DIR $allmods +quit
-  # Run the script from the start without downloading to set up symlinks and keys
-  $0 $name --skipdl
-  exit
+# Run the DB update, fetching the current mod update dates from the Workshop
+path_data="${BASE_PATH:-$HOME/server}/files/data"
+mkdir -p $path_data
+python3 ${BASE_PATH:-$HOME/server}/files/bin/updateDb.py $path_data/versions_workshop_$name.json $path_data/versions_local_state_$name.json $allmodids
+update_status=$?
+
+
+if [ "$skip_downloads" = "no" ] && ([ "$force_download" = "yes" ] || [ "$update_status" = "1" ]); then
+	did_update="no"
+    if [ "$force_download" = "yes" ]; then
+		echo "Updating all mods (forced)..."
+		$STEAMCMD +login $steam_username +force_install_dir $STEAM_INSTALL_DIR $allmods +quit
+		did_update="yes"
+	elif [ "$update_status" = "1" ]; then
+		echo "Updating only updated mods..."
+		for modid in "${allmodids_array[@]}"
+		do
+			python3 ${BASE_PATH:-$HOME/server}/files/bin/checkState.py $path_data/versions_local_state_$name.json ${modid}
+			mod_status=$?
+			if [ "$mod_status" = "1" ]; then
+				echo "Detected update for mod ${modid}, running Steam update."
+				$STEAMCMD +login $steam_username +force_install_dir $STEAM_INSTALL_DIR +workshop_download_item 107410 ${modid} validate +quit
+				did_update="yes"
+			fi
+		done
+	fi
+	if [ "$did_update" = "yes" ]; then
+		# Run the script from the start without downloading to set up symlinks and keys
+		$0 $name --skipdl
+		exit
+	fi
 else
-  echo "Updating mod keys. This does not download updates"
+  echo "Updating mod keys. This does not download updates!"
 fi
 
 echo "Creating folders"
@@ -258,7 +293,7 @@ find -L $mods/ -maxdepth 3 -iname "*.bikey" -exec bash -c 'link_keys "$0"' {} \;
 
 remove_old_keys
 
-echo -n "All mods updated. "
+echo -n "All mod symlinks updated. "
 updatedcount=$(find -L $updated_keys -type f -name "*.bikey" | wc -l)
 if [ $updatedcount -eq 0 ]; then
   echo "No new keys were installed."
