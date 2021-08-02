@@ -2,3 +2,6 @@
 	path = modlists
 	url = https://github.com/zeusops/modlists
   ignore = all
+[submodule "bin/internal/workshop-checker"]
+	path = bin/internal/workshop-checker
+	url = https://github.com/zeusops/workshop-checker.git

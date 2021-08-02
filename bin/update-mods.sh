@@ -177,9 +177,9 @@ while read line; do
 done < $mod_list
 
 # Run the DB update, fetching the current mod update dates from the Workshop
-path_data="${BASE_PATH:-$HOME/server}/files/data"
+path_data=$files/data
 mkdir -p $path_data
-python3 ${BASE_PATH:-$HOME/server}/files/bin/updateDb.py $path_data/versions_workshop_$name.json $path_data/versions_local_state_$name.json $allmodids
+$bin/internal/workshop-checker/update_db.py -d $path_data/versions_workshop_$name.json -s $path_data/versions_local_state_$name.json $allmodids
 update_status=$?
 
 
@@ -193,7 +193,7 @@ if [ "$skip_downloads" = "no" ] && ([ "$force_download" = "yes" ] || [ "$update_
     echo "Updating only updated mods..."
     for modid in "${allmodids_array[@]}"
     do
-      python3 ${BASE_PATH:-$HOME/server}/files/bin/checkState.py $path_data/versions_local_state_$name.json ${modid}
+      $bin/internal/workshop-checker/check_state.py -s $path_data/versions_local_state_$name.json ${modid}
       mod_status=$?
       if [ "$mod_status" = "1" ]; then
         echo "Detected update for mod ${modid}, running Steam update."
