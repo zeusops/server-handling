@@ -138,6 +138,7 @@ allmodids_array=()
 missing_name=""
 missingid=""
 
+declare -A mod_names
 while read line; do
   # Skip line if it starts with a #
   [[ $line =~ ^#.* ]] && continue
@@ -149,6 +150,7 @@ while read line; do
     modname=${array[0]}
     modid=${array[1]}
     modpath=$mods/$modname
+    mod_names["$modid"]="$modname"
     if [ $modid -eq 0 ]; then
       echo "Skipping local mod $modname"
       continue
@@ -176,37 +178,42 @@ while read line; do
   fi
 done < $mod_list
 
-# Run the DB update, fetching the current mod update dates from the Workshop
-path_data=$files/data
-mkdir -p $path_data
-$bin/internal/workshop-checker/update_db.py -d $path_data/versions_workshop_$name.json -s $path_data/versions_local_state_$name.json $allmodids
-update_status=$?
+did_update="no"
+if [ "$skip_downloads" = "no" ]; then
+  # Run the DB update, fetching the current mod update dates from the Workshop
+  path_data=$files/data
+  mkdir -p $path_data
+  update_status=0
+  $bin/internal/workshop-checker/update_db.py \
+      -d $path_data/versions_workshop_$name.json \
+      -s $path_data/versions_local_state_$name.json $allmodids || update_status=$?
 
-
-if [ "$skip_downloads" = "no" ] && ([ "$force_download" = "yes" ] || [ "$update_status" = "1" ]); then
-  did_update="no"
-    if [ "$force_download" = "yes" ]; then
+  if [ "$force_download" = "yes" ]; then
     echo "Updating all mods (forced)..."
     $STEAMCMD +login $steam_username +force_install_dir $STEAM_INSTALL_DIR $allmods +quit
+    echo
     did_update="yes"
   elif [ "$update_status" = "1" ]; then
     echo "Updating only updated mods..."
     for modid in "${allmodids_array[@]}"
     do
-      $bin/internal/workshop-checker/check_state.py -s $path_data/versions_local_state_$name.json ${modid}
-      mod_status=$?
+      modname=${mod_names[$modid]}
+      echo "Checking mod $modname ($modid)"
+      mod_status=0
+      $bin/internal/workshop-checker/check_state.py -s $path_data/versions_local_state_$name.json $modid || mod_status=$?
       if [ "$mod_status" = "1" ]; then
-        echo "Detected update for mod ${modid}, running Steam update."
-        $STEAMCMD +login $steam_username +force_install_dir $STEAM_INSTALL_DIR +workshop_download_item 107410 ${modid} validate +quit
+        echo "Detected update for mod $modname, running Steam update."
+        $STEAMCMD +login $steam_username +force_install_dir $STEAM_INSTALL_DIR +workshop_download_item 107410 $modid validate +quit
+        echo
         did_update="yes"
       fi
     done
   fi
-  if [ "$did_update" = "yes" ]; then
-    # Run the script from the start without downloading to set up symlinks and keys
-    $0 $name --skipdl
-    exit
-  fi
+fi
+if [ "$did_update" = "yes" ]; then
+  # Run the script from the start without downloading to set up symlinks and keys
+  $0 $name --skipdl
+  exit
 else
   echo "Updating mod keys. This does not download updates!"
 fi
