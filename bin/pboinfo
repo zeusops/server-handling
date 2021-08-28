@@ -17,7 +17,7 @@ get_variable() {
   local file="${2:-description.ext}"
   local path="extract/$file"
   if [ -e $path ]; then
-    grep "$variable =" $path | sed -r 's/^.*= ?"?([^"]*)"?;.*$/\1/' || ret=$?
+    grep "$variable =" $path | head -n1 | sed -r 's/^.*= ?"?([^"]*)"?;.*$/\1/' || ret=$?
     if [ ${ret:-0} -eq 1 ]; then
       echo "NOTFOUND"
     fi
