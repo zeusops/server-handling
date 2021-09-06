@@ -187,6 +187,10 @@ if [ "$skip_downloads" = "no" ]; then
   $bin/internal/workshop-checker/update_db.py -m \
       -d $path_data/versions_workshop_$name.json \
       -s $path_data/versions_local_state_$name.json $allmodids || update_status=$?
+  if [ "$update_status" != "0" ] && [ "$update_status" != "1" ]; then
+    echo "Failed to check mod update status. Exiting"
+    exit "$update_status"
+  fi
 
   if [ "$force_download" = "yes" ]; then
     echo "Updating all mods (forced)..."
