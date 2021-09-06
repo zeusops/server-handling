@@ -4,12 +4,13 @@ set -euo pipefail
 
 readonly name=${1:-}; shift || true
 if [ -z "$name" ]; then
-  echo "Usage: $(basename $0) servername [--skipdl] [--all] [--keys] [--prompt]"
+  echo "Usage: $(basename $0) servername [--skipdl] [--all] [--keys] [--prompt] [--no-missing]"
   echo "OPTIONS"
-  echo "  --skipdl   Skip all downloads"
-  echo "  --all      Redownload all mods"
-  echo "  --keys     Install keys automatically"
-  echo "  --prompt   Show a confirmation prompt before downloading missing mods"
+  echo "  --skipdl      Skip all downloads"
+  echo "  --all         Redownload all mods"
+  echo "  --keys        Install keys automatically"
+  echo "  --prompt      Show a confirmation prompt before downloading missing mods"
+  echo "  --no-missing  Do not install missing mods"
   exit 1
 fi
 
@@ -17,6 +18,7 @@ prompt_missing=no
 skip_downloads=no
 install_keys_automatically=no
 force_download=no
+install_missing=yes
 while [ "${1:-}" ]; do
   case "$1" in
   --skipdl)
@@ -30,6 +32,9 @@ while [ "${1:-}" ]; do
   ;;
   --prompt)
     prompt_missing=yes
+  ;;
+  --no-missing)
+    install_missing=no
   ;;
   esac
   shift
@@ -184,8 +189,10 @@ if [ "$skip_downloads" = "no" ]; then
   path_data=$files/data
   mkdir -p $path_data
   update_status=0
-  $bin/internal/workshop-checker/update_db.sh -m \
-      -d $path_data/versions_workshop_$name.json \
+  if [ "${install_missing:-yes}" != "yes" ]; then
+    flag="-e"
+  fi
+  $bin/internal/workshop-checker/update_db.sh -c -m "${flag:-}" \
       -s $path_data/versions_local_state_$name.json $allmodids || update_status=$?
   if [ "$update_status" != "0" ] && [ "$update_status" != "1" ]; then
     echo "Failed to check mod update status. Exiting"
@@ -206,6 +213,7 @@ if [ "$skip_downloads" = "no" ]; then
       mod_status=0
       $bin/internal/workshop-checker/check_update.sh -s $path_data/versions_local_state_$name.json $modid || mod_status=$?
       if [ "$mod_status" = "1" ]; then
+        # TODO: mail
         echo "Detected update for mod $modname, running Steam update."
         $STEAMCMD +login $steam_username +force_install_dir $STEAM_INSTALL_DIR +workshop_download_item 107410 $modid validate +quit
         echo
@@ -234,28 +242,32 @@ find $updated_keys -type l -exec rm {} \;
 
 if [ "$skip_downloads" = "no" ] && [ ! -z "${missing_name:-}" ]; then
   echo "Missing mods: $missing_name"
-  if [ "${prompt_missing:-no}" = "no" ]; then
-    install_mods
-  else
-    while :; do
-      read -t10 -p "Do you want to install the missing mods to the server automatically? (10 seconds timeout) (Y/n): " || ret=$?
-      if [ ${ret:-$?} -gt 128 ]; then
-        echo "Timed out waiting for user response"
-        REPLY=Y
-        break
-      fi
+  if [ "${install_missing:-yes}" = "yes" ]; then
+    if [ "${prompt_missing:-no}" = "no" ]; then
+      install_mods
+    else
+      while :; do
+        read -t10 -p "Do you want to install the missing mods to the server automatically? (10 seconds timeout) (Y/n): " || ret=$?
+        if [ ${ret:-$?} -gt 128 ]; then
+          echo "Timed out waiting for user response"
+          REPLY=Y
+          break
+        fi
 
-      case $REPLY in
-        [yY]*|*)
-          install_mods
-          break
-        ;;
-        [nN]*)
-          echo "Not installing mods"
-          break
-        ;;
-      esac
-    done
+        case $REPLY in
+          [yY]*|*)
+            install_mods
+            break
+          ;;
+          [nN]*)
+            echo "Not installing mods"
+            break
+          ;;
+        esac
+      done
+    fi
+  else
+    echo "Not installing missing mods"
   fi
 fi
 
