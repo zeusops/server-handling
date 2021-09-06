@@ -184,7 +184,7 @@ if [ "$skip_downloads" = "no" ]; then
   path_data=$files/data
   mkdir -p $path_data
   update_status=0
-  $bin/internal/workshop-checker/update_db.py -m \
+  $bin/internal/workshop-checker/update_db.sh -m \
       -d $path_data/versions_workshop_$name.json \
       -s $path_data/versions_local_state_$name.json $allmodids || update_status=$?
   if [ "$update_status" != "0" ] && [ "$update_status" != "1" ]; then
@@ -204,7 +204,7 @@ if [ "$skip_downloads" = "no" ]; then
       modname=${mod_names[$modid]}
       echo "Checking mod $modname ($modid)"
       mod_status=0
-      $bin/internal/workshop-checker/check_state.py -s $path_data/versions_local_state_$name.json $modid || mod_status=$?
+      $bin/internal/workshop-checker/check_update.sh -s $path_data/versions_local_state_$name.json $modid || mod_status=$?
       if [ "$mod_status" = "1" ]; then
         echo "Detected update for mod $modname, running Steam update."
         $STEAMCMD +login $steam_username +force_install_dir $STEAM_INSTALL_DIR +workshop_download_item 107410 $modid validate +quit
