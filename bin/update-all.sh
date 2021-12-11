@@ -33,7 +33,7 @@ echo $modparam
 echo $INSTALLDIR
 
 echo "Updating mods"
-$STEAMCMD +login $STEAMUSERNAME +force_install_dir $STEAMINSTALLDIR $modparam +quit
+$STEAMCMD +force_install_dir $STEAMINSTALLDIR +login $STEAMUSERNAME $modparam +quit
 
 while read line; do
 	array=($line)

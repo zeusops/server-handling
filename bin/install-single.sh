@@ -32,7 +32,7 @@ if [ -z $skip ]; then
 fi
 
 echo "Downloading mod $mod_name with ID $mod_id"
-cmd="$STEAMCMD +login $steam_username +force_install_dir $STEAM_INSTALL_DIR +workshop_download_item 107410 $mod_id validate +quit"
+cmd="$STEAMCMD +force_install_dir $STEAM_INSTALL_DIR +login $steam_username +workshop_download_item 107410 $mod_id validate +quit"
 echo $cmd
 $cmd
 echo

@@ -48,7 +48,7 @@ if [ "$3" == "--jointop" ]; then
 fi
 
 echo "Downloading mod $MODNAME with ID $MODID"
-./steamcmd.sh +login $STEAMUSERNAME +force_install_dir $INSTALLDIR +workshop_download_item 107410 $MODID validate +quit
+./steamcmd.sh +force_install_dir $INSTALLDIR +login $STEAMUSERNAME +workshop_download_item 107410 $MODID validate +quit
 echo
 
 if [ -e $MODS/$MODNAME ]; then
