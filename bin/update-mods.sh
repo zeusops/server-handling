@@ -197,7 +197,7 @@ if [ "$skip_downloads" = "no" ]; then
   if [ "${install_missing:-yes}" != "yes" ]; then
     flag="-e"
   fi
-  $bin/internal/workshop-checker/update_db.sh -c -m "${flag:-}" \
+  $bin/internal/workshop-checker/update_db.sh -c -m ${flag:-} \
       -s $path_data/versions_local_state_$name.json $allmodids || update_status=$?
   if [ "$update_status" != "0" ] && [ "$update_status" != "1" ]; then
     echo "Failed to check mod update status. Exiting"
@@ -219,7 +219,7 @@ if [ "$skip_downloads" = "no" ]; then
       modname=${mod_names[$modid]}
       echo "Checking mod $modname ($modid)"
       mod_status=0
-      $bin/internal/workshop-checker/check_update.sh -s $path_data/versions_local_state_$name.json $modid || mod_status=$?
+      $bin/internal/workshop-checker/check_update.sh -s $path_data/versions_local_state_$name.json ${flag:-} $modid || mod_status=$?
       if [ "$mod_status" = "1" ]; then
         # TODO: mail
         echo "Detected update for mod $modname, running Steam update."
