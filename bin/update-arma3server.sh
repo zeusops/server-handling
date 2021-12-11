@@ -20,7 +20,7 @@ echo "Updating main installation"
 
 
 set -x
-$STEAMCMD +login $steam_username +force_install_dir $STEAM_INSTALL_DIR +app_update 233780 $branch validate +exit
+$STEAMCMD +force_install_dir $STEAM_INSTALL_DIR +login $steam_username +app_update 233780 $branch validate +exit
 set +x
 
 $bin/finish-install.sh

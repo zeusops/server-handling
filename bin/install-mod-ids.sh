@@ -23,7 +23,7 @@ for mod_id in $mod_ids; do
   all_mods="$all_mods +workshop_download_item 107410 $mod_id validate"
 done
 
-cmd="$STEAMCMD +login $steam_username +force_install_dir $STEAM_INSTALL_DIR $all_mods +quit"
+cmd="$STEAMCMD +force_install_dir $STEAM_INSTALL_DIR +login $steam_username $all_mods +quit"
 echo $cmd
 $cmd
 echo

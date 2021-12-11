@@ -209,7 +209,7 @@ if [ "$skip_downloads" = "no" ]; then
   fi
   if [ "$force_download" = "yes" ]; then
     echo "Updating all mods (forced)..."
-    $STEAMCMD +login $steam_username +force_install_dir $STEAM_INSTALL_DIR $allmods +quit
+    $STEAMCMD +force_install_dir $STEAM_INSTALL_DIR +login $steam_username $allmods +quit
     echo
     did_update="yes"
   elif [ "$update_status" = "1" ]; then
@@ -223,7 +223,7 @@ if [ "$skip_downloads" = "no" ]; then
       if [ "$mod_status" = "1" ]; then
         # TODO: mail
         echo "Detected update for mod $modname, running Steam update."
-        $STEAMCMD +login $steam_username +force_install_dir $STEAM_INSTALL_DIR +workshop_download_item 107410 $modid validate +quit
+        $STEAMCMD +force_install_dir $STEAM_INSTALL_DIR +login $steam_username +workshop_download_item 107410 $modid validate +quit
         echo
         did_update="yes"
       fi
