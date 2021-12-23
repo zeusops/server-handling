@@ -91,6 +91,8 @@ readonly config=${CONFIG:-$name}
 readonly params=${PARAMS:-}
 readonly server_mods=${SERVERMODS:-}
 readonly extra_mods=${EXTRAMODS:-}
+readonly password=${PASSWORD:-}
+
 if [ "$WINDOWS" = "yes" ]; then
   readonly config_path=$files_link\\config\\$config.cfg
   readonly basic_path=$files_link\\basic\\basic.cfg
@@ -152,6 +154,7 @@ else
     "-connect=127.0.0.1" \
     "-profiles=$hc_name" \
     "-port=$port" \
+    "-password=$password" \
     "$mods\;$extra_mods"
 fi
 
