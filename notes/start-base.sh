@@ -155,7 +155,7 @@ else
     "-profiles=$hc_name" \
     "-port=$port" \
     "-password=$password" \
-    "$mods\;$extra_mods"
+    "$mods;$extra_mods"
 fi
 
 set -x
