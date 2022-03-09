@@ -92,11 +92,11 @@ function link_keys {
   key_path="$1"
   key_name=$(basename "$key_path")
   # echo "key $key_name"
-  if [ ! -f $available_keys/$key_name ]; then
-    path=$(relpath $key_path $updated_keys)
+  if [ ! -f "$available_keys/$key_name" ]; then
+    path=$(relpath "$key_path" "$updated_keys")
     #echo path $path
     #symlink -vf $path $updated_keys/$key_name
-    ln -svf $path $key_name
+    ln -svf "$path" "$key_name"
   fi
 }
 
