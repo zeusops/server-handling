@@ -96,7 +96,7 @@ function link_keys {
     path=$(relpath $key_path $updated_keys)
     #echo path $path
     #symlink -vf $path $updated_keys/$key_name
-    ln -svf $path $updated_keys/$key_name
+    ln -svf $path $key_name
   fi
 }
 
@@ -174,7 +174,7 @@ while read line; do
     else
         allmodids="$allmodids $modid"
     fi
-  allmodids_array+=("$modid")
+    allmodids_array+=("$modid")
 
     #moddlpath=$workshop/$modid
     if [ ! -e $workshop/$modid ]; then
@@ -302,9 +302,9 @@ while read line; do
     #moddlpath=$workshop/$modid
     #symlink $workshop/$modid $modpath
     if [ -d ../../workshop/$modid ]; then
-      ln -s ../../workshop/$modid $modpath
+      ln -s ../../workshop/$modid $modname
     else
-      echo Skipping not downloaded mod $modpath
+      echo Skipping not downloaded mod $modname
     fi
   else
     echo "Found empty modid"
@@ -320,7 +320,9 @@ echo "Linking keys"
 # maxdepth 3: matches $mod/keys/*.bikey at most, not deeper.
 # 3cb has a tendency of creating duplicate keys in $mod/optional/keys/*.bikey,
 # which causes unexpected behaviour without the depth limit.
+pushd $updated_keys > /dev/null
 find -L $mods/ -maxdepth 3 -iname "*.bikey" -exec bash -c 'link_keys "$0"' {} \;
+popd > /dev/null
 
 remove_old_keys
 
