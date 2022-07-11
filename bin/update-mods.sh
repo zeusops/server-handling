@@ -4,7 +4,7 @@ set -euo pipefail
 
 readonly name=${1:-}; shift || true
 if [ -z "$name" ]; then
-  echo "Usage: $(basename $0) servername [--skipdl] [--all] [--keys] [--prompt] [--no-missing] [--check-only] [-v|--verbose]"
+  echo "Usage: $(basename $0) servername [--skipdl] [--all] [--keys] [--prompt] [--no-missing] [--check-only] [--send-mail] [-v|--verbose]"
   echo "OPTIONS"
   echo "  --skipdl      Skip all downloads"
   echo "  --all         Redownload all mods"
@@ -12,6 +12,7 @@ if [ -z "$name" ]; then
   echo "  --prompt      Show a confirmation prompt before downloading missing mods"
   echo "  --no-missing  Do not install missing mods"
   echo "  --check-only  Only check for updates, do not download"
+  echo "  --send-mail   Send mail on mod updates"
   echo "  --verbose     Enable verbose output"
   exit 1
 fi
@@ -22,6 +23,7 @@ install_keys_automatically=no
 force_download=no
 install_missing=yes
 check_only=no
+send_mail=no
 verbose=no
 while [ "${1:-}" ]; do
   case "$1" in
@@ -42,6 +44,9 @@ while [ "${1:-}" ]; do
   ;;
   --check-only)
     check_only=yes
+  ;;
+  --send-mail)
+    send_mail=yes
   ;;
   --verbose|-v)
     verbose=yes
@@ -206,7 +211,10 @@ if [ "$skip_downloads" = "no" ]; then
   if [ "${verbose:-no}" = "yes" ]; then
     flags="-v ${flags}"
   fi
-  $bin/internal/workshop-checker/update_db.sh -c -m ${flags:-} \
+  if [ "${send_mail:-no}" = "yes" ]; then
+    flags="-m ${flags}"
+  fi
+  $bin/internal/workshop-checker/update_db.sh -c ${flags:-} \
       -s $path_data/versions_local_state_$name.json $allmodids || update_status=$?
   if [ "$update_status" != "0" ] && [ "$update_status" != "1" ]; then
     echo "Failed to check mod update status. Exiting"
