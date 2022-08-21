@@ -205,23 +205,23 @@ if [ "$skip_downloads" = "no" ]; then
   mkdir -p $path_data
   update_status=0
   flags=""
-  if [ "${install_missing:-yes}" != "yes" ]; then
+  if [ "$install_missing" != "yes" ]; then
     flags="-e ${flags}"
   fi
-  if [ "${verbose:-no}" = "yes" ]; then
+  if [ "$verbose" = "yes" ]; then
     flags="-v ${flags}"
   fi
-  if [ "${send_mail:-no}" = "yes" ]; then
+  if [ "$send_mail" = "yes" ]; then
     flags="-m ${flags}"
   fi
-  $bin/internal/workshop-checker/update_db.sh -c ${flags:-} \
+  $bin/internal/workshop-checker/update_db.sh -c $flags \
       -s $path_data/versions_local_state_$name.json $allmodids || update_status=$?
   if [ "$update_status" != "0" ] && [ "$update_status" != "1" ]; then
     echo "Failed to check mod update status. Exiting"
     exit "$update_status"
   fi
 
-  if [ "${check_only:-no}" = "yes" ]; then
+  if [ "$check_only" = "yes" ]; then
     exit
   fi
   if [ "$force_download" = "yes" ]; then
@@ -236,7 +236,7 @@ if [ "$skip_downloads" = "no" ]; then
       modname=${mod_names[$modid]}
       echo "Checking mod $modname ($modid)"
       mod_status=0
-      $bin/internal/workshop-checker/check_update.sh -s $path_data/versions_local_state_$name.json ${flag:-} $modid || mod_status=$?
+      $bin/internal/workshop-checker/check_update.sh -s $path_data/versions_local_state_$name.json $modid || mod_status=$?
       if [ "$mod_status" = "1" ]; then
         # TODO: mail
         echo "Detected update for mod $modname, running Steam update."
@@ -265,10 +265,10 @@ find $mods -type l -exec rm {} \;
 echo "Removing old key links"
 find $updated_keys -type l -exec rm {} \;
 
-if [ "$skip_downloads" = "no" ] && [ ! -z "${missing_name:-}" ]; then
+if [ "$skip_downloads" = "no" ] && [ ! -z "$missing_name" ]; then
   echo "Missing mods: $missing_name"
-  if [ "${install_missing:-yes}" = "yes" ]; then
-    if [ "${prompt_missing:-no}" = "no" ]; then
+  if [ "$install_missing" = "yes" ]; then
+    if [ "$prompt_missing" = "no" ]; then
       install_mods
     else
       while :; do
@@ -350,7 +350,7 @@ if [ $updatedcount -eq 0 ]; then
 else
   echo "Following keys were updated:"
   ls $updated_keys
-  if [ "${install_keys_automatically:-no}" = "yes" ]; then
+  if [ "$install_keys_automatically" = "yes" ]; then
     install_keys
   else
     while :; do
