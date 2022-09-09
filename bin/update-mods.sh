@@ -217,7 +217,7 @@ if [ "$skip_downloads" = "no" ]; then
   $bin/internal/workshop-checker/update_db.sh -c $flags \
       -w "$STEAM_INSTALL_DIR" \
       -s $path_data/versions_local_state_$name.json $allmodids || update_status=$?
-  if [ "$update_status" != "0" ] && [ "$update_status" != "1" ]; then
+  if [ "$update_status" != "0" ] && [ "$update_status" != "4" ]; then
     echo "Failed to check mod update status. Exiting"
     exit "$update_status"
   fi
