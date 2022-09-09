@@ -21,7 +21,12 @@ fi
 
 case $PLATFORM in
   linux)
-    steamcmd=/usr/games/steamcmd
+    for x in $steam_dir/steamcmd{,.sh} $HOME/steamcmd/steamcmd{,.sh} /usr/games/steamcmd; do
+      if [ -x "$x" ]; then
+        steamcmd="$x"
+	break
+      fi
+    done
     steam_install_dir=$install_dir
   ;;
   wsl)
