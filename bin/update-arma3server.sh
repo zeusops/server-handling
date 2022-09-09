@@ -1,6 +1,8 @@
 #!/bin/bash
 # cd /home/steam/steamcmd
 
+set -euo pipefail
+
 INSTALL_ARMA=yes
 source ${BASE_PATH:-$HOME/server}/files/bin/internal/environment.sh
 
