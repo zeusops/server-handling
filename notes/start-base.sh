@@ -17,6 +17,9 @@ if [ ! -e "$base_path/link/available_keys/optional" ]; then
 else
   update_optional=no
 fi
+skip_init=no
+hc=no
+hc_name=unset
 perf_mode=yes
 
 while [ ${#} -gt 0 ]; do
@@ -91,16 +94,16 @@ fi
 
 port=${arg_port-${A3_PORT:-$PORT}}
 
-if [ -z "${port}" ]; then
+if [ -z "$port" ]; then
   echo "Missing parameter PORT"
   exit 1
 fi
 
 echo "name: $name"
 echo "port: $port"
-echo "skip_init: ${skip_init:-no}"
-echo "hc: ${hc:-no}"
-echo "hc_name: ${hc_name:-unset}"
+echo "skip_init: $skip_init"
+echo "hc: $hc"
+echo "hc_name: $hc_name"
 
 readonly profile=${PROFILE:-server}
 readonly config=${CONFIG:-$name}
@@ -117,8 +120,8 @@ else
   readonly basic_path=$files_link/basic/basic.cfg
 fi
 
-if [ "${skip_init:-no}" = "no" ]; then
-  if [ "${update_optional:-no}" = "yes" ]; then
+if [ "$skip_init" = "no" ]; then
+  if [ "$update_optional" = "yes" ]; then
     echo Updating optional mods
     update-mods.sh optional
   fi
@@ -160,7 +163,7 @@ else
   fi
 fi
 
-if [ "${hc:-no}" = "no" ]; then
+if [ "$hc" = "no" ]; then
   printf -v all_parameters "%s " \
     "-name=$profile" \
     "-config=$config_path" \
