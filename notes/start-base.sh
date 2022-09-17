@@ -183,6 +183,7 @@ else
     "$mods;$extra_mods"
 fi
 
+cd $armadir
 set -x
 #echo \
 $armadir/$server \
