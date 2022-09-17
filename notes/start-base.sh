@@ -7,10 +7,16 @@ source ${BASE_PATH:-$HOME/server}/files/bin/internal/environment.sh
 readonly files_link=${FILES_LINK:-files}
 
 usage() {
-  echo "Usage: $(basename $0) [--skip-init|--no-init] [--init] [--update-optional|--optional] [--hc] [hc1] NAME [PORT]"
+  echo "Usage: $(basename $0) [--skip-init|--no-init] [--init] [--update-optional|--optional|--no-update-optional|--no-optional] [--hc] [hc1] NAME [PORT]"
   echo "Uses the environment variables A3_NAME and/or A3_PORT, if set"
   exit 1
 }
+
+if [ ! -e "$base_path/link/available_keys/optional" ]; then
+  update_optional=yes
+else
+  update_optional=no
+fi
 
 while [ ${#} -gt 0 ]; do
   case "$1" in
@@ -19,6 +25,9 @@ while [ ${#} -gt 0 ]; do
       ;;
     --update-optional|--optional)
       update_optional=yes
+      ;;
+    --no-update-optional|--no-optional)
+      update_optional=no
       ;;
     --hc)
       hc=yes
