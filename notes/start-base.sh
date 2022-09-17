@@ -7,7 +7,7 @@ source ${BASE_PATH:-$HOME/server}/files/bin/internal/environment.sh
 readonly files_link=${FILES_LINK:-files}
 
 usage() {
-  echo "Usage: $(basename $0) [--skip-init|--no-init] [--init] [--update-optional|--optional|--no-update-optional|--no-optional] [--hc] [hc1] NAME [PORT]"
+  echo "Usage: $(basename $0) [--skip-init|--no-init] [--init] [--update-optional|--optional|--no-update-optional|--no-optional] [--perf|--no-perf] [--hc] [hc1] NAME [PORT]"
   echo "Uses the environment variables A3_NAME and/or A3_PORT, if set"
   exit 1
 }
@@ -17,6 +17,7 @@ if [ ! -e "$base_path/link/available_keys/optional" ]; then
 else
   update_optional=no
 fi
+perf_mode=yes
 
 while [ ${#} -gt 0 ]; do
   case "$1" in
@@ -40,6 +41,12 @@ while [ ${#} -gt 0 ]; do
       ;;
     --init|--force-init)
       skip_init=no
+      ;;
+    --perf)
+      perf_mode=yes
+      ;;
+    --no-perf)
+      perf_mode=no
       ;;
     --port)
       if [ $# -gt 1 ]; then
@@ -140,11 +147,17 @@ echo "Launching with mods: $mods"
 echo "Server name: $name, port: $port"
 
 if [ "$PLATFORM" = "wsl" ]; then
-  server=arma3server_x64_perf.exe
-  #server=arma3server_x64.exe
+  if [ "$perf_mode" = "yes" ]; then
+    server=arma3server_x64_perf.exe
+  else
+    server=arma3server_x64.exe
+  fi
 else
-  server=arma3server_x64_perf
-  #server=arma3server_x64
+  if [ "$perf_mode" = "yes" ]; then
+    server=arma3server_x64_perf
+  else
+    server=arma3server_x64
+  fi
 fi
 
 if [ "${hc:-no}" = "no" ]; then
