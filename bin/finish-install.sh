@@ -38,9 +38,9 @@ if [ ! -L $files_link ]; then
 fi
 
 if [ ! -e $optional_keys/main ]; then
-  ln -vs $available_keys/optional $optional_keys/main
+  ln -fvs $available_keys/optional $optional_keys/main
 fi
 
 if [ ! -e $link/workshop ]; then
-  ln -vs $install_dir/steamapps/workshop/content/107410 $link/workshop
+  ln -fvs $install_dir/steamapps/workshop/content/107410 $link/workshop
 fi
