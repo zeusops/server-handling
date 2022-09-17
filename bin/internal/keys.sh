@@ -52,10 +52,12 @@ pushd $keypath > /dev/null
 # Remove old keys
 find . -type l -exec rm {} \;
 
-ln -s ../available_keys/a3.bikey || true
+if [ ! -e a3.bikey ]; then
+  ln -sf ../available_keys/a3.bikey
+fi
 
 if [ ! -e ../optional_keys/$name ]; then
-  ln -s main ../optional_keys/$name
+  ln -sf main ../optional_keys/$name
 fi
 
 for dir in ../available_keys/$name ../optional_keys/$name; do
