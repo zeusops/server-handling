@@ -1,6 +1,5 @@
 #!/bin/bash
-# cd /home/steam/steamcmd
-
+if [ ${DEBUG:-no} = "yes" ]; then set -x; fi
 set -euo pipefail
 
 INSTALL_ARMA=yes
@@ -21,8 +20,8 @@ fi
 echo "Updating main installation"
 
 
-set -x
+old_setting=${-//[^x]/}
 $STEAMCMD +force_install_dir $STEAM_INSTALL_DIR +login $steam_username +app_update 233780 $branch validate +exit
-set +x
+if [[ -n "$old_setting" ]]; then set -x; else set +x; fi
 
 $bin/finish-install.sh
