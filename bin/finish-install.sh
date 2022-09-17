@@ -44,3 +44,7 @@ fi
 if [ ! -e $link/workshop ]; then
   ln -fvs $install_dir/steamapps/workshop/content/107410 $link/workshop
 fi
+
+if [ ! -e $base_path/arma3 ]; then
+  ln -fvs $armadir $base_path/arma3
+fi
