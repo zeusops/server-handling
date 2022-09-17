@@ -199,7 +199,7 @@ while read line; do
 done < $mod_list
 
 did_update="no"
-if [ "$skip_downloads" = "no" ]; then
+if [ ! -z "$allmods" -a "$skip_downloads" = "no" ]; then
   # Run the DB update, fetching the current mod update dates from the Workshop
   path_data=$files/data
   mkdir -p $path_data
