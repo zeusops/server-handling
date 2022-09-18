@@ -6,7 +6,7 @@ name="${NAME:-${1:-}}"
 echo name $name
 if [ -z "$name" ]; then >&2 echo "Usage: $(basename $0) NAME [TYPE]"; >&2 echo "TYPE can be: stdout, out, stderr, err, both"; exit 1; fi
 
-source ${BASE_PATH:-$HOME/server}/files/bin/internal/environment.sh
+source ${BASE_PATH:-$HOME/server}/server-handling/bin/internal/environment.sh
 
 type="${2:-both}"
 filter="${3:-}"

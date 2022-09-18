@@ -2,7 +2,7 @@
 if [ ${DEBUG:-no} = "yes" ]; then set -x; fi
 set -euo pipefail
 
-source ${BASE_PATH:-$HOME/server}/files/bin/internal/environment.sh
+source ${BASE_PATH:-$HOME/server}/server-handling/bin/internal/environment.sh
 
 readonly link=$base_path/link
 readonly available_keys=$link/available_keys

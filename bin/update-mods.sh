@@ -55,7 +55,7 @@ while [ "${1:-}" ]; do
   shift
 done
 
-source ${BASE_PATH:-$HOME/server}/files/bin/internal/environment.sh
+source ${BASE_PATH:-$HOME/server}/server-handling/bin/internal/environment.sh
 readonly mods=$armadir/mods/$name
 export updated_keys=$armadir/updated_keys/$name
 export available_keys=$armadir/available_keys/$name

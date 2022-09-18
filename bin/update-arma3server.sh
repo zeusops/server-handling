@@ -3,7 +3,7 @@ if [ ${DEBUG:-no} = "yes" ]; then set -x; fi
 set -euo pipefail
 
 INSTALL_ARMA=yes
-source ${BASE_PATH:-$HOME/server}/files/bin/internal/environment.sh
+source ${BASE_PATH:-$HOME/server}/server-handling/bin/internal/environment.sh
 
 if [ "${1:-}" = "perf" ]; then
   echo Profiling

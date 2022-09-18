@@ -1,6 +1,6 @@
 # Sourced by other scripts, not to be executed directly
 readonly base_path=${BASE_PATH:-$HOME/server}
-readonly files=${FILES:-$base_path/files}
+readonly files=${FILES:-$base_path/server-handling}
 readonly bin=${BIN:-$files/bin}
 readonly armadir=${ARMA_DIR:-$base_path/base-installation}
 readonly servers=${SERVERS:-$files/servers}

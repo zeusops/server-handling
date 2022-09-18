@@ -4,7 +4,7 @@ set -e
 STEAMUSERNAME=zeusoperations
 
 BASEPATH=$HOME
-mod_lists=$BASEPATH/files/modlists
+mod_lists=$BASEPATH/server-handling/modlists
 ALLMODS=$mod_lists/allmods.txt
 ALLMODIDS=$(mktemp --tmpdir modids-XXXX.txt)
 STEAMDIR=$HOME/.steam/steamcmd

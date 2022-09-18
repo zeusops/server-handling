@@ -2,9 +2,7 @@
 if [ ${DEBUG:-no} = "yes" ]; then set -x; fi
 set -euo pipefail
 
-installpath=mods
-
-source ${BASE_PATH:-$HOME/server}/files/bin/internal/environment.sh
+source ${BASE_PATH:-$HOME/server}/server-handling/bin/internal/environment.sh
 
 ALLMODIDS=$(mktemp --tmpdir modids-XXXX.txt)
 MODDIR=$install_dir/steamapps/workshop/content/107410
