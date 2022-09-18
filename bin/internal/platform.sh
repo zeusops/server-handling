@@ -15,6 +15,10 @@ case $(uname -s) in
     windows=yes
     platform=cygwin
   ;;
+  *)
+    >&2 echo Unsupported platform $(uname -s)
+    exit 1
+  ;;
 esac
 
 export PLATFORM=${PLATFORM:-$platform}
