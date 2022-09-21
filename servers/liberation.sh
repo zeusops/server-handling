@@ -3,7 +3,7 @@ PORT=2402
 
 PROFILE=2020-12-27-xmas-liberation # default: server
 CONFIG=  # default: $NAME
-PARAMS='-autoInit'
+#PARAMS='-autoInit'
 
 # Uncomment to prevent automatic key updates
 # NOKEYS=on

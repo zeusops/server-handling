@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../../files-main"
+		},
+		{
+			"path": "../../talos-origin"
+		}
+	]
+}
