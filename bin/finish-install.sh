@@ -48,3 +48,8 @@ fi
 if [ ! -e $base_path/arma3 ]; then
   ln -fvs $armadir $base_path/arma3
 fi
+
+if [ ! -e "$armadir/profiles" ]; then
+  mkdir -p "$link/profiles"
+  ln -fvs "$link/profiles" "$armadir/profiles"
+fi

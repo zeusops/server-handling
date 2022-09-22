@@ -166,6 +166,7 @@ fi
 if [ "$hc" = "no" ]; then
   printf -v all_parameters "%s " \
     "-name=$profile" \
+    "-profiles=profiles/server/" \
     "-config=$config_path" \
     "-cfg=$basic_path" \
     "-port=$port" \
@@ -177,7 +178,8 @@ else
     "-name=$hc_name" \
     "-client" \
     "-connect=127.0.0.1" \
-    "-profiles=$hc_name" \
+    "-cfg=$hc_name/basic.cfg" \
+    "-profiles=profiles/hc/$hc_name" \
     "-port=$port" \
     "-password=$password" \
     "$mods;$extra_mods"
