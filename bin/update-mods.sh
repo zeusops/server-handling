@@ -230,7 +230,7 @@ if [ ! -z "$allmods" -a "$skip_downloads" = "no" ]; then
     $STEAMCMD +force_install_dir $STEAM_INSTALL_DIR +login $steam_username $allmods +quit
     echo
     did_update="yes"
-  elif [ "$update_status" = "1" ]; then
+  elif [ "$update_status" = "4" ]; then
     echo "Updating only updated mods..."
     for modid in "${allmodids_array[@]}"
     do
