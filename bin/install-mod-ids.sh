@@ -4,10 +4,7 @@ set -euo pipefail
 
 source ${BASE_PATH:-$HOME/server}/server-handling/bin/internal/environment.sh
 
-ALLMODIDS=$(mktemp --tmpdir modids-XXXX.txt)
 MODDIR=$install_dir/steamapps/workshop/content/107410
-
-sort $mod_lists/*.txt -u > $ALLMODIDS
 
 if [ $# -lt 1 ]; then
 	echo "Usage: `basename $0` MODID [MODID]..."
