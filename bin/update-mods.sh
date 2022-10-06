@@ -256,6 +256,7 @@ if [ ! -z "$allmods" -a "$skip_downloads" = "no" ]; then
     did_update="yes"
   elif [ "$update_status" = "4" ]; then
     echo "Updating only updated mods..."
+    updated_mods=()
     for modid in "${allmodids_array[@]}"
     do
       modname=${mod_names[$modid]}
@@ -263,13 +264,14 @@ if [ ! -z "$allmods" -a "$skip_downloads" = "no" ]; then
       mod_status=0
       $bin/internal/workshop-checker/check_update.sh -s $path_data/versions_local_state_$name.json $modid || mod_status=$?
       if [ "$mod_status" = "1" ]; then
-        # TODO: mail
+        updated_mods+=("$modid")
         echo "Detected update for mod $modname, running Steam update."
-        $bin/install-mod-ids.sh $modid
-        echo
-        did_update="yes"
       fi
     done
+    # TODO: mail
+    $bin/install-mod-ids.sh "${updated_mods[@]}"
+    echo
+    did_update="yes"
   fi
 fi
 if [ "$did_update" = "yes" ]; then
