@@ -2,9 +2,8 @@
 if [ ${DEBUG:-no} = "yes" ]; then set -x; fi
 set -euo pipefail
 
-readonly name=${1:-}; shift || true
-if [ -z "$name" ]; then
-  echo "Usage: $(basename $0) servername [--skipdl] [--all] [--keys] [--prompt] [--no-missing] [--check-only] [--send-mail] [-v|--verbose]"
+usage() {
+  (echo "Usage: $(basename $0) servername [--skipdl] [--all] [--keys] [--prompt] [--no-missing] [--check-only] [--send-mail] [-v|--verbose]"
   echo "OPTIONS"
   echo "  --skipdl      Skip all downloads"
   echo "  --all         Redownload all mods"
@@ -13,9 +12,9 @@ if [ -z "$name" ]; then
   echo "  --no-missing  Do not install missing mods"
   echo "  --check-only  Only check for updates, do not download"
   echo "  --send-mail   Send mail on mod updates"
-  echo "  --verbose     Enable verbose output"
+  echo "  -v|--verbose  Enable verbose output") >&2
   exit 1
-fi
+}
 
 prompt_missing=no
 skip_downloads=no
@@ -25,6 +24,9 @@ install_missing=yes
 check_only=no
 send_mail=no
 verbose=no
+
+argv=()
+flags=()
 while [ "${1:-}" ]; do
   case "$1" in
   --skipdl)
@@ -51,9 +53,27 @@ while [ "${1:-}" ]; do
   --verbose|-v)
     verbose=yes
   ;;
+  --*)
+    flags+=("$1")
+  ;;
+  *)
+    argv+=("$1")
   esac
   shift
 done
+# Restore unprocessed positional arguments
+set -- "${argv[@]}"
+
+readonly name=${1:-}; shift || true
+if [ -z "$name" ]; then
+  usage
+fi
+# Restore unprocessed flags
+set -- "$@" "${flags[@]}"
+if [ $# -ne 0 ]; then
+  echo "Unknown arguments: $@" >&2
+  usage
+fi
 
 source ${BASE_PATH:-$HOME/server}/server-handling/bin/internal/environment.sh
 readonly mods=$armadir/mods/$name

@@ -7,8 +7,18 @@ source ${BASE_PATH:-$HOME/server}/server-handling/bin/internal/environment.sh
 readonly files_link=${FILES_LINK:-files}
 
 usage() {
-  echo "Usage: $(basename $0) [--skip-init|--no-init] [--init] [--update-optional|--optional|--no-update-optional|--no-optional] [--perf|--no-perf] [--hc] [hc1] NAME [PORT]"
-  echo "Uses the environment variables A3_NAME and/or A3_PORT, if set"
+  (echo "Usage: $(basename $0) [--skip-init|--no-init] [--init] [--update-optional|--optional|--no-update-optional|--no-optional] [--perf|--no-perf] [--hc] [HCNAME] NAME [PORT]"
+  echo "OPTIONS"
+  echo "  --skip-init|--no-init               Skip initialization of the mods"
+  echo "  --init                              Initialize the mods"
+  echo "  --update-optional|--optional        Force updating optional mods"
+  echo "  --no-update-optional|--no-optional  Do not update optional mods"
+  echo "  --perf|--no-perf                    Enable or disable performance binary"
+  echo "  --hc                                Create a headless client"
+  echo "  HCNAME                              Name of the headless client"
+  echo "  NAME                                Name of the server"
+  echo "  PORT                                Port of the server"
+  echo "Uses the environment variables A3_NAME and/or A3_PORT, if set") >&2
   exit 1
 }
 
@@ -22,6 +32,8 @@ hc=no
 hc_name=unset
 perf_mode=yes
 
+argv=()
+flags=()
 while [ ${#} -gt 0 ]; do
   case "$1" in
     --skip-init|--no-init)
@@ -59,45 +71,54 @@ while [ ${#} -gt 0 ]; do
         usage
       fi
       ;;
+    --*)
+      flags+=("$1")
+    ;;
     *)
-      # NOTE: This checks if the variable is either unset or empty. This is
-      #       intentional because setting the name (or port) to an empty value
-      #       would still be an error.
-      if [ -z "${arg_name:-}" ]; then
-        arg_name="$1"
-      elif [ -z "${arg_port:-}" ]; then
-        if [[ $1 =~ ^[0-9]+$ ]]; then
-          arg_port="$1"
-        else
-          echo "Invalid port: $1"
-          usage
-        fi
-      else
-        echo "Unknown argument: $1"
-      fi
-      ;;
+      argv+=("$1")
+    ;;
   esac
   shift
 done
+# Restore unprocessed positional arguments
+set -- "${argv[@]}"
+
+readonly arg_name="${1:-}"; shift || true
+readonly arg_port="${1:-}"; shift || true
+
+# Restore unprocessed flags
+set -- "$@" "${flags[@]}"
+if [ $# -ne 0 ]; then
+  echo "Unknown arguments: $@" >&2
+  usage
+fi
 
 name=${arg_name-${A3_NAME-}}
+# NOTE: This checks if the variable is either unset or empty. This is
+#       intentional because setting the name to an empty value would
+#       still be an error.
 if [ -z "$name" ]; then
+  echo "Missing server name" >&2
   usage
-else
-  file=$servers/${name}.sh
-  if [ ! -e "$file" ]; then
-    echo "Server file ${name}.sh does not exist"
-    exit 1
-  fi
-  . $file
 fi
 
-port=${arg_port-${A3_PORT:-$PORT}}
-
-if [ -z "$port" ]; then
-  echo "Missing parameter PORT"
+file=$servers/${name}.sh
+if [ ! -e "$file" ]; then
+  echo "Server file ${name}.sh does not exist" >&2
   exit 1
 fi
+. $file
+
+port=${arg_port-${A3_PORT:-$PORT}}
+if [ -z "$port" ]; then
+  echo "Missing parameter PORT" >&2
+  usage
+fi
+if [[ ! $port =~ ^[0-9]+$ ]]; then
+  echo "Invalid port: $port" >&2
+  usage
+fi
+
 
 echo "name: $name"
 echo "port: $port"
