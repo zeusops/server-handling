@@ -242,6 +242,10 @@ if [ ! -z "$allmods" -a "$skip_downloads" = "no" ]; then
     exit "$update_status"
   fi
 
+  if [ "$update_status" = "0" ]; then
+    echo "No updates found"
+  fi
+
   if [ "$check_only" = "yes" ]; then
     exit
   fi
@@ -272,8 +276,6 @@ if [ "$did_update" = "yes" ]; then
   # Run the script from the start without downloading to set up symlinks and keys
   $0 $name --skipdl
   exit
-else
-  echo "Updating mod keys. This does not download updates!"
 fi
 
 echo "Creating folders"
@@ -394,4 +396,4 @@ else
   fi
 fi
 
-echo "Mods updated"
+echo "Mods set up"
