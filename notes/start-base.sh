@@ -109,7 +109,7 @@ if [ ! -e "$file" ]; then
 fi
 . $file
 
-port=${arg_port-${A3_PORT:-$PORT}}
+port=${arg_port:-${A3_PORT:-$PORT}}
 if [ -z "$port" ]; then
   echo "Missing parameter PORT" >&2
   usage
