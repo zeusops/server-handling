@@ -19,6 +19,11 @@ else
   install_dir=$steam_dir/${INSTALL_PATH:-mods}
 fi
 
+if [ ! -d "$install_dir" ]; then
+  >&2 echo "Steam install directory $install_dir not found (detected platform: $PLATFORM), exiting."
+  exit 1
+fi
+
 case $PLATFORM in
   linux)
     for x in $steam_dir/steamcmd{,.sh} $HOME/steamcmd/steamcmd{,.sh} /usr/games/steamcmd; do
