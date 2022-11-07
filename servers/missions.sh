@@ -1,5 +1,5 @@
 NAME=missions
-PORT=2402
+PORT=2502
 
 PROFILE=  # default: server
 CONFIG=  # default: $NAME
