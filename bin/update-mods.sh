@@ -3,7 +3,7 @@ if [ ${DEBUG:-no} = "yes" ]; then set -x; fi
 set -euo pipefail
 
 usage() {
-  (echo "Usage: $(basename $0) servername [--skipdl] [--all] [--keys] [--prompt] [--no-missing] [--check-only] [--send-mail] [-v|--verbose]"
+  (echo "Usage: $(basename $0) servername [--skipdl] [--all] [--keys] [--prompt] [--no-missing] [--check-only] [--notify] [--no-mail] [--no-discord] [-v|--verbose]"
   echo "OPTIONS"
   echo "  --skipdl      Skip all downloads"
   echo "  --all         Redownload all mods"
@@ -11,7 +11,9 @@ usage() {
   echo "  --prompt      Show a confirmation prompt before downloading missing mods"
   echo "  --no-missing  Do not install missing mods"
   echo "  --check-only  Only check for updates, do not download"
-  echo "  --send-mail   Send mail on mod updates"
+  echo "  --notify      Notify admins on mod updates (email, Discord)"
+  echo "  --no-mail     Do not send mail on mod updates"
+  echo "  --no-discord  Do not send Discord messages on mod updates"
   echo "  -v|--verbose  Enable verbose output") >&2
   exit 1
 }
@@ -22,7 +24,9 @@ install_keys_automatically=no
 force_download=no
 install_missing=yes
 check_only=no
-send_mail=no
+notify=no
+no_mail=no
+no_discord=no
 verbose=no
 
 argv=()
@@ -47,8 +51,14 @@ while [ "${1:-}" ]; do
   --check-only)
     check_only=yes
   ;;
-  --send-mail)
-    send_mail=yes
+  --notify)
+    notify=yes
+  ;;
+  --no-mail)
+    no_mail=yes
+  ;;
+  --no-discord)
+    no_discord=yes
   ;;
   --verbose|-v)
     verbose=yes
@@ -231,8 +241,14 @@ if [ ! -z "$allmods" -a "$skip_downloads" = "no" ]; then
   if [ "$verbose" = "yes" ]; then
     flags="-v ${flags}"
   fi
-  if [ "$send_mail" = "yes" ]; then
-    flags="-m ${flags}"
+  if [ "$notify" = "yes" ]; then
+    flags="--notify ${flags}"
+  fi
+  if [ "$no_mail" = "yes" ]; then
+    flags="--no-mail ${flags}"
+  fi
+  if [ "$no_discord" = "yes" ]; then
+    flags="--no-discord ${flags}"
   fi
   $bin/internal/workshop-checker/update_db.sh -c $flags \
       -w "$STEAM_INSTALL_DIR" \
