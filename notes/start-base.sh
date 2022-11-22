@@ -158,7 +158,7 @@ pushd $armadir > /dev/null
 dynamic_mods="-mod="
 old_setting=${-//[^x]/}
 # set +x
-for x in $(find mods/$name ! -path mods/$name); do
+for x in $(find mods/$name -maxdepth 1 ! -path mods/$name); do
   dynamic_mods=${dynamic_mods}\;$x
 done
 # set -x
