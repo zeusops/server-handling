@@ -91,7 +91,10 @@ export updated_keys=$armadir/updated_keys/$name
 export available_keys=$armadir/available_keys/$name
 
 readonly mod_list="$mod_lists/$name.txt"
-if [ ! -f "$mod_list" ]; then echo "Mod list $mod_list not found!"; exit 2; fi
+if [ ! -f "$mod_list" ]; then
+  echo "Mod list $mod_list not found!" >&2
+  exit 2
+fi
 
 function symlink {
   OPTIND=1
@@ -254,7 +257,7 @@ if [ ! -z "$allmods" -a "$skip_downloads" = "no" ]; then
       -w "$STEAM_INSTALL_DIR" \
       -s $path_data/versions_local_state_$name.json $allmodids || update_status=$?
   if [ "$update_status" != "0" ] && [ "$update_status" != "4" ]; then
-    echo "Failed to check mod update status. Exiting"
+    echo "Failed to check mod update status. Exiting" >&2
     exit "$update_status"
   fi
 
