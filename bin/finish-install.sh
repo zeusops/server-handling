@@ -9,6 +9,11 @@ readonly available_keys=$link/available_keys
 readonly optional_keys=$link/optional_keys
 readonly files_link=$armadir/files
 
+if [ ! -e $link/workshop ]; then
+  mkdir -p $install_dir/steamapps/workshop/content/107410
+  ln -fvs $install_dir/steamapps/workshop/content/107410 $link/workshop
+fi
+
 for dir in workshop mpmissions available_keys logs mods optional_keys tmpmissions updated_keys userconfig; do
   if [ ! -L $armadir/$dir ]; then
     if [ -d $armadir/$dir ]; then
@@ -39,10 +44,6 @@ fi
 
 if [ ! -e $optional_keys/main ]; then
   ln -fvs $available_keys/optional $optional_keys/main
-fi
-
-if [ ! -e $link/workshop ]; then
-  ln -fvs $install_dir/steamapps/workshop/content/107410 $link/workshop
 fi
 
 if [ ! -e $base_path/arma3 ]; then
