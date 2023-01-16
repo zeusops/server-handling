@@ -7,7 +7,7 @@ source ${BASE_PATH:-$HOME/server}/server-handling/bin/internal/environment.sh
 
 if [ "${1:-}" = "perf" ]; then
   echo Profiling
-  branch="-beta profiling -betapassword CautionSpecialProfilingAndTestingBranchArma3"
+  branch="-beta profiling"
 elif [ "${1:-}" = "" ]; then
   echo CDLC
   branch="-beta creatordlc"
