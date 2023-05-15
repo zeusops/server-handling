@@ -1,7 +1,7 @@
 NAME=antistasi
 PORT=2502
 
-PROFILE=2019-12-17-antistasi # default: server
+PROFILE=2023-05-15-antistasi # default: server
 CONFIG=antistasi # default: $NAME
 #PARAMS='-checkSignatures'
 
@@ -12,3 +12,4 @@ SERVERMODS= #-serverMod=mods/cntr/@cntr
 
 # Uncomment to prevent automatic mod detection based on $NAME
 # MODS=-mod=mods/@name
+PASSWORD=zeusops
