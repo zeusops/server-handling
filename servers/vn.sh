@@ -8,7 +8,7 @@ PARAMS='-checkSignatures'
 # Uncomment to prevent automatic key updates
 # NOKEYS=on
 
-SERVERMODS="-serverMod=mods/server/@zeusops_server"
+SERVERMODS="-serverMod=mods/server/@zeusops_server;mods/server/@ocap"
 EXTRAMODS=vn
 
 # Uncomment to prevent automatic mod detection based on $NAME
