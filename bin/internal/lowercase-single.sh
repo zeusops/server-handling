@@ -9,5 +9,5 @@ then
 fi
 
 if [ ${WINDOWS:-no} = "no" ]; then
-  find $1 -depth -print0 | xargs -0 -n1 rename 's/(.*)\/([^\/]*)/$1\/\L$2/' {} \;
+  find $1 -depth -name "*[A-Z]*" -print0 | xargs -0 -n1 rename 's/(.*)\/([^\/]*)/$1\/\L$2/' {} \;
 fi
