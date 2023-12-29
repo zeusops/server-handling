@@ -6,6 +6,8 @@ source ${BASE_PATH:-$HOME/server}/server-handling/bin/internal/environment.sh
 # NOTE: path is relative to the arma3server location
 readonly files_link=${FILES_LINK:-files}
 
+readonly link=$base_path/link
+
 usage() {
   (echo "Usage: $(basename $0) [--skip-init|--no-init] [--init] [--update-optional|--optional|--no-update-optional|--no-optional] [--perf|--no-perf] [--hc] [HCNAME] NAME [PORT]"
   echo "OPTIONS"
@@ -163,6 +165,18 @@ for x in $(find mods/$name -maxdepth 1 ! -path mods/$name); do
 done
 # set -x
 if [[ -n "$old_setting" ]]; then set -x; else set +x; fi
+
+if ! [ -L userconfig ]; then
+  echo >&2 "$armadir/userconfig is not a symlink, ignoring"
+else
+  userconfig=$link/userconfigs/$name
+  if ! [ -e $userconfig ]; then
+    echo "No custom userconfig, using main"
+    userconfig=$link/userconfig
+  fi
+  rm userconfig
+  ln -sf $userconfig userconfig
+fi
 popd > /dev/null
 
 readonly mods=${MODS:-$dynamic_mods}
