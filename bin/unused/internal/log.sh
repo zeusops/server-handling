@@ -1,8 +1,8 @@
 if [ ! -z $2 ];
 then
-	BASEPATH=$2
+  BASEPATH=$2
 else
-	BASEPATH=/home/steam
+  BASEPATH=/home/steam
 fi
 
 cd $BASEPATH/log/

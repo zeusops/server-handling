@@ -5,13 +5,13 @@
 trap cleanup INT
 
 function cleanup {
-	echo "Killing $PID"
-	kill $PID
+  echo "Killing $PID"
+  kill $PID
 }
 
 function servername {
-	SRV=$(basename $1)
-	echo $SRV | sed 's/.sh//'
+  SRV=$(basename $1)
+  echo $SRV | sed 's/.sh//'
 }
 
 export -f servername
@@ -22,14 +22,14 @@ BASEPATH=$HOME
 
 if [ "$2" = "--test" ];
 then
-	BASEPATH=$HOME/test
+  BASEPATH=$HOME/test
 fi
 
 if [ "$1" = "--list" ];
 then
-	echo "Available servers:"
-	find $BASEPATH/files/servers -name "*.sh" -exec bash -c 'servername "$0"' {} \;
-	exit 0
+  echo "Available servers:"
+  find $BASEPATH/files/servers -name "*.sh" -exec bash -c 'servername "$0"' {} \;
+  exit 0
 fi
 
 NAME=$1
@@ -43,8 +43,8 @@ if [ -z $CONFIG ]; then CONFIG=$NAME; fi
 # If $MODS has been defined already, we're not doing mod autodetection or key updating
 if [ -z $MODS ]
 then
-	$BIN/update-mods.sh $NAME --skipdl
-	. $BIN/internal/automods.sh
+  $BIN/update-mods.sh $NAME --skipdl
+  . $BIN/internal/automods.sh
 fi
 if [ -z $NOKEYS ]; then . $BIN/internal/keys.sh; fi
 

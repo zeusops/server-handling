@@ -18,15 +18,15 @@ grep -v '^#.*$' $ALLMODS > $ALLMODIDS
 
 modparam=""
 while read line; do
-	ARRAY=($line)
-	# File format:
-	# @modname 123456
-	MODID=${ARRAY[1]}
-	if ! [ -z $MODID ]; then
-		modparam="$modparam +workshop_download_item 107410 $MODID"
-	else
-		echo "Found empty modid"
-	fi
+  ARRAY=($line)
+  # File format:
+  # @modname 123456
+  MODID=${ARRAY[1]}
+  if ! [ -z $MODID ]; then
+    modparam="$modparam +workshop_download_item 107410 $MODID"
+  else
+    echo "Found empty modid"
+  fi
 done < $ALLMODIDS
 
 echo $modparam
@@ -36,11 +36,11 @@ echo "Updating mods"
 $STEAMCMD +force_install_dir $STEAMINSTALLDIR +login $STEAMUSERNAME $modparam +quit
 
 while read line; do
-	array=($line)
-	# File format:
-	# @modname 123456
-	MODID=${array[1]}
-	$LOWERCASE $INSTALLDIR/steamapps/workshop/content/107410/$MODID
+  array=($line)
+  # File format:
+  # @modname 123456
+  MODID=${array[1]}
+  $LOWERCASE $INSTALLDIR/steamapps/workshop/content/107410/$MODID
 done < $ALLMODIDS
 
 rm $ALLMODIDS

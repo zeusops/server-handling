@@ -5,8 +5,8 @@ set -euo pipefail
 source ${BASE_PATH:-$HOME/server}/server-handling/bin/internal/environment.sh
 
 if [ -z "${1:-}" ]; then
-	echo "Usage: `basename $0` modname [skip prompt]"
-	exit
+  echo "Usage: `basename $0` modname [skip prompt]"
+  exit
 fi
 
 all_mod_ids=$(mktemp --tmpdir modids-XXXX.txt)

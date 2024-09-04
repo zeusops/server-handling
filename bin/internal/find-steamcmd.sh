@@ -29,7 +29,7 @@ case $PLATFORM in
     for x in $steam_dir/steamcmd{,.sh} $HOME/steamcmd/steamcmd{,.sh} /usr/games/steamcmd; do
       if [ -x "$x" ]; then
         steamcmd="$x"
-	break
+        break
       fi
     done
     steam_install_dir=$install_dir

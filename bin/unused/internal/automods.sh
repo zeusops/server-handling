@@ -7,7 +7,7 @@ MODS="-mod="
 cd $BASEPATH/arma3/mods/
 
 for x in $NAME/*; do
-	MODS=${MODS}\;mods/$x
+  MODS=${MODS}\;mods/$x
 done
 
 if [ -z $SERVERMODS ]; then SERVERMODS="-serverMod="; fi

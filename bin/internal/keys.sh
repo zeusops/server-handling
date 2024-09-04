@@ -6,8 +6,8 @@ source ${BASE_PATH:-$HOME/server}/server-handling/bin/internal/environment.sh
 
 name=${1-${NAME:-${name-}}}
 if [ -z "$name" ]; then
-	echo "Usage: $(basename $0) MODNAME"
-	exit 1
+  echo "Usage: $(basename $0) MODNAME"
+  exit 1
 fi
 
 if [ ! -d "$armadir/available_keys" ]; then
@@ -17,15 +17,16 @@ if [ ! -d "$armadir/available_keys" ]; then
 fi
 
 if [ ! -d "$armadir/available_keys/$name" ]; then
-	echo "Folder $armadir/available_keys/$name not found!"
-	exit 3
+  echo "Folder $armadir/available_keys/$name not found!"
+  exit 3
 fi
 
 # Directory structure:
 # arma3
-# ├── available_keys
-# │   └── $name
-# │       └── keyname.bikey ->
+# |-- available_keys
+# |   `-- $name
+# |       `-- keyname.bikey ->
+
 
 function relpath {
   if [ -L "$1" ]; then

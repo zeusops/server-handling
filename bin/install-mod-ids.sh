@@ -7,8 +7,8 @@ source ${BASE_PATH:-$HOME/server}/server-handling/bin/internal/environment.sh
 MODDIR=$install_dir/steamapps/workshop/content/107410
 
 if [ $# -lt 1 ]; then
-	echo "Usage: `basename $0` MODID [MODID]..."
-	exit 1
+  echo "Usage: `basename $0` MODID [MODID]..."
+  exit 1
 fi
 
 mod_ids="$@"

@@ -9,8 +9,8 @@ mpmissions=$armadir/mpmissions
 backup_missions=$armadir/backupmissions
 
 if [ -z "${2:-}" ]; then
-	echo "Usage $0 missionid missionname.map"
-	exit
+  echo "Usage $0 missionid missionname.map"
+  exit
 fi
 
 mission_id="$1"
@@ -21,20 +21,20 @@ cd $steam_dir
 $STEAMCMD +force_install_dir $STEAM_INSTALL_DIR +login $steam_username +workshop_download_item 107410 $mission_id validate +quit | grep -v m_bIsFinalized
 echo
 if [ -e $mpmissions/$mission_name ]; then
-	if [ -L $mpmissions/$mission_name ]; then
-		rm $mpmissions/$mission_name
-	elif [ -f $mpmissions/$mission_name ]; then
-		echo "Existing mission file is not a symbolic link. Backing up"
-		mv -v $mpmissions/$mission_name $backup_missions/${mission_name}_backup_$(date +%Y%m%d-%H%M%S)
-	else
-		echo "$mpmissions/$mission_name is unexpected type. Aborting"
-		exit
-	fi
+  if [ -L $mpmissions/$mission_name ]; then
+    rm $mpmissions/$mission_name
+  elif [ -f $mpmissions/$mission_name ]; then
+    echo "Existing mission file is not a symbolic link. Backing up"
+    mv -v $mpmissions/$mission_name $backup_missions/${mission_name}_backup_$(date +%Y%m%d-%H%M%S)
+  else
+    echo "$mpmissions/$mission_name is unexpected type. Aborting"
+    exit
+  fi
 fi
 
 if [ ! -e $STEAM_INSTALL_DIR/steamapps/workshop/content/107410/$mission_id/*.bin ]; then
-	echo "Couldn't find the downloaded file in $STEAM_INSTALL_DIR/steamapps/workshop/content/107410/$mission_id/. Aborting"
-	exit
+  echo "Couldn't find the downloaded file in $STEAM_INSTALL_DIR/steamapps/workshop/content/107410/$mission_id/. Aborting"
+  exit
 fi
 
 echo "Linking mission file"
