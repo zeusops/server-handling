@@ -20,13 +20,13 @@ else
 fi
 
 if [ ! -d "$install_dir" ]; then
-  >&2 echo "Steam install directory $install_dir not found (detected platform: $PLATFORM), exiting."
-  exit 1
+  >&2 echo "Steam install directory $install_dir not found (detected platform: $PLATFORM), creating."
+  mkdir -v -p "$install_dir"
 fi
 
 case $PLATFORM in
   linux)
-    for x in $steam_dir/steamcmd{,.sh} $HOME/steamcmd/steamcmd{,.sh} /usr/games/steamcmd; do
+    for x in $HOME/steamcmd_test $steam_dir/steamcmd{,.sh} $HOME/steamcmd/steamcmd{,.sh} /usr/games/steamcmd; do
       if [ -x "$x" ]; then
         steamcmd="$x"
         break
@@ -41,6 +41,10 @@ case $PLATFORM in
   cygwin)
     steamcmd="cmd.exe /c C:\\steamcmd\\steamcmd.exe"
     steam_install_dir="$(cygpath -w $(readlink -e $install_dir))"
+  ;;
+  *)
+    >&2 echo "Don't know how to find steamcmd on platform $(uname -s)"
+    exit 1
   ;;
 esac
 

@@ -9,6 +9,7 @@ readonly available_keys=$link/available_keys
 readonly optional_keys=$link/optional_keys
 readonly files_link=$armadir/files
 
+mkdir -p "$link"
 if [ ! -e $link/workshop ]; then
   mkdir -p $install_dir/steamapps/workshop/content/107410
   ln -fvs $install_dir/steamapps/workshop/content/107410 $link/workshop

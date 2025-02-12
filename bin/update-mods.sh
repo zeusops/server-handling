@@ -5,16 +5,17 @@ set -euo pipefail
 usage() {
   (echo "Usage: $(basename $0) servername [--skipdl] [--all] [--keys] [--prompt] [--no-missing] [--check-only] [--notify] [--no-mail] [--no-discord] [-v|--verbose]"
   echo "OPTIONS"
-  echo "  --skipdl      Skip all downloads"
-  echo "  --all         Redownload all mods"
-  echo "  --keys        Install keys automatically"
-  echo "  --prompt      Show a confirmation prompt before downloading missing mods"
-  echo "  --no-missing  Do not install missing mods"
-  echo "  --check-only  Only check for updates, do not download"
-  echo "  --notify      Notify admins on mod updates (email, Discord)"
-  echo "  --no-mail     Do not send mail on mod updates"
-  echo "  --no-discord  Do not send Discord messages on mod updates"
-  echo "  -v|--verbose  Enable verbose output") >&2
+  echo "  --skipdl        Skip all downloads"
+  echo "  --all           Redownload all mods"
+  echo "  --keys          Install keys automatically"
+  echo "  --prompt        Show a confirmation prompt before downloading missing mods"
+  echo "  --no-missing    Do not install missing mods"
+  echo "  --check-only    Only check for updates, do not download"
+  echo "  --notify        Notify admins on mod updates (email, Discord)"
+  echo "  --no-mail       Do not send mail on mod updates"
+  echo "  --no-discord    Do not send Discord messages on mod updates"
+  echo "  --multi|--poly  Use a polyinstantiated server"
+  echo "  -v|--verbose    Enable verbose output") >&2
   exit 1
 }
 
@@ -27,6 +28,7 @@ check_only=no
 notify=no
 no_mail=no
 no_discord=no
+multi_instance=no
 verbose=no
 
 argv=()
@@ -60,6 +62,12 @@ while [ "${1:-}" ]; do
   --no-discord)
     no_discord=yes
   ;;
+  --poly)
+    multi_instance=yes
+  ;;
+  --multi)
+    multi_instance=yes
+  ;;
   --verbose|-v)
     verbose=yes
   ;;
@@ -86,6 +94,10 @@ if [ $# -ne 0 ]; then
 fi
 
 source ${BASE_PATH:-$HOME/server}/server-handling/bin/internal/environment.sh
+if [ "$multi_instance" = "yes" ]; then
+  readonly armadir=$base_dir/servers/$name
+fi
+# readonly mods=$base_dir/servers/$name/mods
 readonly mods=$armadir/mods/$name
 export updated_keys=$armadir/updated_keys/$name
 export available_keys=$armadir/available_keys/$name
