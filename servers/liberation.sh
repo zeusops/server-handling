@@ -1,7 +1,7 @@
 NAME=liberation
 PORT=2302
 
-PROFILE=2021-12-24-liberation # default: server
+PROFILE=2024-10-26-liberation # default: server
 CONFIG=  # default: $NAME
 PARAMS=  #'-autoInit'
 PASSWORD=zeusops
